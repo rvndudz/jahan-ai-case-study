@@ -65,13 +65,25 @@ export default class SettingsView extends JetView{
 
 	init(){
 		const defaultId = CATEGORIES[0].id;
+		const currentSection = this._normalizeSection(this._getSectionFromUrl()) || defaultId;
 
-		this._syncSelection(defaultId);
+		this._syncSelection(currentSection);
+		if (!this._normalizeSection(this._getSectionFromUrl())){
+			this._updateUrl(currentSection);
+		}
 		this._applyResponsive();
 
-		this.on(this.$$("settings:nav"), "onAfterSelect", id => this._syncSelection(id));
-		this.on(this.$$("settings:tabs"), "onChange", id => this._syncSelection(id));
+		this.on(this.$$("settings:nav"), "onAfterSelect", id => this._updateUrl(id));
+		this.on(this.$$("settings:tabs"), "onChange", id => this._updateUrl(id));
 		this.on(this.getRoot(), "onViewResize", () => this._applyResponsive());
+	}
+
+	urlChange(){
+		const section = this._normalizeSection(this._getSectionFromUrl()) || CATEGORIES[0].id;
+		if (section !== this._getSectionFromUrl()){
+			this.setParam("section", section, true);
+		}
+		this._syncSelection(section);
 	}
 
 	_buildPanel(item){
@@ -100,6 +112,27 @@ export default class SettingsView extends JetView{
 		if (panel){
 			panel.show();
 		}
+	}
+
+	_updateUrl(section){
+		const validSection = this._normalizeSection(section);
+		if (!validSection){
+			return;
+		}
+		const current = this._getSectionFromUrl();
+		if (current === validSection){
+			this._syncSelection(validSection);
+			return;
+		}
+		this.setParam("section", validSection, true);
+	}
+
+	_getSectionFromUrl(){
+		return this.getParam("section", true);
+	}
+
+	_normalizeSection(section){
+		return CATEGORIES.find(item => item.id === section)?.id;
 	}
 
 	_applyResponsive(){

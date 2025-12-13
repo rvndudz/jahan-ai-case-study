@@ -12,7 +12,7 @@ export default class MyApp extends JetApp{
 			version : import.meta.env.VITE_VERSION,
 			router 	: import.meta.env.VITE_BUILD_AS_MODULE ? EmptyRouter : HashRouter,
 			debug 	: !import.meta.env.PROD,
-			start 	: "/settings",
+			start 	: "/settings?section=account",
 			// set custom view loader, mandatory
 			views
 		};
