@@ -8,16 +8,44 @@ const CATEGORIES = [
 ];
 
 export default class SettingsView extends JetView{
+	constructor(app, config){
+		super(app, config);
+		this._mode = "desktop";
+		this._fullNavWidth = 260;
+		this._iconOnly = false;
+	}
+
 	config(){
+		const toggleButton = {
+			view:"icon",
+			id:"settings:toggle",
+			icon:"wxi-menu-left",
+			css:"settings-nav-toggle__btn",
+			tooltip:"Toggle sidebar labels",
+			onClick:{
+				"settings-nav-toggle__btn":() => this._toggleIconOnly()
+			},
+			on:{
+				onItemClick:() => this._toggleIconOnly()
+			}
+		};
+
+		const toggleBar = {
+			view:"toolbar",
+			css:"settings-nav-toggle",
+			padding:{ left:8, right:8 },
+			elements:[
+				toggleButton,
+				{}
+			]
+		};
+
 		const navigation = {
 			view:"sidebar",
 			id:"settings:nav",
 			css:"settings-nav",
-			width:260,
-			minWidth:200,
-			collapsedWidth:72,
 			select:true,
-			scroll:"auto",
+			scroll:"y",
 			ariaLabel:"Preference categories",
 			data: CATEGORIES.map(item => ({
 				id:item.id,
@@ -39,6 +67,17 @@ export default class SettingsView extends JetView{
 			options: CATEGORIES.map(item => ({ id:item.id, value:item.label, icon:item.icon }))
 		};
 
+		const navWrap = {
+			id:"settings:navwrap",
+			css:"settings-nav-wrap",
+			width:this._fullNavWidth,
+			minWidth:96,
+			rows:[
+				toggleBar,
+				navigation
+			]
+		};
+
 		const panels = {
 			view:"multiview",
 			id:"settings:views",
@@ -56,8 +95,7 @@ export default class SettingsView extends JetView{
 					css:"settings-main",
 					padding:8,
 					cols:[
-						navigation,
-						{ view:"resizer", id:"settings:resizer", css:"settings-resizer" },
+						navWrap,
 						panels
 					]
 				}
@@ -74,10 +112,20 @@ export default class SettingsView extends JetView{
 			this._updateUrl(currentSection);
 		}
 		this._applyResponsive();
+		this._applyNavClamp();
 
 		this.on(this.$$("settings:nav"), "onAfterSelect", id => this._updateUrl(id));
 		this.on(this.$$("settings:tabs"), "onChange", id => this._updateUrl(id));
-		this.on(this.getRoot(), "onViewResize", () => this._applyResponsive());
+		this.on(this.$$("settings:navwrap"), "onResize", () => this._applyNavClamp());
+		this.on(this.$$("settings:navwrap"), "onViewResize", () => this._applyNavClamp());
+		this.on(this.getRoot(), "onResize", () => {
+			this._applyResponsive();
+			this._applyNavClamp();
+		});
+		this.on(this.getRoot(), "onViewResize", () => {
+			this._applyResponsive();
+			this._applyNavClamp();
+		});
 	}
 
 	urlChange(){
@@ -145,27 +193,120 @@ export default class SettingsView extends JetView{
 
 		const width = root.$width || root.$view.offsetWidth || 0;
 		const mode = width <= 640 ? "mobile" : width <= 1024 ? "tablet" : "desktop";
+		this._mode = mode;
 
 		const nav = this.$$("settings:nav");
+		const navWrap = this.$$("settings:navwrap");
 		const tabs = this.$$("settings:tabs");
-		const resizer = this.$$("settings:resizer");
 
 		if (mode === "mobile"){
 			nav.hide();
-			resizer.hide();
+			navWrap.hide();
 			tabs.show();
+			this._setIconOnly(nav, false);
 		}
 		else {
 			tabs.hide();
 			nav.show();
-			resizer.show();
+			navWrap.show();
 
 			if (mode === "tablet"){
 				nav.collapse();
 			}
 			else {
 				nav.expand();
+				this._applyNavClamp();
 			}
 		}
+	}
+
+	_applyNavClamp(){
+		const root = this.getRoot();
+		const nav = this.$$("settings:nav");
+		const navWrap = this.$$("settings:navwrap");
+		if (!root || !nav || !navWrap){
+			return;
+		}
+
+		if (this._mode !== "desktop" || !nav.isVisible() || !navWrap.isVisible()){
+			this._setIconOnly(nav, false);
+			return;
+		}
+
+		const totalWidth = root.$width || root.$view.offsetWidth || 0;
+		if (!totalWidth){
+			return;
+		}
+
+		const maxWidth = 260;
+		const iconThreshold = Math.max(48, Math.round(totalWidth * 0.06));
+		let currentWidth = navWrap.$view?.offsetWidth || navWrap.$width || navWrap.config.width || this._fullNavWidth;
+
+		if (currentWidth > maxWidth){
+			navWrap.define("width", maxWidth);
+			navWrap.resize();
+			currentWidth = maxWidth;
+		}
+
+		const iconOnly = currentWidth <= iconThreshold;
+		if (iconOnly){
+			navWrap.define("width", Math.max(navWrap.config.minWidth || 96, currentWidth));
+			navWrap.resize();
+		}
+		else {
+			navWrap.define("width", Math.min(this._fullNavWidth, maxWidth));
+			navWrap.resize();
+		}
+
+		this._iconOnly = iconOnly;
+		this._setIconOnly(nav, iconOnly);
+		this._updateToggleState();
+	}
+
+	_setIconOnly(nav, enabled){
+		const node = nav?.$view;
+		if (!node || !node.classList){
+			return;
+		}
+		if (enabled){
+			node.classList.add("icon-only");
+		}
+		else {
+			node.classList.remove("icon-only");
+		}
+	}
+
+	_toggleIconOnly(force){
+		const nav = this.$$("settings:nav");
+		const navWrap = this.$$("settings:navwrap");
+		if (!nav || !navWrap){
+			return;
+		}
+		const target = typeof force === "boolean" ? force : !this._iconOnly;
+		this._iconOnly = target;
+
+		if (target){
+			navWrap.define("width", navWrap.config.minWidth || 96);
+		}
+		else {
+			navWrap.define("width", this._fullNavWidth);
+		}
+		navWrap.resize();
+		this._setIconOnly(nav, target);
+		this._updateToggleState();
+	}
+
+	_updateToggleState(){
+		const btn = this.$$("settings:toggle");
+		if (!btn){
+			return;
+		}
+		if (this._iconOnly){
+			btn.define("icon", "wxi-menu-right");
+		}
+		else {
+			btn.define("icon", "wxi-menu-left");
+		}
+		btn.refresh();
 	}
 }

@@ -73,6 +73,7 @@ body{
 	border: 1px solid var(--settings-border);
 	border-radius: 12px;
 	box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+	overflow: hidden;
 }
 
 .settings-nav .webix_tree_item{
@@ -81,8 +82,45 @@ body{
 	padding: 12px 12px 12px 16px;
 }
 
+.settings-nav-wrap{
+	overflow: hidden;
+}
+
+.settings-nav-toggle{
+	border-bottom: 1px solid var(--settings-border);
+}
+
+.settings-nav-toggle__btn{
+	width: 32px;
+	height: 32px;
+	line-height: 32px;
+	text-align: center;
+	margin: 4px 0;
+	color: var(--settings-accent);
+	cursor: pointer;
+}
+
+.settings-nav-toggle__btn:hover{
+	background: rgba(37, 99, 235, 0.08);
+	border-radius: 8px;
+}
+
 .settings-nav__text{
 	margin-left: 8px;
+}
+
+.settings-nav.icon-only .settings-nav__text{
+	display: none;
+}
+
+.settings-nav.icon-only .webix_tree_item{
+	padding: 12px 8px;
+	text-align: center;
+}
+
+.settings-nav.icon-only .webix_sidebar_icon{
+	margin: 0 auto;
+	display: inline-block;
 }
 
 .settings-nav .webix_sidebar_icon{
