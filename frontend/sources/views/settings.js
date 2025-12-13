@@ -11,11 +11,20 @@ export default class SettingsView extends JetView{
 	constructor(app, config){
 		super(app, config);
 		this._mode = "desktop";
-		this._fullNavWidth = 260;
+		this._fullNavWidth = 150;
 		this._iconOnly = false;
 	}
 
 	config(){
+		const logo = {
+			view:"template",
+			id:"settings:logo",
+			css:"settings-logo",
+			borderless:true,
+			autoheight:true,
+			template:"<div class='settings-logo__mark'></div>"
+		};
+
 		const toggleButton = {
 			view:"icon",
 			id:"settings:toggle",
@@ -35,8 +44,9 @@ export default class SettingsView extends JetView{
 			css:"settings-nav-toggle",
 			padding:{ left:8, right:8 },
 			elements:[
-				toggleButton,
-				{}
+				logo,
+				{},
+				toggleButton
 			]
 		};
 
@@ -45,7 +55,7 @@ export default class SettingsView extends JetView{
 			id:"settings:nav",
 			css:"settings-nav",
 			select:true,
-			scroll:"y",
+			scroll:false,
 			ariaLabel:"Preference categories",
 			data: CATEGORIES.map(item => ({
 				id:item.id,
@@ -71,7 +81,7 @@ export default class SettingsView extends JetView{
 			id:"settings:navwrap",
 			css:"settings-nav-wrap",
 			width:this._fullNavWidth,
-			minWidth:96,
+			minWidth:110,
 			rows:[
 				toggleBar,
 				navigation
@@ -239,7 +249,8 @@ export default class SettingsView extends JetView{
 		}
 
 		const maxWidth = 260;
-		const iconThreshold = Math.max(48, Math.round(totalWidth * 0.06));
+		const minWidth = navWrap.config.minWidth || 110;
+		const iconThreshold = Math.max(minWidth, Math.round(totalWidth * 0.08));
 		let currentWidth = navWrap.$view?.offsetWidth || navWrap.$width || navWrap.config.width || this._fullNavWidth;
 
 		if (currentWidth > maxWidth){
@@ -250,7 +261,7 @@ export default class SettingsView extends JetView{
 
 		const iconOnly = currentWidth <= iconThreshold;
 		if (iconOnly){
-			navWrap.define("width", Math.max(navWrap.config.minWidth || 96, currentWidth));
+			navWrap.define("width", Math.max(minWidth, currentWidth));
 			navWrap.resize();
 		}
 		else {
@@ -265,14 +276,21 @@ export default class SettingsView extends JetView{
 
 	_setIconOnly(nav, enabled){
 		const node = nav?.$view;
+		const wrap = this.$$("settings:navwrap")?.$view;
 		if (!node || !node.classList){
 			return;
 		}
 		if (enabled){
 			node.classList.add("icon-only");
+			if (wrap){
+				wrap.classList.add("icon-only");
+			}
 		}
 		else {
 			node.classList.remove("icon-only");
+			if (wrap){
+				wrap.classList.remove("icon-only");
+			}
 		}
 	}
 
@@ -286,7 +304,7 @@ export default class SettingsView extends JetView{
 		this._iconOnly = target;
 
 		if (target){
-			navWrap.define("width", navWrap.config.minWidth || 96);
+			navWrap.define("width", navWrap.config.minWidth || 110);
 		}
 		else {
 			navWrap.define("width", this._fullNavWidth);
