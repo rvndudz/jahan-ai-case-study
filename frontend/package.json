@@ -1,0 +1,24 @@
+{
+  "name": "webix-jet-app",
+  "version": "1.1.0",
+  "description": "Webix Jet App",
+  "main": "sources/myapp.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint sources/",
+    "build": "vite build",
+    "start": "vite"
+  },
+  "keywords": [
+    "webix",
+    "jet"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^4.3.8",
+    "eslint": "^8.41.0"
+  },
+  "dependencies": {
+    "webix-jet": "^3.0.1"
+  }
+}
