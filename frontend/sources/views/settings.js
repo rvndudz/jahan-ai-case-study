@@ -2,9 +2,9 @@ import {JetView} from "webix-jet";
 
 const CATEGORIES = [
 	{ id:"account", label:"Account", icon:"wxi-user" },
-	{ id:"notifications", label:"Notifications", icon:"wxi-bell" },
+	{ id:"notifications", label:"Notifications", icon:"wxi-alert" },
 	{ id:"theme", label:"Theme", icon:"wxi-pencil" },
-	{ id:"privacy", label:"Privacy", icon:"wxi-lock" }
+	{ id:"privacy", label:"Privacy", icon:"wxi-eye-slash" }
 ];
 
 export default class SettingsView extends JetView{

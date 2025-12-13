@@ -7,9 +7,26 @@
 	--settings-muted: #4b5563;
 }
 
+:root{
+	--settings-bg: #f4f6fb;
+	--settings-surface: #ffffff;
+	--settings-border: #e5e7eb;
+	--settings-accent: #2563eb;
+	--settings-text: #111827;
+	--settings-muted: #4b5563;
+}
+
+body{
+	background: var(--settings-bg);
+}
+
 .settings-shell{
 	background: var(--settings-bg);
 	min-height: 100vh;
+	max-width: 1400px;
+	width: 100%;
+	margin: 0 auto;
+	box-sizing: border-box;
 }
 
 .settings-main{
