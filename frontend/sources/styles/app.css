@@ -33,8 +33,21 @@
 	border: none;
 }
 
+.settings-tabbar .webix_item_tab .webix_icon{
+	color: var(--settings-accent);
+	margin-right: 6px;
+}
+
+.settings-tab__text{
+	vertical-align: middle;
+}
+
 .settings-tabbar .webix_selected{
 	background: var(--settings-accent);
+	color: #ffffff;
+}
+
+.settings-tabbar .webix_selected .webix_icon{
 	color: #ffffff;
 }
 
@@ -49,6 +62,10 @@
 	color: var(--settings-muted);
 	font-weight: 600;
 	padding: 12px 12px 12px 16px;
+}
+
+.settings-nav__text{
+	margin-left: 8px;
 }
 
 .settings-nav .webix_sidebar_icon{

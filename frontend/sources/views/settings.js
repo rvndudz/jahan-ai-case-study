@@ -23,7 +23,8 @@ export default class SettingsView extends JetView{
 				id:item.id,
 				value:item.label,
 				icon:item.icon
-			}))
+			})),
+			template:"<span class='webix_icon #icon#'></span><span class='settings-nav__text'>#value#</span>"
 		};
 
 		const tabs = {
@@ -34,7 +35,8 @@ export default class SettingsView extends JetView{
 			optionWidth:160,
 			scroll:true,
 			hidden:true,
-			options: CATEGORIES.map(item => ({ id:item.id, value:item.label }))
+			tabTemplate:"<span class='webix_icon #icon#'></span><span class='settings-tab__text'>#value#</span>",
+			options: CATEGORIES.map(item => ({ id:item.id, value:item.label, icon:item.icon }))
 		};
 
 		const panels = {
