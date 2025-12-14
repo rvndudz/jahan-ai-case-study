@@ -23,21 +23,30 @@ body{
 .settings-shell{
 	background: var(--settings-bg);
 	min-height: 100vh;
-	max-width: 1400px;
 	width: 100%;
-	margin: 0 auto;
+	margin: 0;
+	padding: 0;
 	box-sizing: border-box;
 }
 
 .settings-main{
 	background: var(--settings-bg);
 	overflow: visible;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
 }
 
 .settings-panel-wrap{
 	background: var(--settings-bg);
-	padding: 0 0 12px 12px;
+	padding: 16px;
 	box-sizing: border-box;
+	width: 100%;
+	flex: 1;
+	margin: 0;
+	display: flex;
+	justify-content: flex-start;
+	flex-direction: column;
 }
 
 .settings-tabbar{
@@ -230,9 +239,22 @@ body{
 .settings-panel{
 	background: var(--settings-surface);
 	border: 1px solid var(--settings-border);
+	border-width: 0 !important;
 	border-radius: 12px;
 	box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 	min-height: 340px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.settings-panel .webix_scrollview{
+	flex: 1;
+}
+
+.settings-panel .webix_scroll_cont{
+	width: 100% !important;
+	min-width: 100% !important;
 }
 
 .settings-panel__header{
@@ -245,11 +267,126 @@ body{
 }
 
 .settings-panel__body{
-	padding: 24px;
+	padding: 0;
 	color: var(--settings-muted);
 	line-height: 1.6;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.settings-account-form{
+	width: 100%;
+	box-sizing: border-box !important;
+}
+
+.status-badge{
+	display: inline-block;
+	padding: 4px 8px;
+	border-radius: 12px;
+	font-size: 12px;
+	font-weight: 600;
+}
+.status-badge--unverified{
+	background: rgba(234, 88, 12, 0.12);
+	color: #b45309;
+}
+
+.settings-section-title{
+	font-size: 15px;
+	font-weight: 700;
+	color: var(--settings-text);
+	margin-bottom: 6px;
+}
+
+.settings-account-form .webix_el_box{
+	margin-right: 10px;
+}
+
+.settings-account-form .webix_view{
+	border-radius: 8px;
+}
+
+.settings-account-form .webix_input_text,
+.settings-account-form .webix_el_richselect .webix_el_box input,
+.settings-account-form .webix_el_combo .webix_el_box input{
+	border-radius: 8px;
+	border-color: #d1d5db;
+}
+
+.settings-account-form .webix_view .webix_label_top{
+	font-weight: 700;
+	color: var(--settings-text);
+	margin-bottom: 4px;
+}
+
+.settings-avatar-card{
 	display: flex;
 	align-items: center;
+	justify-content: center;
+}
+
+.settings-avatar-circle{
+	width: 110px;
+	height: 110px;
+	border-radius: 50%;
+	background: radial-gradient(circle at 30% 30%, #e0f2fe, #bfdbfe);
+	border: 2px solid #cbd5e1;
+	box-shadow: 0 6px 20px rgba(15,23,42,0.12);
+}
+
+.settings-avatar .webix_upload_select{
+	background: #1f7fbf;
+	color: #fff;
+	border-radius: 8px;
+	border: none;
+}
+
+.settings-account-form .webix_el_datepicker .webix_input_icon{
+	color: #6b7280;
+}
+
+.settings-inline-badge{
+	display: flex;
+	align-items: flex-end;
+}
+
+.settings-section-title{
+	font-size: 15px;
+	font-weight: 700;
+	color: var(--settings-text);
+	margin-bottom: 8px;
+}
+
+.settings-account-form .webix_el_box{
+	margin-right: 10px;
+}
+
+.settings-account-form .webix_view{
+	border-radius: 8px;
+}
+
+.settings-account-form .webix_input_text,
+.settings-account-form .webix_el_richselect .webix_el_box input,
+.settings-account-form .webix_el_combo .webix_el_box input{
+	border-radius: 8px;
+	border-color: #d1d5db;
+}
+
+.settings-account-form .webix_view .webix_label_top{
+	font-weight: 700;
+	color: var(--settings-text);
+	margin-bottom: 4px;
+}
+
+.settings-avatar .webix_upload_select{
+	background: #1f7fbf;
+	color: #fff;
+	border-radius: 8px;
+	border: none;
+}
+
+.settings-account-form .webix_el_datepicker .webix_input_icon{
+	color: #6b7280;
 }
 
 @media (max-width: 1024px){

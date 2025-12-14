@@ -1,10 +1,14 @@
 import {JetView} from "webix-jet";
+import AccountSettingsView from "./settings/account";
+import NotificationSettingsView from "./settings/notifications";
+import ThemeSettingsView from "./settings/theme";
+import PrivacySettingsView from "./settings/privacy";
 
 const CATEGORIES = [
-	{ id:"account", label:"Account", icon:"wxi-user" },
-	{ id:"notifications", label:"Notifications", icon:"wxi-alert" },
-	{ id:"theme", label:"Theme", icon:"wxi-pencil" },
-	{ id:"privacy", label:"Privacy", icon:"wxi-eye-slash" }
+	{ id:"account", label:"Account", icon:"wxi-user", view:AccountSettingsView },
+	{ id:"notifications", label:"Notifications", icon:"wxi-alert", view:NotificationSettingsView },
+	{ id:"theme", label:"Theme", icon:"wxi-pencil", view:ThemeSettingsView },
+	{ id:"privacy", label:"Privacy", icon:"wxi-eye-slash", view:PrivacySettingsView }
 ];
 
 export default class SettingsView extends JetView{
@@ -81,7 +85,8 @@ export default class SettingsView extends JetView{
 			id:"settings:navwrap",
 			css:"settings-nav-wrap",
 			width:this._fullNavWidth,
-			minWidth:110,
+			minWidth:72,
+			gravity:0,
 			rows:[
 				toggleBar,
 				navigation
@@ -92,21 +97,26 @@ export default class SettingsView extends JetView{
 			view:"multiview",
 			id:"settings:views",
 			animate:false,
-			gravity:2,
+			gravity:1,
+			minWidth:0,
 			cells: CATEGORIES.map(item => this._buildPanel(item))
 		};
 
 		return {
 			css:"settings-shell",
-			padding:12,
+			padding:0,
 			rows:[
 				tabs,
 				{
 					css:"settings-main",
-					padding:8,
 					cols:[
 						navWrap,
-						panels
+						{
+							rows:[ panels ],
+							css:"settings-panel-wrap",
+							gravity:1,
+							minWidth:0
+						}
 					]
 				}
 			]
@@ -147,12 +157,34 @@ export default class SettingsView extends JetView{
 	}
 
 	_buildPanel(item){
+		const content = item.view ? { $subview:item.view } : { template:"Settings form will appear here." };
+
 		return {
 			id:`${item.id}-panel`,
 			css:"settings-panel",
 			rows:[
 				{ template:`${item.label} Settings`, type:"header", css:"settings-panel__header" },
-				{ template:"Settings form will appear here.", css:"settings-panel__body" }
+				{
+					view: "scrollview",
+					scroll: "y",
+					body: {
+						padding: 20,
+						rows: [
+							{
+								cols: [
+									{ gravity: 0.1 },
+									{
+										gravity: 0.8,
+										rows: [
+											content
+										]
+									},
+									{ gravity: 0.1 }
+								]
+							}
+						]
+					}
+				}
 			]
 		};
 	}
