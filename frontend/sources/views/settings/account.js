@@ -4,6 +4,9 @@ export default class AccountSettingsView extends JetView{
 	config(){
 		return {
 			view: "form",
+			elementsConfig:{
+				labelWidth: 260
+			},
 			elements: [
 				// Basic Information Section
 				{ template: "Basic Information", type: "section" },

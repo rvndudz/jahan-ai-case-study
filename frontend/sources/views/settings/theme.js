@@ -5,6 +5,9 @@ export default class ThemeSettingsView extends JetView{
 		return {
 			view:"form",
 			borderless:true,
+			elementsConfig:{
+				labelWidth:260
+			},
 			elements:[
 				{ template:"Appearance", type:"header", borderless:true, css:"settings-section-title" },
 				{

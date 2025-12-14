@@ -5,14 +5,17 @@ export default class NotificationSettingsView extends JetView{
 		return {
 			view:"form",
 			borderless:true,
+			elementsConfig:{
+				labelWidth:260
+			},
 			elements:[
 				{ template:"Delivery Channels", type:"header", borderless:true, css:"settings-section-title" },
 				{
 					margin:8,
 					rows:[
-						{ view:"switch", label:"Email alerts", labelWidth:180, onLabel:"On", offLabel:"Off", value:1 },
-						{ view:"switch", label:"Push notifications", labelWidth:180, onLabel:"On", offLabel:"Off", value:1 },
-						{ view:"switch", label:"SMS alerts", labelWidth:180, onLabel:"On", offLabel:"Off", value:0 },
+						{ view:"switch", label:"Email alerts", onLabel:"On", offLabel:"Off", value:1 },
+						{ view:"switch", label:"Push notifications", onLabel:"On", offLabel:"Off", value:1 },
+						{ view:"switch", label:"SMS alerts", onLabel:"On", offLabel:"Off", value:0 },
 						{
 							view:"combo",
 							name:"digestFrequency",
@@ -44,7 +47,7 @@ export default class NotificationSettingsView extends JetView{
 				{
 					margin:8,
 					rows:[
-						{ view:"switch", label:"Enable do not disturb", labelWidth:180, onLabel:"On", offLabel:"Off", value:0 },
+						{ view:"switch", label:"Enable do not disturb", onLabel:"On", offLabel:"Off", value:0 },
 						{
 							cols:[
 								{ view:"combo", name:"dndStart", label:"Start", labelPosition:"top", value:"21:00", options:["18:00","19:00","20:00","21:00","22:00","23:00"] },

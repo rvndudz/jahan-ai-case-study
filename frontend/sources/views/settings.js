@@ -163,7 +163,12 @@ export default class SettingsView extends JetView{
 			id:`${item.id}-panel`,
 			css:"settings-panel",
 			rows:[
-				{ template:`${item.label} Settings`, type:"header", css:"settings-panel__header" },
+				{
+					template:`${item.label} Settings`,
+					type:"header",
+					css:"settings-panel__header",
+					autoheight:true
+				},
 				{
 					view: "scrollview",
 					scroll: "y",

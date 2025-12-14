@@ -317,6 +317,10 @@ body{
 	font-weight: 700;
 	color: var(--settings-text);
 	margin-bottom: 4px;
+	white-space: normal !important;
+	word-wrap: break-word !important;
+	overflow-wrap: break-word !important;
+	line-height: 1.6 !important;
 }
 
 .settings-avatar-card{
@@ -399,4 +403,73 @@ body{
 	.settings-panel{
 		min-height: 280px;
 	}
+}
+
+/* Global label fix for all forms to prevent truncation */
+.webix_el_label,
+.webix_inp_label,
+.webix_label_right,
+.webix_label_top,
+.webix_label_left {
+	white-space: normal !important;
+	word-wrap: break-word !important;
+	overflow-wrap: break-word !important;
+	line-height: 1.6 !important;
+	padding: 4px 0 !important;
+}
+
+/* Fix for checkbox and radio labels */
+.webix_el_checkbox,
+.webix_el_radio {
+	margin-bottom: 12px !important;
+	min-height: 30px !important;
+}
+
+.webix_radio_option {
+	white-space: normal !important;
+	word-wrap: break-word !important;
+	overflow-wrap: break-word !important;
+	line-height: 1.6 !important;
+	padding: 4px 0 !important;
+}
+
+/* Ensure forms and containers don't clip content */
+.webix_form,
+.webix_scroll_cont {
+	overflow: visible !important;
+}
+
+.webix_view,
+.webix_el_box,
+.webix_control {
+	max-width: 100% !important;
+	box-sizing: border-box !important;
+}
+
+/* Theme Settings specific label fixes */
+.webix_el_radio .webix_el_label,
+.webix_el_combo .webix_el_label,
+.webix_el_slider .webix_el_label,
+.webix_el_segmented .webix_el_label,
+.webix_el_checkbox .webix_el_label {
+	white-space: normal !important;
+	word-wrap: break-word !important;
+	overflow-wrap: break-word !important;
+	line-height: 1.6 !important;
+	padding: 4px 0 !important;
+}
+
+.webix_el_radio,
+.webix_el_combo,
+.webix_el_slider,
+.webix_el_segmented {
+	overflow: visible !important;
+}
+
+/* Radio button options layout */
+.webix_radio {
+	display: flex !important;
+	flex-wrap: wrap !important;
+	overflow: visible !important;
+	width: 100% !important;
 }

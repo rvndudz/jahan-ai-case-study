@@ -5,6 +5,9 @@ export default class PrivacySettingsView extends JetView{
 		return {
 			view:"form",
 			borderless:true,
+			elementsConfig:{
+				labelWidth:260
+			},
 			elements:[
 				{ template:"Profile Visibility", type:"header", borderless:true, css:"settings-section-title" },
 				{
