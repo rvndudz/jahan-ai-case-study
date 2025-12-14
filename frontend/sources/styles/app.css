@@ -35,11 +35,14 @@ body{
 	width: 100%;
 	display: flex;
 	flex-direction: row;
+	padding-left: 12px;
+	padding-top: 16px;
+	box-sizing: border-box;
 }
 
 .settings-panel-wrap{
 	background: var(--settings-bg);
-	padding: 16px;
+	padding: 0 16px 16px 16px;
 	box-sizing: border-box;
 	width: 100%;
 	flex: 1;
@@ -112,6 +115,7 @@ body{
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
+	box-sizing: border-box;
 }
 
 .settings-nav-toggle{
@@ -185,12 +189,12 @@ body{
 }
 
 .settings-nav-wrap.icon-only .settings-nav-toggle__btn{
-	opacity: 0;
-	pointer-events: none;
-	left: 50%;
-	right: auto;
+	opacity: 1;
+	pointer-events: auto;
+	right: 8px;
+	left: auto;
 	top: 50%;
-	transform: translate(-50%, -50%);
+	transform: translateY(-50%);
 }
 
 .settings-nav-wrap.icon-only:hover .settings-nav-toggle__btn{
@@ -198,21 +202,24 @@ body{
 	pointer-events: auto;
 }
 
-.settings-nav-wrap.icon-only .settings-logo{
-	justify-content: center;
-	width: 100%;
+.settings-nav-wrap.icon-only .settings-nav-toggle{
+	justify-content: flex-end;
 }
 
+.settings-nav-wrap.icon-only .settings-logo{
+	display: none;
+}
+
+.settings-nav-wrap.icon-only .settings-logo__mark{
+	display: none !important;
+}
 .settings-nav .webix_scrollbar{
 	display: none !important;
 }
 
 .settings-nav-wrap.icon-only .settings-logo__mark{
 	transition: opacity 150ms ease;
-}
-
-.settings-nav-wrap.icon-only:hover .settings-logo__mark{
-	opacity: 0;
+	opacity: 1;
 }
 
 .settings-nav .webix_sidebar_icon{
