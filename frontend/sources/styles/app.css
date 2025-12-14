@@ -264,6 +264,13 @@ body{
 	color: var(--settings-text);
 	background: #f9fafb;
 	border-bottom: 1px solid var(--settings-border);
+	min-height: 48px;
+	height: auto !important;
+	line-height: 1.4;
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+	overflow: visible;
 }
 
 .settings-panel__body{
