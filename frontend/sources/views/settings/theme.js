@@ -1,4 +1,5 @@
 import {JetView} from "webix-jet";
+import { getThemePreference, setThemePreference } from "../../services/themeService";
 
 export default class ThemeSettingsView extends JetView{
 	config(){
@@ -18,13 +19,20 @@ export default class ThemeSettingsView extends JetView{
 							name:"themeMode",
 							label:"Theme mode",
 							labelPosition:"top",
-							value:"system",
+							value:getThemePreference(),
 							options:[
 								{ id:"system", value:"System" },
 								{ id:"light", value:"Light" },
 								{ id:"dark", value:"Dark" }
 							],
-							vertical:false
+							vertical:false,
+							localId:"theme:mode",
+							on:{
+								onChange:value => {
+									const active = setThemePreference(value);
+									webix.message(`Theme set to ${active}`);
+								}
+							}
 						},
 						{
 							view:"segmented",

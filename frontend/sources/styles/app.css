@@ -5,10 +5,45 @@
 	--settings-accent: #2563eb;
 	--settings-text: #111827;
 	--settings-muted: #4b5563;
+	--settings-accent-soft: rgba(37, 99, 235, 0.12);
+	--settings-header-bg: #f9fafb;
+	--settings-input-border: #d1d5db;
+	--settings-disabled-bg: #f3f4f6;
+	--settings-disabled-border: #e5e7eb;
+	--settings-tab-shadow: 0 6px 20px rgba(17, 24, 39, 0.06);
+	--settings-card-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+	--settings-panel-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+body.theme-dark{
+	--settings-bg: #0f172a;
+	--settings-surface: #111827;
+	--settings-border: #1f2937;
+	--settings-accent: #60a5fa;
+	--settings-accent-soft: rgba(96, 165, 250, 0.2);
+	--settings-text: #e5e7eb;
+	--settings-muted: #94a3b8;
+	--settings-header-bg: #0b1222;
+	--settings-input-border: #334155;
+	--settings-disabled-bg: #1f2937;
+	--settings-disabled-border: #334155;
+	--settings-tab-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+	--settings-card-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+	--settings-panel-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+html{
+	background: var(--settings-bg);
 }
 
 body{
 	background: var(--settings-bg);
+	color: var(--settings-text);
+	color-scheme: light;
+}
+
+body.theme-dark{
+	color-scheme: dark;
 }
 
 .settings-shell{
@@ -44,6 +79,13 @@ body{
 	flex-direction: column;
 }
 
+.settings-shell,
+.settings-main,
+.settings-panel-wrap,
+.settings-panel{
+	color: var(--settings-text);
+}
+
 .settings-tabbar{
 	margin-bottom: 8px;
 }
@@ -52,7 +94,7 @@ body{
 	background: var(--settings-surface);
 	border: 1px solid var(--settings-border);
 	border-radius: 10px;
-	box-shadow: 0 6px 20px rgba(17, 24, 39, 0.06);
+	box-shadow: var(--settings-tab-shadow);
 }
 
 .settings-tabbar .webix_item_tab{
@@ -89,6 +131,12 @@ body{
 	color: var(--settings-muted);
 	font-weight: 600;
 	padding: 12px 12px 12px 16px;
+	background: transparent;
+}
+
+.settings-nav .webix_tree_item:hover{
+	background: var(--settings-accent-soft);
+	color: var(--settings-text);
 }
 
 .settings-nav:not(.icon-only) .webix_icon{
@@ -103,7 +151,7 @@ body{
 	background: var(--settings-surface);
 	border: 1px solid var(--settings-border);
 	border-radius: 14px;
-	box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+	box-shadow: var(--settings-card-shadow);
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
@@ -129,6 +177,7 @@ body{
 	justify-content: flex-start;
 	height: 48px;
 	min-width: 48px;
+	background: transparent !important;
 }
 
 .settings-logo__mark{
@@ -136,6 +185,13 @@ body{
 	height: 28px;
 	border-radius: 8px;
 	background: center center / contain no-repeat url("../imgs/jahan.ai-logo.webp");
+	background-color: transparent;
+	box-shadow: none;
+}
+
+body.theme-dark .settings-logo__mark{
+	background-color: transparent;
+	box-shadow: none;
 }
 
 .settings-nav-toggle__btn{
@@ -151,6 +207,8 @@ body{
 	right: 8px;
 	top: 50%;
 	transform: translateY(-50%);
+	background: transparent;
+	border: none;
 }
 
 .settings-nav-toggle__btn .webix_icon{
@@ -212,7 +270,7 @@ body{
 }
 
 .settings-nav .webix_sidebar_selected{
-	background: rgba(37, 99, 235, 0.12);
+	background: var(--settings-accent-soft);
 }
 
 .settings-nav .webix_sidebar_selected .webix_tree_item{
@@ -228,7 +286,7 @@ body{
 	border: 1px solid var(--settings-border);
 	border-width: 0 !important;
 	border-radius: 12px;
-	box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+	box-shadow: var(--settings-panel-shadow);
 	min-height: 340px;
 	width: 100%;
 	display: flex;
@@ -238,11 +296,18 @@ body{
 
 .settings-panel .webix_scrollview{
 	flex: 1;
+	background: var(--settings-surface);
 }
 
 .settings-panel .webix_scroll_cont{
 	width: 100% !important;
 	min-width: 100% !important;
+	background: var(--settings-surface);
+}
+
+.settings-shell .webix_layout_line,
+.settings-shell .webix_layout_space{
+	background: var(--settings-bg) !important;
 }
 
 .settings-panel__header{
@@ -250,7 +315,7 @@ body{
 	font-size: 18px;
 	font-weight: 700;
 	color: var(--settings-text);
-	background: #f9fafb;
+	background: var(--settings-header-bg);
 	border-bottom: 1px solid var(--settings-border);
 	min-height: 48px;
 	height: auto !important;
@@ -259,6 +324,46 @@ body{
 	align-items: center;
 	box-sizing: border-box;
 	overflow: visible;
+}
+
+.settings-panel .webix_template,
+.settings-panel .webix_section,
+.settings-panel .webix_inp_static{
+	color: var(--settings-text);
+	background: transparent;
+}
+
+.settings-panel .webix_el_label,
+.settings-panel .webix_label_right,
+.settings-panel .webix_label_left,
+.settings-panel .webix_label_top,
+.settings-panel .webix_inp_label{
+	color: var(--settings-text);
+}
+
+.settings-panel input[type="text"],
+.settings-panel input[type="email"],
+.settings-panel input[type="password"],
+.settings-panel input[type="tel"],
+.settings-panel input[type="search"],
+.settings-panel input[type="number"],
+.settings-panel textarea,
+.settings-panel select{
+	background-color: var(--settings-surface);
+	color: var(--settings-text);
+	border-color: var(--settings-input-border);
+}
+
+.settings-panel input::placeholder,
+.settings-panel textarea::placeholder{
+	color: var(--settings-muted);
+}
+
+.settings-panel .webix_section{
+	border: 0 !important;
+	padding: 0px 0 0px 0;
+	text-decoration: none;
+	background: transparent !important;
 }
 
 .settings-account-form{
@@ -274,11 +379,19 @@ body{
 	border-radius: 8px;
 }
 
+.settings-account-form .webix_el_combo .webix_el_box,
+.settings-account-form .webix_el_richselect .webix_el_box{
+	background: var(--settings-surface);
+	border-color: var(--settings-input-border);
+}
+
 .settings-account-form .webix_input_text,
 .settings-account-form .webix_el_richselect .webix_el_box input,
 .settings-account-form .webix_el_combo .webix_el_box input{
 	border-radius: 8px;
-	border-color: #d1d5db;
+	border-color: var(--settings-input-border);
+	background: var(--settings-surface);
+	color: var(--settings-text);
 }
 
 .settings-account-form .webix_view .webix_label_top{
@@ -293,8 +406,8 @@ body{
 .settings-account-form .webix_disabled .webix_el_box .webix_inp_static{
 	opacity: 1;
 	color: var(--settings-muted);
-	background-color: #f3f4f6;
-	border-color: #e5e7eb;
+	background-color: var(--settings-disabled-bg);
+	border-color: var(--settings-disabled-border);
 	cursor: not-allowed;
 }
 .settings-account-form .webix_disabled .webix_radio_option,
@@ -310,8 +423,8 @@ body{
 .settings-account-form .webix_readonly .webix_radio_option,
 .settings-account-form .webix_readonly .webix_radio_option .webix_label_right{
 	color: var(--settings-muted);
-	background-color: #f3f4f6;
-	border-color: #e5e7eb;
+	background-color: var(--settings-disabled-bg);
+	border-color: var(--settings-disabled-border);
 	cursor: not-allowed;
 }
 
@@ -394,4 +507,41 @@ body{
 	flex-wrap: wrap !important;
 	overflow: visible !important;
 	width: 100% !important;
+}
+
+/* Dropdowns and lists */
+.webix_list,
+.webix_combo_list{
+	background: var(--settings-surface);
+	color: var(--settings-text);
+	border-color: var(--settings-border);
+	box-shadow: var(--settings-card-shadow);
+}
+
+.webix_list_item{
+	color: var(--settings-text);
+	background: var(--settings-surface);
+}
+
+.webix_list_item:hover{
+	background: var(--settings-accent-soft);
+}
+
+.webix_list_item.webix_selected{
+	background: var(--settings-accent-soft) !important;
+	color: var(--settings-text);
+}
+
+.webix_popup{
+	background: var(--settings-surface);
+	border-color: var(--settings-border);
+	box-shadow: var(--settings-card-shadow);
+	color: var(--settings-text);
+}
+
+/* Segmented and selected states */
+.webix_segmented .webix_selected{
+	background: var(--settings-accent-soft) !important;
+	color: var(--settings-text) !important;
+	border-color: var(--settings-border) !important;
 }
