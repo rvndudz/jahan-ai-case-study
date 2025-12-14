@@ -6,6 +6,7 @@ export default class NotificationSettingsView extends JetView{
 		return {
 			view:"form",
 			borderless:true,
+			css:"settings-form",
 			elementsConfig:{
 				labelWidth:260
 			},
