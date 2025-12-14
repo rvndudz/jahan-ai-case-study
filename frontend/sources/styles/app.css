@@ -25,7 +25,7 @@ body{
 	min-height: 100vh;
 	width: 100%;
 	margin: 0;
-	padding: 0;
+	padding: 0 0 24px 0;
 	box-sizing: border-box;
 }
 
@@ -37,6 +37,7 @@ body{
 	flex-direction: row;
 	padding-left: 12px;
 	padding-top: 16px;
+	padding-bottom: 16px;
 	box-sizing: border-box;
 }
 
@@ -116,6 +117,8 @@ body{
 	display: flex;
 	flex-direction: column;
 	box-sizing: border-box;
+	padding-bottom: 16px;
+	margin-bottom: 16px;
 }
 
 .settings-nav-toggle{
@@ -253,6 +256,7 @@ body{
 	width: 100%;
 	display: flex;
 	flex-direction: column;
+	margin-bottom: 16px;
 }
 
 .settings-panel .webix_scrollview{
@@ -394,6 +398,34 @@ body{
 	font-weight: 700;
 	color: var(--settings-text);
 	margin-bottom: 4px;
+}
+.settings-account-form .webix_disabled .webix_el_box,
+.settings-account-form .webix_disabled .webix_el_box input,
+.settings-account-form .webix_disabled .webix_el_box textarea,
+.settings-account-form .webix_disabled .webix_el_box select,
+.settings-account-form .webix_disabled .webix_el_box .webix_inp_static{
+	opacity: 1;
+	color: var(--settings-muted);
+	background-color: #f3f4f6;
+	border-color: #e5e7eb;
+	cursor: not-allowed;
+}
+.settings-account-form .webix_disabled .webix_radio_option,
+.settings-account-form .webix_disabled .webix_radio_option .webix_label_right{
+	opacity: 0.7;
+	color: var(--settings-muted);
+	cursor: not-allowed;
+}
+.settings-account-form .webix_readonly input,
+.settings-account-form .webix_readonly textarea,
+.settings-account-form .webix_readonly select,
+.settings-account-form .webix_readonly .webix_inp_static,
+.settings-account-form .webix_readonly .webix_radio_option,
+.settings-account-form .webix_readonly .webix_radio_option .webix_label_right{
+	color: var(--settings-muted);
+	background-color: #f3f4f6;
+	border-color: #e5e7eb;
+	cursor: not-allowed;
 }
 
 .settings-avatar .webix_upload_select{
