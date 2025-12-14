@@ -10,6 +10,7 @@ export default class AccountSettingsView extends JetView{
 	config(){
 		return {
 			view: "form",
+			borderless:true,
 			id: "account:form",
 			css: "settings-account-form",
 			elementsConfig:{

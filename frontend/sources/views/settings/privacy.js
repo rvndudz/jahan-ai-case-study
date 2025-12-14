@@ -9,7 +9,7 @@ export default class PrivacySettingsView extends JetView{
 				labelWidth:260
 			},
 			elements:[
-				{ template:"Profile Visibility", type:"header", borderless:true, css:"settings-section-title" },
+				{ template:"Profile Visibility", type:"section", borderless:true},
 				{
 					margin:8,
 					rows:[
@@ -19,7 +19,7 @@ export default class PrivacySettingsView extends JetView{
 					]
 				},
 
-				{ template:"Security", type:"header", borderless:true, css:"settings-section-title" },
+				{ template:"Security", type:"section", borderless:true},
 				{
 					margin:8,
 					rows:[
@@ -34,7 +34,7 @@ export default class PrivacySettingsView extends JetView{
 					]
 				},
 
-				{ template:"Data Control", type:"header", borderless:true, css:"settings-section-title" },
+				{ template:"Data Control", type:"section", borderless:true},
 				{
 					margin:8,
 					rows:[

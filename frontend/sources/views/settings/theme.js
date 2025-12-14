@@ -9,7 +9,7 @@ export default class ThemeSettingsView extends JetView{
 				labelWidth:260
 			},
 			elements:[
-				{ template:"Appearance", type:"header", borderless:true, css:"settings-section-title" },
+				{ template:"Appearance", type:"section", borderless:true},
 				{
 					margin:8,
 					rows:[
@@ -53,7 +53,7 @@ export default class ThemeSettingsView extends JetView{
 					]
 				},
 
-				{ template:"Typography", type:"header", borderless:true, css:"settings-section-title" },
+				{ template:"Typography", type:"section", borderless:true},
 				{
 					margin:8,
 					rows:[
@@ -84,7 +84,7 @@ export default class ThemeSettingsView extends JetView{
 					]
 				},
 
-				{ template:"Layout", type:"header", borderless:true, css:"settings-section-title" },
+				{ template:"Layout", type:"section", borderless:true},
 				{
 					margin:8,
 					rows:[

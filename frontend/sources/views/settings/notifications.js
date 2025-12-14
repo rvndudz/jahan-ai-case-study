@@ -9,7 +9,7 @@ export default class NotificationSettingsView extends JetView{
 				labelWidth:260
 			},
 			elements:[
-				{ template:"Delivery Channels", type:"header", borderless:true, css:"settings-section-title" },
+				{ template:"Delivery Channels", type:"section"},
 				{
 					margin:8,
 					rows:[
@@ -20,7 +20,7 @@ export default class NotificationSettingsView extends JetView{
 							view:"combo",
 							name:"digestFrequency",
 							label:"Digest frequency",
-							labelPosition:"top",
+							labelPosition:"left",
 							value:"daily",
 							options:[
 								{ id:"instant", value:"Instant" },
@@ -32,9 +32,9 @@ export default class NotificationSettingsView extends JetView{
 					]
 				},
 
-				{ template:"Activity Alerts", type:"header", borderless:true, css:"settings-section-title" },
+				{ template:"Activity Alerts", type:"section"},
 				{
-					margin:6,
+					margin:12,
 					rows:[
 						{ view:"checkbox", name:"securityAlerts", label:"Logins from new devices", value:1 },
 						{ view:"checkbox", name:"mentions", label:"Mentions and replies", value:1 },
@@ -43,7 +43,7 @@ export default class NotificationSettingsView extends JetView{
 					]
 				},
 
-				{ template:"Quiet Hours", type:"header", borderless:true, css:"settings-section-title" },
+				{ template:"Quiet Hours", type:"section"},
 				{
 					margin:8,
 					rows:[
