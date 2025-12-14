@@ -138,10 +138,6 @@ body{
 	background: center center / contain no-repeat url("../imgs/jahan.ai-logo.webp");
 }
 
-.settings-nav-wrap.icon-only .settings-logo__mark{
-	margin: 0 auto;
-}
-
 .settings-nav-toggle__btn{
 	width: 32px;
 	height: 32px;
@@ -211,11 +207,6 @@ body{
 	display: none !important;
 }
 
-.settings-nav-wrap.icon-only .settings-logo__mark{
-	transition: opacity 150ms ease;
-	opacity: 1;
-}
-
 .settings-nav .webix_sidebar_icon{
 	color: var(--settings-accent);
 }
@@ -273,13 +264,6 @@ body{
 .settings-account-form{
 	width: 100%;
 	box-sizing: border-box !important;
-}
-
-.settings-section-title{
-	font-size: 15px;
-	font-weight: 700;
-	color: var(--settings-text);
-	margin-bottom: 8px;
 }
 
 .settings-account-form .webix_el_box{
