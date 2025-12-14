@@ -1,4 +1,5 @@
 import {JetView} from "webix-jet";
+import { sectionHeader } from "../settings";
 
 export default class PrivacySettingsView extends JetView{
 	config(){
@@ -9,7 +10,7 @@ export default class PrivacySettingsView extends JetView{
 				labelWidth:260
 			},
 			elements:[
-				{ template:"Profile Visibility", type:"section", borderless:true},
+				sectionHeader("Profile Visibility", "Control how others can find you."),
 				{
 					margin:8,
 					rows:[
@@ -19,7 +20,7 @@ export default class PrivacySettingsView extends JetView{
 					]
 				},
 
-				{ template:"Security", type:"section", borderless:true},
+				sectionHeader("Security", "Keep sign-ins protected."),
 				{
 					margin:8,
 					rows:[
@@ -34,7 +35,7 @@ export default class PrivacySettingsView extends JetView{
 					]
 				},
 
-				{ template:"Data Control", type:"section", borderless:true},
+				sectionHeader("Data Control", "Manage analytics and data actions."),
 				{
 					margin:8,
 					rows:[

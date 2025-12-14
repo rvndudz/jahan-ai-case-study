@@ -1,4 +1,5 @@
 import {JetView} from "webix-jet";
+import { sectionHeader } from "../settings";
 
 export default class NotificationSettingsView extends JetView{
 	config(){
@@ -9,7 +10,7 @@ export default class NotificationSettingsView extends JetView{
 				labelWidth:260
 			},
 			elements:[
-				{ template:"Delivery Channels", type:"section"},
+				sectionHeader("Delivery Channels", "Choose where updates reach you."),
 				{
 					margin:8,
 					rows:[
@@ -32,7 +33,7 @@ export default class NotificationSettingsView extends JetView{
 					]
 				},
 
-				{ template:"Activity Alerts", type:"section"},
+				sectionHeader("Activity Alerts", "Pick events you care about."),
 				{
 					margin:12,
 					rows:[
@@ -43,7 +44,7 @@ export default class NotificationSettingsView extends JetView{
 					]
 				},
 
-				{ template:"Quiet Hours", type:"section"},
+				sectionHeader("Quiet Hours", "Silence notifications on a schedule."),
 				{
 					margin:8,
 					rows:[

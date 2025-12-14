@@ -1,4 +1,5 @@
 import {JetView} from "webix-jet";
+import { sectionHeader } from "../settings";
 
 export default class AccountSettingsView extends JetView{
 	constructor(app, config){
@@ -6,6 +7,7 @@ export default class AccountSettingsView extends JetView{
 		this._editing = false;
 		this._passwordWin = null;
 	}
+
 
 	config(){
 		return {
@@ -18,7 +20,7 @@ export default class AccountSettingsView extends JetView{
 			},
 			elements: [
 				// Basic Information Section
-				{ template: "Basic Information", type: "section" },
+				sectionHeader("Basic Information", "Your core profile details."),
 				{ view: "text", label: "First Name", name: "firstName" },
 				{ view: "text", label: "Surname", name: "surname" },
 				{ view: "text", label: "Username", name: "username" },
@@ -38,7 +40,7 @@ export default class AccountSettingsView extends JetView{
 				},
 				
 				// Contact Information Section
-				{ template: "Contact Information", type: "section" },
+				sectionHeader("Contact Information", "How we stay in touch."),
 				{ view: "text", label: "Email", name: "email", inputType: "email" },
 				{ 
 					view: "layout",
@@ -73,7 +75,7 @@ export default class AccountSettingsView extends JetView{
 				},
 				
 				// Personal Details Section
-				{ template: "Personal Details", type: "section" },
+				sectionHeader("Personal Details", "Optional demographic details."),
 				{ 
 					view: "datepicker", 
 					label: "Date of Birth", 

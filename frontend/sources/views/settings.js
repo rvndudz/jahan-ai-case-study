@@ -4,6 +4,17 @@ import NotificationSettingsView from "./settings/notifications";
 import ThemeSettingsView from "./settings/theme";
 import PrivacySettingsView from "./settings/privacy";
 
+export const sectionHeader = (title, caption = "") => ({
+	view:"template",
+	borderless:true,
+	autoheight:true,
+	css:"settings-section-header",
+	template:() => `
+		<div class="settings-section-header__title">${webix.template.escape(title)}</div>
+		${caption ? `<div class="settings-section-header__caption">${webix.template.escape(caption)}</div>` : ""}
+	`
+});
+
 const CATEGORIES = [
 	{ id:"account", label:"Account", icon:"wxi-user", view:AccountSettingsView },
 	{ id:"notifications", label:"Notifications", icon:"wxi-alert", view:NotificationSettingsView },
@@ -60,6 +71,8 @@ export default class SettingsView extends JetView{
 			css:"settings-nav",
 			select:true,
 			scroll:false,
+			gravity:1,
+			minHeight:0,
 			ariaLabel:"Preference categories",
 			data: CATEGORIES.map(item => ({
 				id:item.id,
@@ -89,7 +102,10 @@ export default class SettingsView extends JetView{
 			gravity:0,
 			rows:[
 				toggleBar,
-				navigation
+				{
+					rows:[ navigation ],
+					gravity:1
+				}
 			]
 		};
 

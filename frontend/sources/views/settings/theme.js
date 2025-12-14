@@ -1,5 +1,6 @@
 import {JetView} from "webix-jet";
 import { getThemePreference, setThemePreference } from "../../services/themeService";
+import { sectionHeader } from "../settings";
 
 export default class ThemeSettingsView extends JetView{
 	config(){
@@ -10,7 +11,7 @@ export default class ThemeSettingsView extends JetView{
 				labelWidth:260
 			},
 			elements:[
-				{ template:"Appearance", type:"section", borderless:true},
+				sectionHeader("Appearance", "Choose mode, accent, and roundness."),
 				{
 					margin:8,
 					rows:[
@@ -61,7 +62,7 @@ export default class ThemeSettingsView extends JetView{
 					]
 				},
 
-				{ template:"Typography", type:"section", borderless:true},
+				sectionHeader("Typography", "Fonts and sizes for the app."),
 				{
 					margin:8,
 					rows:[
@@ -92,7 +93,7 @@ export default class ThemeSettingsView extends JetView{
 					]
 				},
 
-				{ template:"Layout", type:"section", borderless:true},
+				sectionHeader("Layout", "Spacing and interactive hints."),
 				{
 					margin:8,
 					rows:[
