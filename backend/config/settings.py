@@ -126,7 +126,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080",  # Your frontend URL
+    "http://localhost:8080",  # frontend URL
     "http://127.0.0.1:8080",
 ]
 
