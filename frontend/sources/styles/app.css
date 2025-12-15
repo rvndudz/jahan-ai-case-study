@@ -331,7 +331,7 @@ body.theme-dark .settings-logo__mark{
 
 /* Logout Button Styles */
 .settings-logout-btn{
-	background: #ef4444 !important;
+	background: #dc2626 !important;
 	border: none !important;
 	color: white !important;
 	font-weight: 500;
@@ -356,8 +356,8 @@ body.theme-dark .settings-logo__mark{
 }
 
 .settings-logout-btn .webix_button{
-	background: #ef4444 !important;
-	border: 1px solid #ef4444 !important;
+	background: #dc2626 !important;
+	border: 1px solid #dc2626 !important;
 	color: white !important;
 	display: flex;
 	align-items: center;
@@ -368,8 +368,8 @@ body.theme-dark .settings-logo__mark{
 }
 
 .settings-logout-btn .webix_img_btn{
-	background: #ef4444 !important;
-	border: 1px solid #ef4444 !important;
+	background: #dc2626 !important;
+	border: 1px solid #dc2626 !important;
 	color: white !important;
 	display: flex;
 	align-items: center;
@@ -432,8 +432,8 @@ body.theme-dark .settings-logo__mark{
 .settings-logout-btn:hover,
 .settings-logout-btn:active,
 .settings-logout-btn:focus{
-	background-color: #ef4444 !important;
-	border-color: #ef4444 !important;
+	background-color: #dc2626 !important;
+	border-color: #dc2626 !important;
 }
 
 .settings-logout-btn:hover{
@@ -757,8 +757,8 @@ body .webix_danger .webix_button{
 .settings-shell .settings-logout-btn,
 .settings-shell .settings-logout-btn .webix_button,
 .settings-shell .settings-logout-btn .webix_img_btn{
-	background: #ef4444 !important;
-	border-color: #ef4444 !important;
+	background: #dc2626 !important;
+	border-color: #dc2626 !important;
 	color: #ffffff !important;
 }
 
