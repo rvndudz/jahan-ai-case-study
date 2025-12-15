@@ -1,13 +1,5 @@
 import {JetView} from "webix-jet";
 import { sectionHeader } from "../settings";
-import { subscribeThemeChange, getAccentPreference } from "../../services/themeService";
-
-const ACCENTS = {
-	blue:  "#0ea5e9",
-	emerald:"#10b981",
-	amber: "#f59e0b",
-	indigo:"#6366f1"
-};
 
 export default class NotificationSettingsView extends JetView{
 	config(){
@@ -96,48 +88,5 @@ export default class NotificationSettingsView extends JetView{
 				}
 			]
 		};
-	}
-	
-	ready(){
-		// Attach event listeners
-		["emailSwitch", "pushSwitch", "smsSwitch", "dndSwitch"].forEach(id => {
-			const view = this.$$(id);
-			if(view){
-				view.attachEvent("onChange", () => {
-					this.applyThemeToSwitches();
-				});
-			}
-		});
-		
-		// Apply theme initially
-		this.applyThemeToSwitches();
-		
-		// Subscribe to theme changes
-		this.unsubscribe = subscribeThemeChange(() => {
-			this.applyThemeToSwitches();
-		});
-	}
-	
-	applyThemeToSwitches(){
-		const accent = getAccentPreference();
-		const color = ACCENTS[accent] || ACCENTS.blue;
-		console.log("Applying theme to switches:", accent, color);
-		
-		// Apply to all switches in the form
-		const form = this.getRoot();
-		if(form && form.$view){
-			const switches = form.$view.querySelectorAll(".webix_switch_box.webix_switch_on");
-			console.log("Found switches:", switches.length);
-			switches.forEach(switchBox => {
-				switchBox.style.backgroundColor = color + " !important";
-				switchBox.style.borderColor = color + " !important";
-			});
-		}
-	}
-	
-	destroy(){
-		if(this.unsubscribe){
-			this.unsubscribe();
-		}
 	}
 }
