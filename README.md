@@ -111,7 +111,7 @@ jahan-ai-case-study/
 
 4. **Install dependencies**
    ```bash
-   pip install django djangorestframework djangorestframework-simplejwt django-cors-headers
+   pip install -r requirements.txt
    ```
 
 5. **Run migrations**
