@@ -22,7 +22,7 @@ function readStoredPreference(){
 
 function readStoredAccent(){
 	const saved = (localStorage.getItem(ACCENT_KEY) || "").toLowerCase();
-	return ACCENTS[saved] ? saved : "blue";
+	return ACCENTS[saved] ? saved : "amber";
 }
 
 function persistPreference(value){

@@ -161,7 +161,7 @@ body.theme-dark{
 }
 
 .settings-nav .webix_sidebar_selected .webix_sidebar_icon{
-	color: var(--settings-accent);
+	color: var(--settings-accent) !important;
 }
 
 .settings-nav-wrap{
@@ -486,14 +486,27 @@ body.theme-dark .settings-logo__mark{
 
 .settings-form .webix_el_segmented .webix_item{
 	border-color: var(--settings-border) !important;
-	color: var(--settings-text) !important;
+	color: var(--settings-accent) !important;
 }
 
 .settings-form .webix_el_segmented .webix_item{
 	border-color: var(--settings-border) !important;
 }
 
+.settings-form .webix_switch_box.webix_switch_on,
 .settings-form .webix_switch_box.on{
+	background: var(--settings-accent) !important;
+	border-color: var(--settings-accent) !important;
+}
+
+.settings-form .webix_switch .webix_switch_box.webix_switch_on,
+.settings-form .webix_switch .webix_switch_box.on{
+	background: var(--settings-accent) !important;
+	border-color: var(--settings-accent) !important;
+}
+
+.settings-form .webix_el_switch .webix_switch_box.webix_switch_on,
+.settings-form .webix_el_switch .webix_switch_box.on{
 	background: var(--settings-accent) !important;
 	border-color: var(--settings-accent) !important;
 }
@@ -504,6 +517,10 @@ body.theme-dark .settings-logo__mark{
 
 .settings-form .webix_slider_right{
 	background: var(--settings-border) !important;
+}
+
+.accent-chip{
+	color: var(--settings-accent) !important;
 }
 
 .settings-form .webix_radio_option .webix_custom_radio:before{
@@ -530,6 +547,81 @@ body.theme-dark .settings-logo__mark{
 .settings-form .webix_custom_checkbox.webix_checked:before{
 	background: var(--settings-accent) !important;
 	box-shadow: 0 0 0 2px var(--settings-surface) inset !important;
+}
+
+/* Global accent overrides within settings shell */
+.settings-shell :root{
+	--webix-primary: var(--settings-accent);
+}
+
+.settings-shell .webix_button{
+	color: var(--settings-accent);
+}
+
+.settings-shell .webix_button.webix_primary,
+.settings-shell .webix_el_button .webix_button.webix_primary{
+	background: var(--settings-accent) !important;
+	border-color: var(--settings-accent) !important;
+	color: var(--settings-on-accent) !important;
+}
+
+.settings-shell .webix_el_button .webix_button.webix_secondary,
+.settings-shell .webix_button.webix_secondary{
+	color: var(--settings-accent) !important;
+}
+
+.settings-shell .webix_switch_box.webix_switch_on,
+.settings-shell .webix_switch_box.on{
+	background: var(--settings-accent) !important;
+	border-color: var(--settings-accent) !important;
+}
+
+.settings-shell .webix_switch .webix_switch_box.webix_switch_on,
+.settings-shell .webix_switch .webix_switch_box.on{
+	background: var(--settings-accent) !important;
+	border-color: var(--settings-accent) !important;
+}
+
+.settings-shell .webix_el_switch .webix_switch_box.webix_switch_on,
+.settings-shell .webix_el_switch .webix_switch_box.on{
+	background: var(--settings-accent) !important;
+	border-color: var(--settings-accent) !important;
+}
+
+.settings-form .webix_el_switch .webix_switch_box.webix_switch_on,
+.settings-form .webix_el_switch .webix_switch_box.on{
+	background: var(--settings-accent) !important;
+	border-color: var(--settings-accent) !important;
+}
+
+.settings-shell .webix_custom_radio:before{
+	border-color: var(--settings-accent) !important;
+}
+
+.settings-shell .webix_radio_option.webix_selected .webix_custom_radio:before{
+	background: var(--settings-accent) !important;
+	box-shadow: 0 0 0 2px var(--settings-surface) inset !important;
+}
+
+.settings-shell .webix_custom_checkbox:before{
+	border-color: var(--settings-accent) !important;
+}
+
+.settings-shell .webix_custom_checkbox.webix_checked:before,
+.settings-shell .webix_checkbox.webix_selected .webix_custom_checkbox:before{
+	background: var(--settings-accent) !important;
+	box-shadow: 0 0 0 2px var(--settings-surface) inset !important;
+}
+
+.settings-shell .webix_segmented .webix_selected{
+	background: var(--settings-accent) !important;
+	color: var(--settings-on-accent) !important;
+	border-color: var(--settings-accent) !important;
+}
+
+.settings-shell .webix_segmented .webix_item{
+	color: var(--settings-accent) !important;
+	border-color: var(--settings-border) !important;
 }
 
 .settings-form .webix_view .webix_label_top,
@@ -729,4 +821,36 @@ body.theme-dark .settings-logo__mark{
 	background: var(--settings-accent-soft) !important;
 	color: var(--settings-text) !important;
 	border-color: var(--settings-border) !important;
+}
+
+/* Force theme accent color on all switch components */
+.settings-shell .webix_switch_box.webix_switch_on,
+.settings-shell .webix_el_switch .webix_switch_box.webix_switch_on,
+.settings-shell .webix_switch .webix_switch_box.webix_switch_on,
+.settings-form .webix_switch_box.webix_switch_on,
+.settings-form .webix_el_switch .webix_switch_box.webix_switch_on,
+.settings-form .webix_switch .webix_switch_box.webix_switch_on,
+.webix_view.settings-form .webix_switch_box.webix_switch_on,
+body .settings-shell .webix_switch_box.webix_switch_on,
+body .settings-form .webix_switch_box.webix_switch_on,
+.settings-shell .webix_switch_box.on,
+.settings-shell .webix_el_switch .webix_switch_box.on,
+.settings-shell .webix_switch .webix_switch_box.on,
+.settings-form .webix_switch_box.on,
+.settings-form .webix_el_switch .webix_switch_box.on,
+.settings-form .webix_switch .webix_switch_box.on,
+.webix_view.settings-form .webix_switch_box.on,
+body .settings-shell .webix_switch_box.on,
+body .settings-form .webix_switch_box.on{
+	background-color: var(--settings-accent) !important;
+	background: var(--settings-accent) !important;
+	border-color: var(--settings-accent) !important;
+}
+
+/* Ensure the switch slider/handle also respects theme */
+.settings-shell .webix_switch_box.webix_switch_on::before,
+.settings-form .webix_switch_box.webix_switch_on::before,
+.settings-shell .webix_switch_box.on::before,
+.settings-form .webix_switch_box.on::before{
+	background: var(--settings-on-accent) !important;
 }

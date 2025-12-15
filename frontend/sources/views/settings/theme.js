@@ -43,10 +43,10 @@ export default class ThemeSettingsView extends JetView{
 							labelPosition:"left",
 							value:getAccentPreference(),
 							options:[
-								{ id:"blue", value:"Blue" },
-								{ id:"emerald", value:"Emerald" },
-								{ id:"amber", value:"Amber" },
-								{ id:"indigo", value:"Indigo" }
+								{ id:"blue", value:"Blue", css:"accent-chip accent-blue" },
+								{ id:"emerald", value:"Emerald", css:"accent-chip accent-emerald" },
+								{ id:"amber", value:"Amber", css:"accent-chip accent-amber" },
+								{ id:"indigo", value:"Indigo", css:"accent-chip accent-indigo" }
 							],
 							on:{
 								onChange:value => {
