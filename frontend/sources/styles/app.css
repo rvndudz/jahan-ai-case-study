@@ -164,6 +164,37 @@ body.theme-dark{
 	color: var(--settings-accent) !important;
 }
 
+/* Override Webix default selected sidebar colors */
+.settings-nav .webix_tree_item.webix_selected,
+.settings-nav .webix_tree_item.webix_sidebar_selected,
+.settings-shell .webix_sidebar .webix_tree_item.webix_selected,
+.settings-shell .webix_sidebar .webix_tree_item.webix_sidebar_selected{
+	color: var(--settings-accent) !important;
+	background-color: var(--settings-accent-soft) !important;
+}
+
+/* Override Webix default span color inside selected items */
+.settings-nav .webix_tree_item.webix_selected span,
+.settings-nav .webix_tree_item.webix_sidebar_selected span,
+.settings-shell .webix_sidebar .webix_tree_item.webix_selected span,
+.settings-shell .webix_sidebar .webix_tree_item.webix_sidebar_selected span{
+	color: var(--settings-accent) !important;
+}
+
+.settings-nav .webix_tree_item.webix_selected .webix_icon,
+.settings-nav .webix_tree_item.webix_sidebar_selected .webix_icon,
+.settings-shell .webix_sidebar .webix_tree_item.webix_selected .webix_icon,
+.settings-shell .webix_sidebar .webix_tree_item.webix_sidebar_selected .webix_icon{
+	color: var(--settings-accent) !important;
+}
+
+/* Override Webix sidebar left box-shadow */
+.settings-shell .webix_sidebar.webix_sidebar_left .webix_tree_item.webix_sidebar_selected,
+.settings-shell .webix_sidebar.webix_sidebar_left .webix_tree_item.webix_selected,
+.settings-shell .webix_sidebar.webix_sidebar_left .webix_tree_item.webix_sidebar_selected + .webix_tree_leaves .webix_tree_item{
+	box-shadow: inset 2px 0 var(--settings-accent) !important;
+}
+
 .settings-nav-wrap{
 	background: var(--settings-surface);
 	border: 1px solid var(--settings-border);
@@ -486,7 +517,30 @@ body.theme-dark .settings-logo__mark{
 
 .settings-form .webix_el_segmented .webix_item{
 	border-color: var(--settings-border) !important;
-	color: var(--settings-accent) !important;
+}
+
+/* Specific colors for accent selector buttons when not selected */
+/* Target the accent color buttons specifically - Blue, Emerald, Amber, Indigo in that order */
+button.webix_segment_0:not(.webix_selected),
+.webix_segment_0:not(.webix_selected){
+	color: #0ea5e9 !important; /* Blue */
+}
+
+button.webix_segment_1:not(.webix_selected),
+.webix_segment_1:not(.webix_selected){
+	color: #10b981 !important; /* Emerald */
+}
+
+button.webix_segment_2:not(.webix_selected),
+.webix_segment_2:not(.webix_selected),
+.settings-form button.webix_segment_2:not(.webix_selected),
+.settings-shell button.webix_segment_2:not(.webix_selected){
+	color: #f59e0b !important; /* Amber - orange color */
+}
+
+button.webix_segment_3:not(.webix_selected),
+.webix_segment_3:not(.webix_selected){
+	color: #6366f1 !important; /* Indigo */
 }
 
 .settings-form .webix_el_segmented .webix_item{
@@ -661,6 +715,58 @@ body .webix_danger .webix_button{
 .settings-shell .webix_segmented .webix_item{
 	color: var(--settings-accent) !important;
 	border-color: var(--settings-border) !important;
+}
+
+/* Override with specific colors for each accent button when not selected */
+.settings-shell .webix_segmented .webix_item.accent-blue:not(.webix_selected),
+.settings-shell .webix_segmented .accent-blue:not(.webix_selected),
+.settings-shell .webix_segmented button.accent-blue:not(.webix_selected),
+.settings-form .webix_segmented .webix_item.accent-blue:not(.webix_selected),
+.settings-form .webix_segmented .accent-blue:not(.webix_selected),
+.settings-form .webix_segmented button.accent-blue:not(.webix_selected){
+	color: #0ea5e9 !important;
+}
+
+.settings-shell .webix_segmented .webix_item.accent-emerald:not(.webix_selected),
+.settings-shell .webix_segmented .accent-emerald:not(.webix_selected),
+.settings-shell .webix_segmented button.accent-emerald:not(.webix_selected),
+.settings-form .webix_segmented .webix_item.accent-emerald:not(.webix_selected),
+.settings-form .webix_segmented .accent-emerald:not(.webix_selected),
+.settings-form .webix_segmented button.accent-emerald:not(.webix_selected){
+	color: #10b981 !important;
+}
+
+.settings-shell .webix_segmented .webix_item.accent-amber:not(.webix_selected),
+.settings-shell .webix_segmented .accent-amber:not(.webix_selected),
+.settings-shell .webix_segmented button.accent-amber:not(.webix_selected),
+.settings-form .webix_segmented .webix_item.accent-amber:not(.webix_selected),
+.settings-form .webix_segmented .accent-amber:not(.webix_selected),
+.settings-form .webix_segmented button.accent-amber:not(.webix_selected){
+	color: #f59e0b !important;
+}
+
+.settings-shell .webix_segmented .webix_item.accent-indigo:not(.webix_selected),
+.settings-shell .webix_segmented .accent-indigo:not(.webix_selected),
+.settings-shell .webix_segmented button.accent-indigo:not(.webix_selected),
+.settings-form .webix_segmented .webix_item.accent-indigo:not(.webix_selected),
+.settings-form .webix_segmented .accent-indigo:not(.webix_selected),
+.settings-form .webix_segmented button.accent-indigo:not(.webix_selected){
+	color: #6366f1 !important;
+}
+
+/* Force specific colors for each segment button - highest priority */
+body .settings-shell button.webix_segment_2:not(.webix_selected),
+body .settings-form button.webix_segment_2:not(.webix_selected),
+body button.webix_segment_2:not(.webix_selected),
+body .webix_segment_2:not(.webix_selected){
+	color: #f59e0b !important; /* Amber - orange */
+}
+
+body .settings-shell button.webix_segment_3:not(.webix_selected),
+body .settings-form button.webix_segment_3:not(.webix_selected),
+body button.webix_segment_3:not(.webix_selected),
+body .webix_segment_3:not(.webix_selected){
+	color: #6366f1 !important; /* Indigo - purple */
 }
 
 .settings-form .webix_view .webix_label_top,
