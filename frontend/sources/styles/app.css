@@ -572,13 +572,10 @@ body.theme-dark .settings-logo__mark{
 }
 
 .settings-section-header__caption{
-	font-size: 13px;
 	font-style: italic;
 	color: var(--settings-muted);
 	line-height: 1.4;
-	margin-top: 2px;
-	margin-bottom: 2px;
-	opacity: 0.95;
+	opacity: 0.80;
 }
 
 .settings-panel .webix_section{
