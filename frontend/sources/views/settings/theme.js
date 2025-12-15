@@ -1,5 +1,5 @@
 import {JetView} from "webix-jet";
-import { getThemePreference, setThemePreference, getAccentPreference, setAccentPreference } from "../../services/themeService";
+import { getThemePreference, setThemePreference, getAccentPreference, setAccentPreference, getFontFamily, setFontFamily } from "../../services/themeService";
 import { sectionHeader } from "../settings";
 
 export default class ThemeSettingsView extends JetView{
@@ -67,13 +67,19 @@ export default class ThemeSettingsView extends JetView{
 							name:"fontFamily",
 							label:"Font family",
 							labelPosition:"left",
-							value:"inter",
+							value:getFontFamily(),
 							options:[
 								{ id:"inter", value:"Inter" },
 								{ id:"manrope", value:"Manrope" },
 								{ id:"roboto", value:"Roboto" },
 								{ id:"workSans", value:"Work Sans" }
-							]
+							],
+							on:{
+								onChange:value => {
+									setFontFamily(value);
+									webix.message(`Font family changed`);
+								}
+							}
 						},
 						{
 							view:"slider",
