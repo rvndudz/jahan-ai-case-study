@@ -37,6 +37,12 @@ export const clearTokens = () => {
 export const apiRequest = async (endpoint, options = {}) => {
     const url = `${API_CONFIG.BASE_URL}${endpoint}`;
     
+    console.log('API Request:', {
+        url,
+        method: options.method || 'GET',
+        headers: options.headers
+    });
+    
     const defaultHeaders = {
         'Content-Type': 'application/json',
     };
@@ -57,12 +63,19 @@ export const apiRequest = async (endpoint, options = {}) => {
     
     try {
         const response = await fetch(url, config);
+        
+        console.log('API Response:', {
+            status: response.status,
+            statusText: response.statusText,
+            ok: response.ok
+        });
+        
         const data = await response.json();
         
         if (!response.ok) {
             throw {
                 status: response.status,
-                message: data.error || 'Request failed',
+                message: data.error || data.message || 'Request failed',
                 details: data.details || data
             };
         }
@@ -70,6 +83,16 @@ export const apiRequest = async (endpoint, options = {}) => {
         return data;
     } catch (error) {
         console.error('API Request Error:', error);
+        
+        // Handle network errors
+        if (error instanceof TypeError && error.message.includes('fetch')) {
+            throw {
+                status: 0,
+                message: 'Cannot connect to server. Please make sure the backend is running.',
+                details: error.message
+            };
+        }
+        
         throw error;
     }
 };

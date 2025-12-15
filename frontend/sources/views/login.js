@@ -4,19 +4,21 @@ import authService from "../services/authService";
 export default class LoginView extends JetView {
     config() {
         return {
+            css: "login-page",
             rows: [
-                { height: 50 },
+                {},
                 {
                     cols: [
                         {},
                         {
                             view: "form",
                             id: "loginForm",
-                            width: 400,
+                            width: 450,
+                            css: "auth-form",
                             elements: [
                                 {
                                     view: "template",
-                                    template: "<h2 style='text-align:center; margin:20px 0;'>Login</h2>",
+                                    template: "<h2 style='text-align:center; margin:10px 0 20px 0; color:#333;'>Login</h2>",
                                     borderless: true,
                                     height: 60
                                 },
@@ -25,35 +27,38 @@ export default class LoginView extends JetView {
                                     name: "email",
                                     label: "Email",
                                     labelPosition: "top",
-                                    placeholder: "your@email.com"
+                                    placeholder: "your@email.com",
+                                    height: 70
                                 },
-                                { height: 10 },
                                 {
                                     view: "text",
                                     type: "password",
                                     name: "password",
                                     label: "Password",
                                     labelPosition: "top",
-                                    placeholder: "Enter your password"
+                                    placeholder: "Enter your password",
+                                    height: 70
                                 },
-                                { height: 10 },
                                 {
                                     view: "checkbox",
                                     name: "remember",
                                     labelRight: "Remember me",
-                                    labelWidth: 0
+                                    labelWidth: 0,
+                                    height: 30
                                 },
-                                { height: 20 },
+                                { height: 15 },
                                 {
                                     view: "button",
                                     value: "Login",
                                     css: "webix_primary",
+                                    height: 45,
                                     click: () => this.doLogin()
                                 },
                                 { height: 10 },
                                 {
                                     view: "button",
                                     value: "Create Account",
+                                    height: 40,
                                     click: () => this.show("register")
                                 },
                                 {

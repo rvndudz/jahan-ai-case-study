@@ -4,20 +4,21 @@ import authService from "../services/authService";
 export default class RegisterView extends JetView {
     config() {
         return {
+            css: "register-page",
             rows: [
-                { height: 50 },
+                {},
                 {
                     cols: [
                         {},
                         {
                             view: "form",
                             id: "registerForm",
-                            width: 400,
-                            scroll: "y",
+                            width: 450,
+                            css: "auth-form",
                             elements: [
                                 {
                                     view: "template",
-                                    template: "<h2 style='text-align:center; margin:20px 0;'>Create Account</h2>",
+                                    template: "<h2 style='text-align:center; margin:10px 0 20px 0; color:#333;'>Create Account</h2>",
                                     borderless: true,
                                     height: 60
                                 },
@@ -26,45 +27,48 @@ export default class RegisterView extends JetView {
                                     name: "fullName",
                                     label: "Full Name",
                                     labelPosition: "top",
-                                    placeholder: "John Doe"
+                                    placeholder: "John Doe",
+                                    height: 70
                                 },
-                                { height: 10 },
                                 {
                                     view: "text",
                                     name: "email",
                                     label: "Email",
                                     labelPosition: "top",
-                                    placeholder: "your@email.com"
+                                    placeholder: "your@email.com",
+                                    height: 70
                                 },
-                                { height: 10 },
                                 {
                                     view: "text",
                                     type: "password",
                                     name: "password",
                                     label: "Password",
                                     labelPosition: "top",
-                                    placeholder: "Create a strong password"
+                                    placeholder: "Create a strong password",
+                                    height: 70
                                 },
-                                { height: 10 },
                                 {
                                     view: "text",
                                     type: "password",
                                     name: "password2",
                                     label: "Confirm Password",
                                     labelPosition: "top",
-                                    placeholder: "Re-enter your password"
+                                    placeholder: "Re-enter your password",
+                                    height: 70
                                 },
-                                { height: 20 },
+                                { height: 15 },
                                 {
                                     view: "button",
                                     value: "Create Account",
                                     css: "webix_primary",
+                                    height: 45,
                                     click: () => this.doRegister()
                                 },
                                 { height: 10 },
                                 {
                                     view: "button",
                                     value: "Already have an account? Login",
+                                    height: 40,
                                     click: () => this.show("login")
                                 },
                                 {
