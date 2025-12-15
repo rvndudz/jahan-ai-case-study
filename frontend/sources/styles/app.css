@@ -400,6 +400,15 @@ body.theme-dark .settings-logo__mark{
 	margin-right: 8px;
 	font-size: 16px;
 	flex-shrink: 0;
+	line-height: 1;
+}
+
+.settings-logout-btn .webix_icon_btn{
+	color: white !important;
+	margin-right: 8px;
+	font-size: 16px;
+	flex-shrink: 0;
+	line-height: 1;
 }
 
 .settings-logout-btn .webix_el_label{
@@ -643,17 +652,20 @@ body.theme-dark .settings-logo__mark{
 	color: var(--settings-accent) !important;
 }
 
-.settings-form .webix_radio_option .webix_custom_radio:before{
+.settings-form .webix_radio_option .webix_custom_radio:before,
+.settings-account-form .webix_radio_option .webix_custom_radio:before{
 	border-color: var(--settings-accent) !important;
 	color: var(--settings-accent) !important;
 }
 
-.settings-form .webix_radio_option.webix_selected .webix_custom_radio:before{
+.settings-form .webix_radio_option.webix_selected .webix_custom_radio:before,
+.settings-account-form .webix_radio_option.webix_selected .webix_custom_radio:before{
 	background: var(--settings-accent) !important;
 	box-shadow: 0 0 0 2px var(--settings-surface) inset !important;
 }
 
-.settings-form .webix_radio_option.webix_selected .webix_label_right{
+.settings-form .webix_radio_option.webix_selected .webix_label_right,
+.settings-account-form .webix_radio_option.webix_selected .webix_label_right{
 	color: var(--settings-text) !important;
 }
 

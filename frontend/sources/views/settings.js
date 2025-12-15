@@ -88,7 +88,7 @@ export default class SettingsView extends JetView{
 			id:"settings:logout",
 			css:"settings-logout-btn webix_danger",
 			value:"Logout",
-			type:"iconButton",
+			type:"icon",
 			icon:"wxi-angle-double-left",
 			height:44,
 			tooltip:"Logout from your account",
