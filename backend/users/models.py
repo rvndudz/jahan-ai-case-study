@@ -51,6 +51,26 @@ class User(AbstractUser):
     ]
     accent_color = models.CharField(max_length=20, choices=ACCENT_COLOR_CHOICES, default='blue')
     
+    FONT_FAMILY_CHOICES = [
+        ('inter', 'Inter'),
+        ('manrope', 'Manrope'),
+        ('roboto', 'Roboto'),
+        ('workSans', 'Work Sans'),
+    ]
+    font_family = models.CharField(max_length=20, choices=FONT_FAMILY_CHOICES, default='inter')
+    
+    FONT_SIZE_CHOICES = [
+        ('small', 'Small'),
+        ('medium', 'Medium'),
+        ('large', 'Large'),
+    ]
+    font_size = models.CharField(max_length=10, choices=FONT_SIZE_CHOICES, default='medium')
+    
+    # Layout preferences
+    compact_mode = models.BooleanField(default=False)
+    show_tooltips = models.BooleanField(default=True)
+    animations = models.BooleanField(default=True)
+    
     # Notification Settings
     email_alerts = models.BooleanField(default=True)
     push_notifications = models.BooleanField(default=True)

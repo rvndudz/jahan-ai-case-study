@@ -14,7 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
             'id', 'email', 'full_name', 'country', 'country_code', 
             'phone', 'date_of_birth', 'gender', 'date_joined',
             # Settings
-            'theme_mode', 'accent_color',
+            'theme_mode', 'accent_color', 'font_family', 'font_size', 'compact_mode', 'show_tooltips', 'animations',
             'email_alerts', 'push_notifications', 'sms_alerts', 'digest_frequency',
             'security_alerts', 'mentions', 'weekly_summary', 'product_updates',
             'dnd_enabled', 'dnd_start_time', 'dnd_end_time',
@@ -62,9 +62,9 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'full_name', 'country', 'country_code', 'phone', 'date_of_birth', 'gender',
+            'username', 'full_name', 'country', 'country_code', 'phone', 'date_of_birth', 'gender',
             # Settings
-            'theme_mode', 'accent_color',
+            'theme_mode', 'accent_color', 'font_family', 'font_size', 'compact_mode', 'show_tooltips', 'animations',
             'email_alerts', 'push_notifications', 'sms_alerts', 'digest_frequency',
             'security_alerts', 'mentions', 'weekly_summary', 'product_updates',
             'dnd_enabled', 'dnd_start_time', 'dnd_end_time',
