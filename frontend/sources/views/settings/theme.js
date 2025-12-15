@@ -1,5 +1,5 @@
 import {JetView} from "webix-jet";
-import { getThemePreference, setThemePreference } from "../../services/themeService";
+import { getThemePreference, setThemePreference, getAccentPreference, setAccentPreference } from "../../services/themeService";
 import { sectionHeader } from "../settings";
 
 export default class ThemeSettingsView extends JetView{
@@ -12,7 +12,7 @@ export default class ThemeSettingsView extends JetView{
 				labelWidth:260
 			},
 			elements:[
-				sectionHeader("Appearance", "Choose mode, accent, and roundness."),
+				sectionHeader("Appearance", "Choose mode, and accent."),
 				{
 					margin:8,
 					rows:[
@@ -20,7 +20,7 @@ export default class ThemeSettingsView extends JetView{
 							view:"radio",
 							name:"themeMode",
 							label:"Theme mode",
-							labelPosition:"top",
+							labelPosition:"left",
 							value:getThemePreference(),
 							options:[
 								{ id:"system", value:"System" },
@@ -40,25 +40,20 @@ export default class ThemeSettingsView extends JetView{
 							view:"segmented",
 							name:"accent",
 							label:"Accent color",
-							labelPosition:"top",
-							value:"blue",
+							labelPosition:"left",
+							value:getAccentPreference(),
 							options:[
 								{ id:"blue", value:"Blue" },
 								{ id:"emerald", value:"Emerald" },
 								{ id:"amber", value:"Amber" },
 								{ id:"indigo", value:"Indigo" }
-							]
-						},
-						{
-							view:"slider",
-							name:"cornerRadius",
-							label:"Card roundness",
-							labelPosition:"top",
-							title:webix.template("#value# px"),
-							min:4,
-							max:18,
-							value:10,
-							step:1
+							],
+							on:{
+								onChange:value => {
+									const active = setAccentPreference(value);
+									webix.message(`Accent set to ${active}`);
+								}
+							}
 						}
 					]
 				},
@@ -71,7 +66,7 @@ export default class ThemeSettingsView extends JetView{
 							view:"combo",
 							name:"fontFamily",
 							label:"Font family",
-							labelPosition:"top",
+							labelPosition:"left",
 							value:"inter",
 							options:[
 								{ id:"inter", value:"Inter" },
@@ -84,7 +79,7 @@ export default class ThemeSettingsView extends JetView{
 							view:"slider",
 							name:"baseFont",
 							label:"Base font size",
-							labelPosition:"top",
+							labelPosition:"left",
 							title:webix.template("#value# px"),
 							min:12,
 							max:18,

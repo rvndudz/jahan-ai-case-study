@@ -155,7 +155,7 @@ body.theme-dark{
 }
 
 .settings-nav .webix_sidebar_selected .webix_tree_item{
-	color: var(--settings-text) !important;
+	color: var(--settings-accent) !important;
 	font-weight: 700;
 	background: var(--settings-accent-soft) !important;
 }
@@ -232,6 +232,11 @@ body.theme-dark .settings-logo__mark{
 	color: var(--settings-accent);
 	font-size: 18px;
 	line-height: 1;
+}
+
+.settings-nav .webix_tree_item a,
+.settings-nav .webix_tree_item{
+	color: var(--settings-muted);
 }
 
 .settings-nav__text{
@@ -467,6 +472,66 @@ body.theme-dark .settings-logo__mark{
 	height: 36px;
 }
 
+/* Accent theming for controls inside settings forms */
+.settings-form .webix_el_segmented .webix_selected,
+.settings-form .webix_el_tabbar .webix_selected,
+.settings-form .webix_selected.webix_segment_0,
+.settings-form .webix_selected.webix_segment_1,
+.settings-form .webix_selected.webix_segment_2,
+.settings-form .webix_selected.webix_segment_3{
+	background: var(--settings-accent) !important;
+	color: var(--settings-on-accent) !important;
+	border-color: var(--settings-accent) !important;
+}
+
+.settings-form .webix_el_segmented .webix_item{
+	border-color: var(--settings-border) !important;
+	color: var(--settings-text) !important;
+}
+
+.settings-form .webix_el_segmented .webix_item{
+	border-color: var(--settings-border) !important;
+}
+
+.settings-form .webix_switch_box.on{
+	background: var(--settings-accent) !important;
+	border-color: var(--settings-accent) !important;
+}
+
+.settings-form .webix_slider_left{
+	background: var(--settings-accent) !important;
+}
+
+.settings-form .webix_slider_right{
+	background: var(--settings-border) !important;
+}
+
+.settings-form .webix_radio_option .webix_custom_radio:before{
+	border-color: var(--settings-accent) !important;
+	color: var(--settings-accent) !important;
+}
+
+.settings-form .webix_radio_option.webix_selected .webix_custom_radio:before{
+	background: var(--settings-accent) !important;
+	box-shadow: 0 0 0 2px var(--settings-surface) inset !important;
+}
+
+.settings-form .webix_radio_option.webix_selected .webix_label_right{
+	color: var(--settings-text) !important;
+}
+
+.settings-form .webix_checkbox .webix_custom_checkbox:before,
+.settings-form .webix_custom_checkbox:before{
+	border-color: var(--settings-accent) !important;
+	color: var(--settings-accent) !important;
+}
+
+.settings-form .webix_checkbox.webix_selected .webix_custom_checkbox:before,
+.settings-form .webix_custom_checkbox.webix_checked:before{
+	background: var(--settings-accent) !important;
+	box-shadow: 0 0 0 2px var(--settings-surface) inset !important;
+}
+
 .settings-form .webix_view .webix_label_top,
 .settings-account-form .webix_view .webix_label_top{
 	font-weight: 700;
@@ -516,6 +581,36 @@ body.theme-dark .settings-logo__mark{
 	border-color: var(--settings-disabled-border);
 	cursor: not-allowed;
 	border-radius: 8px;
+}
+
+/* Accent application for primary UI controls */
+:root{
+	--webix-primary: var(--settings-accent);
+}
+
+.settings-form .webix_el_button .webix_button.webix_primary,
+.settings-form .webix_button.webix_primary{
+	background: var(--settings-accent) !important;
+	border-color: var(--settings-accent) !important;
+	color: var(--settings-on-accent) !important;
+}
+
+.settings-form .webix_el_button .webix_button.webix_primary:active,
+.settings-form .webix_button.webix_primary:active{
+	filter: brightness(0.9);
+}
+
+.settings-form .webix_el_richselect .webix_input_icon,
+.settings-form .webix_el_combo .webix_input_icon,
+.settings-form .webix_el_datepicker .webix_input_icon{
+	color: var(--settings-accent) !important;
+}
+
+.settings-form .webix_focused .webix_el_box input,
+.settings-form .webix_focused .webix_el_box textarea,
+.settings-form .webix_focused .webix_el_box select{
+	box-shadow: 0 0 0 1px var(--settings-accent) inset !important;
+	border-color: var(--settings-accent) !important;
 }
 
 @media (max-width: 1024px){
