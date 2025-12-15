@@ -27,12 +27,6 @@ export default class PrivacySettingsView extends JetView{
 					rows:[
 						{ view:"switch", name:"twoFactor", label:"Two-factor authentication", labelWidth:200, onLabel:"On", offLabel:"Off", value:1 },
 						{ view:"switch", name:"loginAlerts", label:"Login alerts", labelWidth:200, onLabel:"On", offLabel:"Off", value:1 },
-						{
-							cols:[
-								{ view:"button", css:"webix_primary", label:"Review active sessions", width:200, click:() => this._actionMessage("Active sessions opened") },
-								{ view:"button", label:"Reset all tokens", width:180, click:() => this._actionMessage("Tokens reset") }
-							]
-						}
 					]
 				},
 

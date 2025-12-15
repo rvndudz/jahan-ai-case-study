@@ -20,8 +20,8 @@ body.theme-dark{
 	--settings-bg: #0f1115;
 	--settings-surface: #181a20;
 	--settings-border: #242834;
-	--settings-accent: #10a37f;
-	--settings-accent-soft: rgba(16, 163, 127, 0.18);
+	/* --settings-accent is set dynamically by themeService.js */
+	/* --settings-accent-soft is set dynamically by themeService.js */
 	--settings-text: #e7ecf3;
 	--settings-muted: #a0a8b7;
 	--settings-header-bg: #13161d;
@@ -710,6 +710,87 @@ body .webix_danger .webix_button{
 .settings-form .webix_segmented .accent-indigo:not(.webix_selected):hover,
 .settings-form .webix_segmented button.accent-indigo:not(.webix_selected):hover{
 	filter: brightness(90%);
+}
+
+/* Dark mode accent button colors - same vibrant colors as light mode */
+body.theme-dark .settings-shell .webix_segmented .webix_item.accent-blue:not(.webix_selected),
+body.theme-dark .settings-shell .webix_segmented .accent-blue:not(.webix_selected),
+body.theme-dark .settings-shell .webix_segmented button.accent-blue:not(.webix_selected),
+body.theme-dark .settings-form .webix_segmented .webix_item.accent-blue:not(.webix_selected),
+body.theme-dark .settings-form .webix_segmented .accent-blue:not(.webix_selected),
+body.theme-dark .settings-form .webix_segmented button.accent-blue:not(.webix_selected){
+	background-color: #0ea5e9 !important;
+	border-color: #0ea5e9 !important;
+	color: white !important;
+}
+
+body.theme-dark .settings-shell .webix_segmented .webix_item.accent-blue:not(.webix_selected):hover,
+body.theme-dark .settings-shell .webix_segmented .accent-blue:not(.webix_selected):hover,
+body.theme-dark .settings-shell .webix_segmented button.accent-blue:not(.webix_selected):hover,
+body.theme-dark .settings-form .webix_segmented .webix_item.accent-blue:not(.webix_selected):hover,
+body.theme-dark .settings-form .webix_segmented .accent-blue:not(.webix_selected):hover,
+body.theme-dark .settings-form .webix_segmented button.accent-blue:not(.webix_selected):hover{
+	filter: brightness(110%);
+}
+
+body.theme-dark .settings-shell .webix_segmented .webix_item.accent-emerald:not(.webix_selected),
+body.theme-dark .settings-shell .webix_segmented .accent-emerald:not(.webix_selected),
+body.theme-dark .settings-shell .webix_segmented button.accent-emerald:not(.webix_selected),
+body.theme-dark .settings-form .webix_segmented .webix_item.accent-emerald:not(.webix_selected),
+body.theme-dark .settings-form .webix_segmented .accent-emerald:not(.webix_selected),
+body.theme-dark .settings-form .webix_segmented button.accent-emerald:not(.webix_selected){
+	background-color: #10b981 !important;
+	border-color: #10b981 !important;
+	color: white !important;
+}
+
+body.theme-dark .settings-shell .webix_segmented .webix_item.accent-emerald:not(.webix_selected):hover,
+body.theme-dark .settings-shell .webix_segmented .accent-emerald:not(.webix_selected):hover,
+body.theme-dark .settings-shell .webix_segmented button.accent-emerald:not(.webix_selected):hover,
+body.theme-dark .settings-form .webix_segmented .webix_item.accent-emerald:not(.webix_selected):hover,
+body.theme-dark .settings-form .webix_segmented .accent-emerald:not(.webix_selected):hover,
+body.theme-dark .settings-form .webix_segmented button.accent-emerald:not(.webix_selected):hover{
+	filter: brightness(110%);
+}
+
+body.theme-dark .settings-shell .webix_segmented .webix_item.accent-amber:not(.webix_selected),
+body.theme-dark .settings-shell .webix_segmented .accent-amber:not(.webix_selected),
+body.theme-dark .settings-shell .webix_segmented button.accent-amber:not(.webix_selected),
+body.theme-dark .settings-form .webix_segmented .webix_item.accent-amber:not(.webix_selected),
+body.theme-dark .settings-form .webix_segmented .accent-amber:not(.webix_selected),
+body.theme-dark .settings-form .webix_segmented button.accent-amber:not(.webix_selected){
+	background-color: #f59e0b !important;
+	border-color: #f59e0b !important;
+	color: white !important;
+}
+
+body.theme-dark .settings-shell .webix_segmented .webix_item.accent-amber:not(.webix_selected):hover,
+body.theme-dark .settings-shell .webix_segmented .accent-amber:not(.webix_selected):hover,
+body.theme-dark .settings-shell .webix_segmented button.accent-amber:not(.webix_selected):hover,
+body.theme-dark .settings-form .webix_segmented .webix_item.accent-amber:not(.webix_selected):hover,
+body.theme-dark .settings-form .webix_segmented .accent-amber:not(.webix_selected):hover,
+body.theme-dark .settings-form .webix_segmented button.accent-amber:not(.webix_selected):hover{
+	filter: brightness(110%);
+}
+
+body.theme-dark .settings-shell .webix_segmented .webix_item.accent-indigo:not(.webix_selected),
+body.theme-dark .settings-shell .webix_segmented .accent-indigo:not(.webix_selected),
+body.theme-dark .settings-shell .webix_segmented button.accent-indigo:not(.webix_selected),
+body.theme-dark .settings-form .webix_segmented .webix_item.accent-indigo:not(.webix_selected),
+body.theme-dark .settings-form .webix_segmented .accent-indigo:not(.webix_selected),
+body.theme-dark .settings-form .webix_segmented button.accent-indigo:not(.webix_selected){
+	background-color: #6366f1 !important;
+	border-color: #6366f1 !important;
+	color: white !important;
+}
+
+body.theme-dark .settings-shell .webix_segmented .webix_item.accent-indigo:not(.webix_selected):hover,
+body.theme-dark .settings-shell .webix_segmented .accent-indigo:not(.webix_selected):hover,
+body.theme-dark .settings-shell .webix_segmented button.accent-indigo:not(.webix_selected):hover,
+body.theme-dark .settings-form .webix_segmented .webix_item.accent-indigo:not(.webix_selected):hover,
+body.theme-dark .settings-form .webix_segmented .accent-indigo:not(.webix_selected):hover,
+body.theme-dark .settings-form .webix_segmented button.accent-indigo:not(.webix_selected):hover{
+	filter: brightness(110%);
 }
 
 /* Force specific colors for each segment button - highest priority */
