@@ -13,7 +13,29 @@ const transformUserFromBackend = (backendUser) => {
         phone: backendUser.phone,
         dateOfBirth: backendUser.date_of_birth,
         gender: backendUser.gender,
-        dateJoined: backendUser.date_joined
+        dateJoined: backendUser.date_joined,
+        
+        // Settings
+        themeMode: backendUser.theme_mode,
+        accentColor: backendUser.accent_color,
+        emailAlerts: backendUser.email_alerts,
+        pushNotifications: backendUser.push_notifications,
+        smsAlerts: backendUser.sms_alerts,
+        digestFrequency: backendUser.digest_frequency,
+        securityAlerts: backendUser.security_alerts,
+        mentions: backendUser.mentions,
+        weeklySummary: backendUser.weekly_summary,
+        productUpdates: backendUser.product_updates,
+        dndEnabled: backendUser.dnd_enabled,
+        dndStartTime: backendUser.dnd_start_time,
+        dndEndTime: backendUser.dnd_end_time,
+        profileSearchable: backendUser.profile_searchable,
+        messagesFromAnyone: backendUser.messages_from_anyone,
+        showOnlineStatus: backendUser.show_online_status,
+        twoFactorEnabled: backendUser.two_factor_enabled,
+        loginAlerts: backendUser.login_alerts,
+        analyticsEnabled: backendUser.analytics_enabled,
+        personalizedAds: backendUser.personalized_ads
     };
 };
 
@@ -48,7 +70,29 @@ const transformUserToBackend = (frontendUser) => {
         country_code: frontendUser.countryCode,
         phone: frontendUser.phone,
         date_of_birth: dateOfBirth || null,
-        gender: frontendUser.gender
+        gender: frontendUser.gender,
+        
+        // Settings
+        theme_mode: frontendUser.themeMode,
+        accent_color: frontendUser.accentColor,
+        email_alerts: frontendUser.emailAlerts,
+        push_notifications: frontendUser.pushNotifications,
+        sms_alerts: frontendUser.smsAlerts,
+        digest_frequency: frontendUser.digestFrequency,
+        security_alerts: frontendUser.securityAlerts,
+        mentions: frontendUser.mentions,
+        weekly_summary: frontendUser.weeklySummary,
+        product_updates: frontendUser.productUpdates,
+        dnd_enabled: frontendUser.dndEnabled,
+        dnd_start_time: frontendUser.dndStartTime,
+        dnd_end_time: frontendUser.dndEndTime,
+        profile_searchable: frontendUser.profileSearchable,
+        messages_from_anyone: frontendUser.messagesFromAnyone,
+        show_online_status: frontendUser.showOnlineStatus,
+        two_factor_enabled: frontendUser.twoFactorEnabled,
+        login_alerts: frontendUser.loginAlerts,
+        analytics_enabled: frontendUser.analyticsEnabled,
+        personalized_ads: frontendUser.personalizedAds
     };
 };
 

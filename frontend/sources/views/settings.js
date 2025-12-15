@@ -3,6 +3,7 @@ import AccountSettingsView from "./settings/account";
 import NotificationSettingsView from "./settings/notifications";
 import ThemeSettingsView from "./settings/theme";
 import PrivacySettingsView from "./settings/privacy";
+import authService from "../services/authService";
 
 export const sectionHeader = (title, caption = "") => ({
 	view:"template",
@@ -82,6 +83,28 @@ export default class SettingsView extends JetView{
 			template:"<span class='webix_icon #icon#'></span><span class='settings-nav__text'>#value#</span>"
 		};
 
+		const logoutButton = {
+			view:"button",
+			id:"settings:logout",
+			css:"settings-logout-btn webix_danger",
+			value:"Logout",
+			type:"iconButton",
+			icon:"wxi-angle-double-left",
+			height:44,
+			tooltip:"Logout from your account",
+			click: () => {
+				webix.confirm({
+					title: "Confirm Logout",
+					text: "Are you sure you want to logout?",
+					ok: "Logout",
+					cancel: "Cancel"
+				}).then(async () => {
+					await authService.logout();
+					window.location.href = "#!/login";
+				});
+			}
+		};
+
 		const tabs = {
 			view:"tabbar",
 			id:"settings:tabs",
@@ -105,6 +128,13 @@ export default class SettingsView extends JetView{
 				{
 					rows:[ navigation ],
 					gravity:1
+				},
+				{
+					css:"settings-logout-area",
+					padding:{ left:8, right:8, top:10, bottom:16 },
+					rows:[
+						logoutButton
+					]
 				}
 			]
 		};
@@ -330,6 +360,8 @@ export default class SettingsView extends JetView{
 	_setIconOnly(nav, enabled){
 		const node = nav?.$view;
 		const wrap = this.$$("settings:navwrap")?.$view;
+		const logoutBtn = this.$$("settings:logout");
+		
 		if (!node || !node.classList){
 			return;
 		}
@@ -338,12 +370,23 @@ export default class SettingsView extends JetView{
 			if (wrap){
 				wrap.classList.add("icon-only");
 			}
+			if (logoutBtn){
+				logoutBtn.define("value", "");
+				logoutBtn.define("label", "");
+			}
 		}
 		else {
 			node.classList.remove("icon-only");
 			if (wrap){
 				wrap.classList.remove("icon-only");
 			}
+			if (logoutBtn){
+				logoutBtn.define("value", "Logout");
+				logoutBtn.define("label", "Logout");
+			}
+		}
+		if (logoutBtn){
+			logoutBtn.refresh();
 		}
 	}
 

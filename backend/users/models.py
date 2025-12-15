@@ -32,6 +32,57 @@ class User(AbstractUser):
         ('prefer_not_to_say', 'Prefer not to say'),
     ]
     gender = models.CharField(max_length=20, choices=GENDER_CHOICES, blank=True)
+
+    # --- Settings Fields ---
+
+    # Theme Settings
+    THEME_MODE_CHOICES = [
+        ('system', 'System'),
+        ('light', 'Light'),
+        ('dark', 'Dark'),
+    ]
+    theme_mode = models.CharField(max_length=10, choices=THEME_MODE_CHOICES, default='system')
+    
+    ACCENT_COLOR_CHOICES = [
+        ('blue', 'Blue'),
+        ('emerald', 'Emerald'),
+        ('amber', 'Amber'),
+        ('indigo', 'Indigo'),
+    ]
+    accent_color = models.CharField(max_length=20, choices=ACCENT_COLOR_CHOICES, default='blue')
+    
+    # Notification Settings
+    email_alerts = models.BooleanField(default=True)
+    push_notifications = models.BooleanField(default=True)
+    sms_alerts = models.BooleanField(default=False)
+    
+    DIGEST_FREQUENCY_CHOICES = [
+        ('instant', 'Instant'),
+        ('hourly', 'Hourly'),
+        ('daily', 'Daily'),
+        ('weekly', 'Weekly'),
+    ]
+    digest_frequency = models.CharField(max_length=20, choices=DIGEST_FREQUENCY_CHOICES, default='daily')
+    
+    security_alerts = models.BooleanField(default=True)
+    mentions = models.BooleanField(default=True)
+    weekly_summary = models.BooleanField(default=True)
+    product_updates = models.BooleanField(default=False)
+    
+    dnd_enabled = models.BooleanField(default=False)
+    dnd_start_time = models.CharField(max_length=5, default='21:00') # HH:MM
+    dnd_end_time = models.CharField(max_length=5, default='07:00')   # HH:MM
+
+    # Privacy Settings
+    profile_searchable = models.BooleanField(default=False)
+    messages_from_anyone = models.BooleanField(default=False)
+    show_online_status = models.BooleanField(default=True)
+    
+    two_factor_enabled = models.BooleanField(default=True)
+    login_alerts = models.BooleanField(default=True)
+    
+    analytics_enabled = models.BooleanField(default=True)
+    personalized_ads = models.BooleanField(default=False)
     
     # Use email instead of username for authentication
     USERNAME_FIELD = 'email'

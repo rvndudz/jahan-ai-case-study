@@ -1,5 +1,6 @@
 import {JetView} from "webix-jet";
 import { sectionHeader } from "../settings";
+import authService from "../../services/authService";
 
 export default class NotificationSettingsView extends JetView{
 	config(){
@@ -17,7 +18,7 @@ export default class NotificationSettingsView extends JetView{
 					rows:[
 						{ 
 							view:"switch", 
-							localId:"emailSwitch", 
+							name:"emailAlerts", 
 							label:"Email alerts", 
 							onLabel:"On", 
 							offLabel:"Off", 
@@ -25,7 +26,7 @@ export default class NotificationSettingsView extends JetView{
 						},
 						{ 
 							view:"switch", 
-							localId:"pushSwitch", 
+							name:"pushNotifications", 
 							label:"Push notifications", 
 							onLabel:"On", 
 							offLabel:"Off", 
@@ -33,7 +34,7 @@ export default class NotificationSettingsView extends JetView{
 						},
 						{ 
 							view:"switch", 
-							localId:"smsSwitch", 
+							name:"smsAlerts", 
 							label:"SMS alerts", 
 							onLabel:"On", 
 							offLabel:"Off", 
@@ -72,7 +73,7 @@ export default class NotificationSettingsView extends JetView{
 					rows:[
 						{ 
 							view:"switch", 
-							localId:"dndSwitch", 
+							name:"dndEnabled", 
 							label:"Enable do not disturb", 
 							onLabel:"On", 
 							offLabel:"Off", 
@@ -80,13 +81,33 @@ export default class NotificationSettingsView extends JetView{
 						},
 						{
 							cols:[
-								{ view:"combo", name:"dndStart", label:"Start", labelPosition:"top", value:"21:00", options:["18:00","19:00","20:00","21:00","22:00","23:00"] },
-								{ view:"combo", name:"dndEnd", label:"End", labelPosition:"top", value:"07:00", options:["05:00","06:00","07:00","08:00","09:00"] }
+								{ view:"combo", name:"dndStartTime", label:"Start", labelPosition:"top", value:"21:00", options:["18:00","19:00","20:00","21:00","22:00","23:00"] },
+								{ view:"combo", name:"dndEndTime", label:"End", labelPosition:"top", value:"07:00", options:["05:00","06:00","07:00","08:00","09:00"] }
 							]
 						}
 					]
 				}
 			]
 		};
+	}
+
+	init(view){
+		const user = authService.getCurrentUser();
+		if(user){
+			view.setValues(user);
+		}
+
+		view.attachEvent("onChange", async (newv, oldv) => {
+			const values = view.getValues();
+			try {
+				const result = await authService.updateProfile(values);
+				if (!result.success) {
+					webix.message({ type: "error", text: result.error || "Failed to save settings" });
+				}
+			} catch (err) {
+				console.error("Failed to save notification settings:", err);
+				webix.message({ type: "error", text: "Failed to save settings" });
+			}
+		});
 	}
 }

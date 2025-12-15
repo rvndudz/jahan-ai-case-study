@@ -12,7 +12,15 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id', 'email', 'full_name', 'country', 'country_code', 
-            'phone', 'date_of_birth', 'gender', 'date_joined'
+            'phone', 'date_of_birth', 'gender', 'date_joined',
+            # Settings
+            'theme_mode', 'accent_color',
+            'email_alerts', 'push_notifications', 'sms_alerts', 'digest_frequency',
+            'security_alerts', 'mentions', 'weekly_summary', 'product_updates',
+            'dnd_enabled', 'dnd_start_time', 'dnd_end_time',
+            'profile_searchable', 'messages_from_anyone', 'show_online_status',
+            'two_factor_enabled', 'login_alerts',
+            'analytics_enabled', 'personalized_ads'
         ]
         read_only_fields = ['id', 'date_joined']
 
@@ -53,7 +61,17 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ['full_name', 'country', 'country_code', 'phone', 'date_of_birth', 'gender']
+        fields = [
+            'full_name', 'country', 'country_code', 'phone', 'date_of_birth', 'gender',
+            # Settings
+            'theme_mode', 'accent_color',
+            'email_alerts', 'push_notifications', 'sms_alerts', 'digest_frequency',
+            'security_alerts', 'mentions', 'weekly_summary', 'product_updates',
+            'dnd_enabled', 'dnd_start_time', 'dnd_end_time',
+            'profile_searchable', 'messages_from_anyone', 'show_online_status',
+            'two_factor_enabled', 'login_alerts',
+            'analytics_enabled', 'personalized_ads'
+        ]
     
     def validate_phone(self, value):
         """Validate phone number format"""

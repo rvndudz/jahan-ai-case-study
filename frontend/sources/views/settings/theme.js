@@ -1,6 +1,7 @@
 import {JetView} from "webix-jet";
 import { getThemePreference, setThemePreference, getAccentPreference, setAccentPreference, getFontFamily, setFontFamily, getFontSize, setFontSize } from "../../services/themeService";
 import { sectionHeader } from "../settings";
+import authService from "../../services/authService";
 
 export default class ThemeSettingsView extends JetView{
 	config(){
@@ -30,15 +31,23 @@ export default class ThemeSettingsView extends JetView{
 							vertical:false,
 							localId:"theme:mode",
 							on:{
-								onChange:value => {
+								onChange: async (value) => {
 									const active = setThemePreference(value);
 									webix.message(`Theme set to ${active}`);
+									try {
+										const result = await authService.updateProfile({ themeMode: value });
+										if (!result.success) {
+											webix.message({ type: "error", text: "Failed to save theme preference" });
+										}
+									} catch (err) {
+										console.error("Failed to save theme:", err);
+									}
 								}
 							}
 						},
 						{
 							view:"segmented",
-							name:"accent",
+							name:"accentColor",
 							label:"Accent color",
 							labelPosition:"left",
 							value:getAccentPreference(),
@@ -49,16 +58,22 @@ export default class ThemeSettingsView extends JetView{
 								{ id:"indigo", value:"Indigo", css:"accent-chip accent-indigo" }
 							],
 							on:{
-								onChange:value => {
-									const active = setAccentPreference(value);
-									webix.message(`Accent set to ${active}`);
+						onChange: async (value) => {
+							const active = setAccentPreference(value);
+							webix.message(`Accent set to ${active}`);
+							try {
+								const result = await authService.updateProfile({ accentColor: value });
+								if (!result.success) {
+									webix.message({ type: "error", text: "Failed to save accent color" });
 								}
+							} catch (err) {
+								console.error("Failed to save accent:", err);
 							}
 						}
-					]
-				},
-
-				sectionHeader("Typography", "Fonts and sizes for the app."),
+					}
+				}
+			]
+		},
 				{
 					margin:8,
 					rows:[
@@ -114,5 +129,20 @@ export default class ThemeSettingsView extends JetView{
 				}
 			]
 		};
+	}
+
+	init(view){
+		const user = authService.getCurrentUser();
+		if(user){
+			// Sync local storage and DOM with backend
+			if(user.themeMode && user.themeMode !== getThemePreference()){
+				setThemePreference(user.themeMode);
+			}
+			if(user.accentColor && user.accentColor !== getAccentPreference()){
+				setAccentPreference(user.accentColor);
+			}
+			
+			view.setValues(user);
+		}
 	}
 }
