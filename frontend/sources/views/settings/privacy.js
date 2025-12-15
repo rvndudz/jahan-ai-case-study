@@ -37,12 +37,6 @@ export default class PrivacySettingsView extends JetView{
 					rows:[
 						{ view:"checkbox", name:"analyticsEnabled", label:"Allow anonymized analytics", value:1 },
 						{ view:"checkbox", name:"personalizedAds", label:"Personalized recommendations", value:0 },
-						{
-							cols:[
-								{ view:"button", label:"Download my data", width:180, click:() => this._actionMessage("Preparing export") },
-								{ view:"button", label:"Delete my account", css:"webix_danger", width:180, click:() => this._actionMessage("Deletion scheduled") }
-							]
-						}
 					]
 				}
 			]
