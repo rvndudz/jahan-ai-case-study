@@ -1,5 +1,6 @@
 import {JetView} from "webix-jet";
 import { sectionHeader } from "../settings";
+import authService from "../../services/authService";
 
 export default class AccountSettingsView extends JetView{
 	constructor(app, config){
@@ -80,7 +81,8 @@ export default class AccountSettingsView extends JetView{
 					view: "datepicker", 
 					label: "Date of Birth", 
 					name: "dateOfBirth",
-					stringResult: true
+					stringResult: true,
+					format: "%Y-%m-%d"
 				},
 				{ 
 					view: "radio", 
@@ -116,11 +118,104 @@ export default class AccountSettingsView extends JetView{
 
 	init(){
 		this._setEditing(false);
+		this._loadProfile();
 	}
 
-	_toggleEditing(){
+	async _loadProfile() {
+		const form = this.$$("account:form");
+		if (!form) return;
+
+		// Show loading state
+		webix.extend(form, webix.ProgressBar);
+		form.showProgress();
+
+		try {
+			const result = await authService.getProfile();
+			
+			if (result.success && result.user) {
+				const user = result.user;
+				
+				// Split fullName into firstName and surname if possible
+				const names = (user.fullName || '').split(' ');
+				const firstName = names[0] || '';
+				const surname = names.slice(1).join(' ') || '';
+				
+				form.setValues({
+					firstName: firstName,
+					surname: surname,
+					username: user.email.split('@')[0], // Generate username from email
+					country: user.country || '',
+					email: user.email,
+					countryCode: user.countryCode || '',
+					phoneNumber: user.phone || '',
+					dateOfBirth: user.dateOfBirth || '',
+					gender: user.gender || ''
+				});
+			} else {
+				webix.message({ type: 'error', text: result.error || 'Failed to load profile' });
+			}
+		} catch (error) {
+			console.error('Error loading profile:', error);
+			webix.message({ type: 'error', text: 'Failed to load profile' });
+		} finally {
+			form.hideProgress();
+		}
+	}
+
+	async _toggleEditing(){
 		const nextState = !this._editing;
+		
+		// If switching from editing to not editing, save the data
+		if (this._editing && !nextState) {
+			await this._saveProfile();
+		}
+		
 		this._setEditing(nextState);
+	}
+
+	async _saveProfile() {
+		const form = this.$$("account:form");
+		if (!form) return;
+
+		if (!form.validate()) {
+			webix.message({ type: 'error', text: 'Please fix validation errors' });
+			return;
+		}
+
+		const values = form.getValues();
+		
+		// Combine firstName and surname into fullName
+		const fullName = `${values.firstName || ''} ${values.surname || ''}`.trim();
+
+		// Show loading state
+		webix.extend(form, webix.ProgressBar);
+		form.showProgress();
+
+		try {
+			const result = await authService.updateProfile({
+				fullName: fullName,
+				email: values.email,
+				country: values.country,
+				countryCode: values.countryCode,
+				phone: values.phoneNumber,
+				dateOfBirth: values.dateOfBirth,
+				gender: values.gender
+			});
+
+			if (result.success) {
+				webix.message({ type: 'success', text: result.message || 'Profile updated successfully' });
+			} else {
+				webix.message({ type: 'error', text: result.error || 'Failed to update profile' });
+				if (result.details) {
+					console.error('Validation errors:', result.details);
+				}
+			}
+		} catch (error) {
+			console.error('Error saving profile:', error);
+			webix.message({ type: 'error', text: 'Failed to save profile' });
+		} finally {
+			form.hideProgress();
+		}
 	}
 
 	_setEditing(enabled){
@@ -212,7 +307,7 @@ export default class AccountSettingsView extends JetView{
 		this._passwordWin.show();
 	}
 
-	_submitPassword(){
+	async _submitPassword(){
 		const pwdForm = this.$$("account:pwdform");
 		if (!pwdForm){
 			return;
@@ -220,9 +315,35 @@ export default class AccountSettingsView extends JetView{
 		if (!pwdForm.validate()){
 			return;
 		}
+		
 		const values = pwdForm.getValues();
-		console.log("Password change submitted", values);
-		webix.message("Password updated");
-		this._passwordWin.hide();
+		
+		// Show loading state
+		webix.extend(pwdForm, webix.ProgressBar);
+		pwdForm.showProgress();
+
+		try {
+			const result = await authService.changePassword(
+				values.currentPassword,
+				values.newPassword,
+				values.confirmPassword
+			);
+
+			if (result.success) {
+				webix.message({ type: 'success', text: result.message || 'Password changed successfully' });
+				this._passwordWin.hide();
+				pwdForm.clear();
+			} else {
+				webix.message({ type: 'error', text: result.error || 'Failed to change password' });
+				if (result.details) {
+					console.error('Password change errors:', result.details);
+				}
+			}
+		} catch (error) {
+			console.error('Error changing password:', error);
+			webix.message({ type: 'error', text: 'Failed to change password' });
+		} finally {
+			pwdForm.hideProgress();
+		}
 	}
 }

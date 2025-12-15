@@ -1,6 +1,6 @@
 // API Configuration
 export const API_CONFIG = {
-    BASE_URL: 'http://127.0.0.1:8000/api',
+    BASE_URL: 'http://localhost:8000/api',
     TIMEOUT: 30000,
     ENDPOINTS: {
         // Auth endpoints
@@ -33,7 +33,7 @@ export const clearTokens = () => {
     localStorage.removeItem('user');
 };
 
-// API request helper
+// API request helper with automatic token refresh
 export const apiRequest = async (endpoint, options = {}) => {
     const url = `${API_CONFIG.BASE_URL}${endpoint}`;
     
@@ -62,13 +62,61 @@ export const apiRequest = async (endpoint, options = {}) => {
     };
     
     try {
-        const response = await fetch(url, config);
+        let response = await fetch(url, config);
         
         console.log('API Response:', {
             status: response.status,
             statusText: response.statusText,
             ok: response.ok
         });
+        
+        // If unauthorized and we have a refresh token, try to refresh
+        if (response.status === 401 && tokens.refresh && endpoint !== API_CONFIG.ENDPOINTS.TOKEN_REFRESH) {
+            console.log('Access token expired, attempting refresh...');
+            
+            try {
+                // Try to refresh the token
+                const refreshResponse = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.TOKEN_REFRESH}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ refresh: tokens.refresh })
+                });
+                
+                if (refreshResponse.ok) {
+                    const refreshData = await refreshResponse.json();
+                    setTokens(refreshData.access, tokens.refresh);
+                    
+                    // Retry the original request with new token
+                    config.headers['Authorization'] = `Bearer ${refreshData.access}`;
+                    response = await fetch(url, config);
+                    
+                    console.log('Retried with new token:', {
+                        status: response.status,
+                        ok: response.ok
+                    });
+                } else {
+                    // Refresh failed, clear tokens and redirect to login
+                    clearTokens();
+                    window.location.href = '#!/login';
+                    throw {
+                        status: 401,
+                        message: 'Session expired. Please login again.',
+                        details: { code: 'session_expired' }
+                    };
+                }
+            } catch (refreshError) {
+                // Refresh failed, clear tokens and redirect to login
+                clearTokens();
+                window.location.href = '#!/login';
+                throw {
+                    status: 401,
+                    message: 'Session expired. Please login again.',
+                    details: { code: 'session_expired' }
+                };
+            }
+        }
         
         const data = await response.json();
         

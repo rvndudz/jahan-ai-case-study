@@ -135,8 +135,11 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5176",  # Vite dev server
     "http://127.0.0.1:5176",
     "http://localhost:5173",
+    "http://127.0.0.1:5173",
     "http://localhost:5174",
+    "http://127.0.0.1:5174",
     "http://localhost:5175",
+    "http://127.0.0.1:5175",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -162,8 +165,11 @@ CORS_ALLOW_METHODS = [
     'PUT',
 ]
 
-# Allow all origins during development (REMOVE IN PRODUCTION)
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS configuration - using CORS_ALLOWED_ORIGINS (don't use CORS_ALLOW_ALL_ORIGINS with it)
+CORS_ALLOW_PRIVATE_NETWORK = True
+
+# Ensure preflight responses are cached
+CORS_PREFLIGHT_MAX_AGE = 86400
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

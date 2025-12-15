@@ -20,13 +20,34 @@ const transformUserFromBackend = (backendUser) => {
 const transformUserToBackend = (frontendUser) => {
     if (!frontendUser) return null;
     
+    // Format date to YYYY-MM-DD if it exists
+    let dateOfBirth = frontendUser.dateOfBirth;
+    if (dateOfBirth) {
+        // If it's a Date object, convert to YYYY-MM-DD
+        if (dateOfBirth instanceof Date) {
+            const year = dateOfBirth.getFullYear();
+            const month = String(dateOfBirth.getMonth() + 1).padStart(2, '0');
+            const day = String(dateOfBirth.getDate()).padStart(2, '0');
+            dateOfBirth = `${year}-${month}-${day}`;
+        } else if (typeof dateOfBirth === 'string') {
+            // If it's already a string, parse and reformat to ensure YYYY-MM-DD
+            const date = new Date(dateOfBirth);
+            if (!isNaN(date.getTime())) {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                dateOfBirth = `${year}-${month}-${day}`;
+            }
+        }
+    }
+    
     return {
         full_name: frontendUser.fullName,
         email: frontendUser.email,
         country: frontendUser.country,
         country_code: frontendUser.countryCode,
         phone: frontendUser.phone,
-        date_of_birth: frontendUser.dateOfBirth,
+        date_of_birth: dateOfBirth || null,
         gender: frontendUser.gender
     };
 };
@@ -192,6 +213,33 @@ class AuthService {
             return {
                 success: false,
                 error: error.message || 'Failed to update profile',
+                details: error.details
+            };
+        }
+    }
+
+    /**
+     * Change user password
+     */
+    async changePassword(oldPassword, newPassword, newPassword2) {
+        try {
+            const response = await apiRequest(API_CONFIG.ENDPOINTS.CHANGE_PASSWORD, {
+                method: 'POST',
+                body: JSON.stringify({
+                    old_password: oldPassword,
+                    new_password: newPassword,
+                    new_password2: newPassword2
+                })
+            });
+            
+            return {
+                success: true,
+                message: response.message
+            };
+        } catch (error) {
+            return {
+                success: false,
+                error: error.message || 'Failed to change password',
                 details: error.details
             };
         }
