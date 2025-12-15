@@ -1,6 +1,7 @@
 const STORAGE_KEY = "settings:themePreference";
 const ACCENT_KEY = "settings:accentPreference";
 const FONT_KEY = "settings:fontFamily";
+const FONT_SIZE_KEY = "settings:fontSize";
 const ALLOWED = ["light", "dark", "system"];
 const ACCENTS = {
 	blue:  { hex:"#0ea5e9", soft:"rgba(14, 165, 233, 0.2)" },
@@ -14,6 +15,11 @@ const FONTS = {
 	roboto: "'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
 	workSans: "'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
 };
+const FONT_SIZES = {
+	small: 13,
+	medium: 15,
+	large: 17
+};
 
 const mediaQuery = window.matchMedia?.("(prefers-color-scheme: dark)");
 const listeners = new Set();
@@ -21,6 +27,7 @@ const listeners = new Set();
 let currentPreference = readStoredPreference();
 let currentAccent = readStoredAccent();
 let currentFont = readStoredFont();
+let currentFontSize = readStoredFontSize();
 let initialized = false;
 
 function readStoredPreference(){
@@ -36,6 +43,11 @@ function readStoredAccent(){
 function readStoredFont(){
 	const saved = (localStorage.getItem(FONT_KEY) || "").toLowerCase();
 	return FONTS[saved] ? saved : "inter";
+}
+
+function readStoredFontSize(){
+	const saved = (localStorage.getItem(FONT_SIZE_KEY) || "").toLowerCase();
+	return FONT_SIZES[saved] ? saved : "medium";
 }
 
 function persistPreference(value){
@@ -59,6 +71,15 @@ function persistAccent(value){
 function persistFont(value){
 	try {
 		localStorage.setItem(FONT_KEY, value);
+	}
+	catch (e){
+		// ignore storage errors
+	}
+}
+
+function persistFontSize(value){
+	try {
+		localStorage.setItem(FONT_SIZE_KEY, value.toString());
 	}
 	catch (e){
 		// ignore storage errors
@@ -134,6 +155,31 @@ function applyFont(name = currentFont){
 	`;
 }
 
+function applyFontSize(sizeName = currentFontSize){
+	const fontSize = FONT_SIZES[sizeName] || FONT_SIZES.medium;
+	
+	// Set base font size on html element for rem calculations
+	document.documentElement.style.fontSize = fontSize + 'px';
+	
+	// Create or update style tag for font size
+	let styleTag = document.getElementById('custom-font-size');
+	if (!styleTag) {
+		styleTag = document.createElement('style');
+		styleTag.id = 'custom-font-size';
+		document.head.appendChild(styleTag);
+	}
+	
+	// Apply font size but exclude icons, checkboxes, radio buttons, and switches
+	styleTag.textContent = `
+		body {
+			font-size: 1rem;
+		}
+		body *:not(.webix_icon):not([class*="wxi-"]):not([type="checkbox"]):not([type="radio"]):not(.webix_checkbox):not(.webix_radio):not(.webix_switch):not(.webix_switch_box):not(.webix_switch_handle):not(.webix_custom_checkbox):not(.webix_custom_radio) {
+			font-size: inherit;
+		}
+	`;
+}
+
 function handleSystemChange(){
 	if (currentPreference === "system"){
 		applyTheme(currentPreference);
@@ -145,15 +191,18 @@ export function initTheme(){
 		applyTheme(currentPreference);
 		applyAccent(currentAccent);
 		applyFont(currentFont);
+		applyFontSize(currentFontSize);
 		return;
 	}
 
 	currentPreference = readStoredPreference();
 	currentAccent = readStoredAccent();
 	currentFont = readStoredFont();
+	currentFontSize = readStoredFontSize();
 	applyTheme(currentPreference);
 	applyAccent(currentAccent);
 	applyFont(currentFont);
+	applyFontSize(currentFontSize);
 	initialized = true;
 
 	if (mediaQuery){
@@ -212,4 +261,16 @@ export function setFontFamily(name){
 
 export function getFontFamily(){
 	return currentFont;
+}
+
+export function setFontSize(sizeName){
+	const validSize = FONT_SIZES[sizeName] ? sizeName : "medium";
+	currentFontSize = validSize;
+	persistFontSize(validSize);
+	applyFontSize(validSize);
+	return validSize;
+}
+
+export function getFontSize(){
+	return currentFontSize;
 }

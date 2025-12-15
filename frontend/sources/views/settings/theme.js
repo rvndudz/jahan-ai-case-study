@@ -1,5 +1,5 @@
 import {JetView} from "webix-jet";
-import { getThemePreference, setThemePreference, getAccentPreference, setAccentPreference, getFontFamily, setFontFamily } from "../../services/themeService";
+import { getThemePreference, setThemePreference, getAccentPreference, setAccentPreference, getFontFamily, setFontFamily, getFontSize, setFontSize } from "../../services/themeService";
 import { sectionHeader } from "../settings";
 
 export default class ThemeSettingsView extends JetView{
@@ -82,15 +82,23 @@ export default class ThemeSettingsView extends JetView{
 							}
 						},
 						{
-							view:"slider",
+							view:"radio",
 							name:"baseFont",
 							label:"Base font size",
 							labelPosition:"left",
-							title:webix.template("#value# px"),
-							min:12,
-							max:18,
-							value:14,
-							step:1
+							value:getFontSize(),
+							options:[
+								{ id:"small", value:"Small" },
+								{ id:"medium", value:"Medium" },
+								{ id:"large", value:"Large" }
+							],
+							vertical:false,
+							on:{
+								onChange:value => {
+									setFontSize(value);
+									webix.message(`Font size set to ${value}`);
+								}
+							}
 						}
 					]
 				},
