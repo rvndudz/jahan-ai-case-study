@@ -212,11 +212,14 @@ body.theme-dark{
 
 .settings-logout-area{
 	overflow: visible !important;
+	padding: 0 !important;
+	width: 100%;
 }
 
 .settings-logout-area .webix_view,
 .settings-logout-area .webix_layout_space{
 	overflow: visible !important;
+	width: 100% !important;
 }
 
 .settings-nav-toggle{
@@ -335,8 +338,9 @@ body.theme-dark .settings-logo__mark{
 	border-radius: 8px;
 	transition: all 0.2s ease;
 	cursor: pointer;
-	width: 100%;
+	width: 100% !important;
 	margin: 0 !important;
+	display: block;
 }
 
 .settings-logout-btn:hover{
@@ -373,6 +377,7 @@ body.theme-dark .settings-logo__mark{
 	gap: 8px;
 	width: 100% !important;
 	padding: 0 12px !important;
+	margin: 0 !important;
 }
 
 .settings-logout-btn:hover .webix_button{
@@ -403,7 +408,7 @@ body.theme-dark .settings-logo__mark{
 	line-height: 1;
 	width: 18px;
 	height: 18px;
-	background: center center / contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13 7h5v10h-5'/%3E%3Cpath d='M13 12H4m0 0l3-3m-3 3l3 3'/%3E%3C/svg%3E");
+	background: center center / contain no-repeat url("../imgs/logout-svgrepo-com.svg");
 }
 
 .settings-logout-btn .webix_icon:before{
@@ -442,12 +447,14 @@ body.theme-dark .settings-logo__mark{
 /* Icon-only mode for logout button */
 .settings-nav-wrap.icon-only .settings-logout-btn{
 	padding: 0 !important;
+	width: 100% !important;
 }
 
 .settings-nav-wrap.icon-only .settings-logout-btn .webix_button,
 .settings-nav-wrap.icon-only .settings-logout-btn .webix_img_btn{
 	padding: 0 !important;
 	justify-content: center;
+	width: 100% !important;
 }
 
 .settings-nav-wrap.icon-only .settings-logout-btn .webix_icon{
