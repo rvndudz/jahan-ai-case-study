@@ -554,8 +554,16 @@ body.theme-dark .settings-logo__mark{
 	--webix-primary: var(--settings-accent);
 }
 
-.settings-shell .webix_button{
-	color: var(--settings-accent);
+.settings-shell .webix_button:not(.webix_danger){
+	background: var(--settings-accent) !important;
+	border-color: var(--settings-accent) !important;
+	color: var(--settings-on-accent) !important;
+}
+
+.settings-shell .webix_el_button .webix_button:not(.webix_danger){
+	background: var(--settings-accent) !important;
+	border-color: var(--settings-accent) !important;
+	color: var(--settings-on-accent) !important;
 }
 
 .settings-shell .webix_button.webix_primary,
@@ -568,6 +576,37 @@ body.theme-dark .settings-logo__mark{
 .settings-shell .webix_el_button .webix_button.webix_secondary,
 .settings-shell .webix_button.webix_secondary{
 	color: var(--settings-accent) !important;
+	background: transparent !important;
+	border-color: var(--settings-border) !important;
+}
+
+/* Danger buttons must always be red - target both outer and inner elements */
+.settings-shell .webix_button.webix_danger,
+.settings-shell .webix_el_button .webix_button.webix_danger,
+.settings-shell .webix_el_button.webix_danger .webix_button,
+.settings-shell .webix_danger .webix_button,
+.settings-form .webix_button.webix_danger,
+.settings-form .webix_el_button .webix_button.webix_danger,
+.settings-form .webix_el_button.webix_danger .webix_button,
+.settings-form .webix_danger .webix_button,
+body .webix_button.webix_danger,
+body .webix_el_button .webix_button.webix_danger,
+body .webix_el_button.webix_danger .webix_button,
+body .webix_danger .webix_button{
+	background: #dc2626 !important;
+	border-color: #dc2626 !important;
+	color: #ffffff !important;
+}
+
+.settings-shell .webix_button.webix_danger:hover,
+.settings-shell .webix_el_button .webix_button.webix_danger:hover,
+.settings-shell .webix_el_button.webix_danger .webix_button:hover,
+.settings-shell .webix_danger .webix_button:hover,
+.settings-form .webix_button.webix_danger:hover,
+.settings-form .webix_el_button .webix_button.webix_danger:hover,
+.settings-form .webix_el_button.webix_danger .webix_button:hover,
+.settings-form .webix_danger .webix_button:hover{
+	background: #b91c1c !important;
 }
 
 .settings-shell .webix_switch_box.webix_switch_on,
