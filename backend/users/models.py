@@ -29,7 +29,7 @@ class User(AbstractUser):
         ('male', 'Male'),
         ('female', 'Female'),
         ('other', 'Other'),
-        ('prefer_not_to_say', 'Prefer not to say'),
+        ('prefer-not-to-say', 'Prefer not to say'),
     ]
     gender = models.CharField(max_length=20, choices=GENDER_CHOICES, blank=True)
 

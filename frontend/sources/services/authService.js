@@ -6,6 +6,7 @@ const transformUserFromBackend = (backendUser) => {
     
     return {
         id: backendUser.id,
+        username: backendUser.username,
         fullName: backendUser.full_name,
         email: backendUser.email,
         country: backendUser.country,
@@ -18,6 +19,11 @@ const transformUserFromBackend = (backendUser) => {
         // Settings
         themeMode: backendUser.theme_mode,
         accentColor: backendUser.accent_color,
+        fontFamily: backendUser.font_family,
+        fontSize: backendUser.font_size,
+        compactMode: backendUser.compact_mode,
+        showTooltips: backendUser.show_tooltips,
+        animations: backendUser.animations,
         emailAlerts: backendUser.email_alerts,
         pushNotifications: backendUser.push_notifications,
         smsAlerts: backendUser.sms_alerts,
@@ -64,6 +70,7 @@ const transformUserToBackend = (frontendUser) => {
     }
     
     return {
+        username: frontendUser.username,
         full_name: frontendUser.fullName,
         email: frontendUser.email,
         country: frontendUser.country,
@@ -75,6 +82,11 @@ const transformUserToBackend = (frontendUser) => {
         // Settings
         theme_mode: frontendUser.themeMode,
         accent_color: frontendUser.accentColor,
+        font_family: frontendUser.fontFamily,
+        font_size: frontendUser.fontSize,
+        compact_mode: frontendUser.compactMode,
+        show_tooltips: frontendUser.showTooltips,
+        animations: frontendUser.animations,
         email_alerts: frontendUser.emailAlerts,
         push_notifications: frontendUser.pushNotifications,
         sms_alerts: frontendUser.smsAlerts,

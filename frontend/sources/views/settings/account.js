@@ -42,7 +42,7 @@ export default class AccountSettingsView extends JetView{
 				
 				// Contact Information Section
 				sectionHeader("Contact Information", "How we stay in touch."),
-				{ view: "text", label: "Email", name: "email", inputType: "email" },
+				{ view: "text", label: "Email", name: "email", inputType: "email", invalidMessage: "Please enter a valid email address" },
 				{ 
 					view: "layout",
 					type: "clean",
@@ -82,7 +82,8 @@ export default class AccountSettingsView extends JetView{
 					label: "Date of Birth", 
 					name: "dateOfBirth",
 					stringResult: true,
-					format: "%Y-%m-%d"
+					format: "%Y-%m-%d",
+					invalidMessage: "Date of birth must be in the past"
 				},
 				{ 
 					view: "radio", 
@@ -111,7 +112,20 @@ export default class AccountSettingsView extends JetView{
 				firstName: webix.rules.isNotEmpty,
 				surname: webix.rules.isNotEmpty,
 				username: webix.rules.isNotEmpty,
-				email: webix.rules.isEmail
+				email: (value) => {
+					if (!value) return false;
+					// Proper email validation with @ and domain
+					const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+					return emailRegex.test(value);
+				},
+				dateOfBirth: (value) => {
+					if (!value) return true; // Allow empty (optional field)
+					// Check if date is in the past
+					const selectedDate = new Date(value);
+					const today = new Date();
+					today.setHours(0, 0, 0, 0); // Reset time to start of day
+					return selectedDate < today;
+				}
 			}
 		};
 	}
@@ -228,7 +242,15 @@ export default class AccountSettingsView extends JetView{
 				if (viewName === "template" || viewName === "button"){
 					return;
 				}
-				if (view.define){
+				
+				// Radio buttons, checkboxes, and some other controls don't support readonly properly
+				// They need to be disabled/enabled instead
+				if (viewName === "radio" || viewName === "checkbox" || viewName === "switch"){
+					if (view.disable && view.enable){
+						enabled ? view.enable() : view.disable();
+					}
+				}
+				else if (view.define){
 					view.define("readonly", !enabled);
 					view.refresh && view.refresh();
 				}

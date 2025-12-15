@@ -162,20 +162,22 @@ export default class ThemeSettingsView extends JetView{
 		}
 		
 		// Save layout preferences when changed
-		view.attachEvent("onChange", async (newv, oldv) => {
-			const name = newv.name || newv;
-			// Only handle layout checkboxes (not radio/combo which have their own handlers)
-			if (["compactMode", "showTooltips", "animations"].includes(name)) {
-				const values = view.getValues();
-				try {
-					const result = await authService.updateProfile(values);
-					if (!result.success) {
-						webix.message({ type: "error", text: result.error || "Failed to save settings" });
+		const layoutCheckboxes = ["compactMode", "showTooltips", "animations"];
+		layoutCheckboxes.forEach(fieldName => {
+			const field = view.elements[fieldName];
+			if (field) {
+				field.attachEvent("onChange", async (newValue) => {
+					const values = view.getValues();
+					try {
+						const result = await authService.updateProfile(values);
+						if (!result.success) {
+							webix.message({ type: "error", text: result.error || "Failed to save settings" });
+						}
+					} catch (err) {
+						console.error("Failed to save layout settings:", err);
+						webix.message({ type: "error", text: "Failed to save settings" });
 					}
-				} catch (err) {
-					console.error("Failed to save layout settings:", err);
-					webix.message({ type: "error", text: "Failed to save settings" });
-				}
+				});
 			}
 		});
 	}
