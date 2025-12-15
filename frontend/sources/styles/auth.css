@@ -1,0 +1,37 @@
+/* Login and Register styles */
+.error-message {
+    color: #d9534f;
+    font-size: 14px;
+}
+
+.webix_primary {
+    background-color: #5cb85c !important;
+    border-color: #4cae4c !important;
+}
+
+.webix_primary:hover {
+    background-color: #449d44 !important;
+    border-color: #398439 !important;
+}
+
+/* Form styling */
+.webix_control {
+    margin-bottom: 10px;
+}
+
+.webix_el_label {
+    font-weight: 500;
+    color: #333;
+}
+
+.webix_inp_static {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px 12px;
+}
+
+.webix_inp_static:focus {
+    border-color: #5cb85c;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(92, 184, 92, 0.2);
+}

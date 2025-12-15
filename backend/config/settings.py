@@ -128,8 +128,13 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080",  # frontend URL
+    "http://localhost:8080",
     "http://127.0.0.1:8080",
+    "http://localhost:5176",  # Vite dev server
+    "http://127.0.0.1:5176",
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://localhost:5175",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
