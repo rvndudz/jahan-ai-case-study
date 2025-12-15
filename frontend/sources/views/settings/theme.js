@@ -58,22 +58,22 @@ export default class ThemeSettingsView extends JetView{
 								{ id:"indigo", value:"Indigo", css:"accent-chip accent-indigo" }
 							],
 							on:{
-						onChange: async (value) => {
-							const active = setAccentPreference(value);
-							webix.message(`Accent set to ${active}`);
-							try {
-								const result = await authService.updateProfile({ accentColor: value });
-								if (!result.success) {
-									webix.message({ type: "error", text: "Failed to save accent color" });
+								onChange: async (value) => {
+									const active = setAccentPreference(value);
+									webix.message(`Accent set to ${active}`);
+									try {
+										const result = await authService.updateProfile({ accentColor: value });
+										if (!result.success) {
+											webix.message({ type: "error", text: "Failed to save accent color" });
+										}
+									} catch (err) {
+										console.error("Failed to save accent:", err);
+									}
 								}
-							} catch (err) {
-								console.error("Failed to save accent:", err);
 							}
 						}
-					}
-				}
-			]
-		},
+					]
+				},
 				{
 					margin:8,
 					rows:[
@@ -90,15 +90,23 @@ export default class ThemeSettingsView extends JetView{
 								{ id:"workSans", value:"Work Sans" }
 							],
 							on:{
-								onChange:value => {
+								onChange: async (value) => {
 									setFontFamily(value);
 									webix.message(`Font family changed`);
+									try {
+										const result = await authService.updateProfile({ fontFamily: value });
+										if (!result.success) {
+											webix.message({ type: "error", text: "Failed to save font family" });
+										}
+									} catch (err) {
+										console.error("Failed to save font family:", err);
+									}
 								}
 							}
 						},
 						{
 							view:"radio",
-							name:"baseFont",
+							name:"fontSize",
 							label:"Base font size",
 							labelPosition:"left",
 							value:getFontSize(),
@@ -109,9 +117,17 @@ export default class ThemeSettingsView extends JetView{
 							],
 							vertical:false,
 							on:{
-								onChange:value => {
+								onChange: async (value) => {
 									setFontSize(value);
 									webix.message(`Font size set to ${value}`);
+									try {
+										const result = await authService.updateProfile({ fontSize: value });
+										if (!result.success) {
+											webix.message({ type: "error", text: "Failed to save font size" });
+										}
+									} catch (err) {
+										console.error("Failed to save font size:", err);
+									}
 								}
 							}
 						}
@@ -144,5 +160,23 @@ export default class ThemeSettingsView extends JetView{
 			
 			view.setValues(user);
 		}
+		
+		// Save layout preferences when changed
+		view.attachEvent("onChange", async (newv, oldv) => {
+			const name = newv.name || newv;
+			// Only handle layout checkboxes (not radio/combo which have their own handlers)
+			if (["compactMode", "showTooltips", "animations"].includes(name)) {
+				const values = view.getValues();
+				try {
+					const result = await authService.updateProfile(values);
+					if (!result.success) {
+						webix.message({ type: "error", text: result.error || "Failed to save settings" });
+					}
+				} catch (err) {
+					console.error("Failed to save layout settings:", err);
+					webix.message({ type: "error", text: "Failed to save settings" });
+				}
+			}
+		});
 	}
 }

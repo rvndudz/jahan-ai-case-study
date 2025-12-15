@@ -143,7 +143,7 @@ export default class AccountSettingsView extends JetView{
 				form.setValues({
 					firstName: firstName,
 					surname: surname,
-					username: user.email.split('@')[0], // Generate username from email
+					username: user.username || user.email.split('@')[0], // Use username from backend or generate from email
 					country: user.country || '',
 					email: user.email,
 					countryCode: user.countryCode || '',
@@ -193,6 +193,7 @@ export default class AccountSettingsView extends JetView{
 
 		try {
 			const result = await authService.updateProfile({
+				username: values.username,
 				fullName: fullName,
 				email: values.email,
 				country: values.country,
