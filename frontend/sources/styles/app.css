@@ -752,7 +752,7 @@ body .webix_danger .webix_button{
 .settings-form .webix_el_button .webix_button.webix_danger:hover,
 .settings-form .webix_el_button.webix_danger .webix_button:hover,
 .settings-form .webix_danger .webix_button:hover{
-	background: #b91c1c !important;
+	background: #dc2626 !important;
 }
 
 /* Keep logout button red regardless of accent */
@@ -774,8 +774,8 @@ body .webix_danger .webix_button{
 .settings-shell .settings-logout-btn:active,
 .settings-shell .settings-logout-btn:active .webix_button,
 .settings-shell .settings-logout-btn:active .webix_img_btn{
-	background: #b91c1c !important;
-	border-color: #b91c1c !important;
+	background: #dc2626 !important;
+	border-color: #dc2626 !important;
 }
 
 .settings-shell .webix_custom_radio:before{
