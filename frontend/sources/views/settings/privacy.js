@@ -43,17 +43,22 @@ export default class PrivacySettingsView extends JetView{
 		};
 	}
 
-	init(view){
-		const user = authService.getCurrentUser();
-		if(user){
-			view.setValues(user);
-		}
-
+	async init(view){
+		// Flag to prevent saving during initialization
+		let isInitializing = true;
+		
+		// Attach onChange handler BEFORE loading data, but check initialization flag
 		view.attachEvent("onChange", async (newv, oldv) => {
+			// Skip auto-save during form initialization
+			if (isInitializing) return;
+			
 			const values = view.getValues();
 			try {
 				const result = await authService.updateProfile(values);
-				if (!result.success) {
+				if (result.success) {
+					// Refresh cache with latest server data after successful save
+					await authService.getProfile();
+				} else {
 					webix.message({ type: "error", text: result.error || "Failed to save settings" });
 				}
 			} catch (err) {
@@ -61,6 +66,28 @@ export default class PrivacySettingsView extends JetView{
 				webix.message({ type: "error", text: "Failed to save settings" });
 			}
 		});
+		
+		// Show loading state while fetching fresh data
+		webix.extend(view, webix.ProgressBar);
+		view.showProgress();
+		
+		try {
+			// Always fetch fresh data from server to ensure consistency
+			const result = await authService.getProfile();
+			
+			if (result.success && result.user) {
+				view.setValues(result.user);
+			} else {
+				webix.message({ type: "error", text: result.error || "Failed to load settings" });
+			}
+		} catch (err) {
+			console.error("Failed to load privacy settings:", err);
+			webix.message({ type: "error", text: "Failed to load settings" });
+		} finally {
+			view.hideProgress();
+			// Initialization complete - now user changes will trigger saves
+			isInitializing = false;
+		}
 	}
 
 	_actionMessage(text){

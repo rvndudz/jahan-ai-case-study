@@ -263,6 +263,21 @@ export default class SettingsView extends JetView{
 			return;
 		}
 		const current = this._getSectionFromUrl();
+
+		// Notify subviews before we change section so they can persist unsaved work
+		if (current && current !== validSection){
+			this.app.callEvent("settings:beforeSectionChange", [current, validSection]);
+			
+			// Update URL first, then refresh the page to ensure fresh data
+			this.setParam("section", validSection, true);
+			
+			// Small delay to ensure URL is updated before reload
+			setTimeout(() => {
+				window.location.reload();
+			}, 50);
+			return;
+		}
+
 		if (current === validSection){
 			this._syncSelection(validSection);
 			return;

@@ -49,34 +49,41 @@ const transformUserToBackend = (frontendUser) => {
     if (!frontendUser) return null;
     
     // Format date to YYYY-MM-DD if it exists
-    let dateOfBirth = frontendUser.dateOfBirth;
-    if (dateOfBirth) {
-        // If it's a Date object, convert to YYYY-MM-DD
-        if (dateOfBirth instanceof Date) {
-            const year = dateOfBirth.getFullYear();
-            const month = String(dateOfBirth.getMonth() + 1).padStart(2, '0');
-            const day = String(dateOfBirth.getDate()).padStart(2, '0');
-            dateOfBirth = `${year}-${month}-${day}`;
-        } else if (typeof dateOfBirth === 'string') {
-            // If it's already a string, parse and reformat to ensure YYYY-MM-DD
-            const date = new Date(dateOfBirth);
-            if (!isNaN(date.getTime())) {
-                const year = date.getFullYear();
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const day = String(date.getDate()).padStart(2, '0');
+    const hasDateOfBirth = Object.prototype.hasOwnProperty.call(frontendUser, 'dateOfBirth');
+    let formattedDateOfBirth;
+    if (hasDateOfBirth) {
+        let dateOfBirth = frontendUser.dateOfBirth;
+        if (dateOfBirth) {
+            // If it's a Date object, convert to YYYY-MM-DD
+            if (dateOfBirth instanceof Date) {
+                const year = dateOfBirth.getFullYear();
+                const month = String(dateOfBirth.getMonth() + 1).padStart(2, '0');
+                const day = String(dateOfBirth.getDate()).padStart(2, '0');
                 dateOfBirth = `${year}-${month}-${day}`;
+            } else if (typeof dateOfBirth === 'string') {
+                // If it's already a string, parse and reformat to ensure YYYY-MM-DD
+                const date = new Date(dateOfBirth);
+                if (!isNaN(date.getTime())) {
+                    const year = date.getFullYear();
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const day = String(date.getDate()).padStart(2, '0');
+                    dateOfBirth = `${year}-${month}-${day}`;
+                }
             }
+            formattedDateOfBirth = dateOfBirth;
+        } else {
+            // Explicitly clearing the date
+            formattedDateOfBirth = null;
         }
     }
     
-    return {
+    const backendData = {
         first_name: frontendUser.firstName,
         last_name: frontendUser.lastName,
         email: frontendUser.email,
         country: frontendUser.country,
         country_code: frontendUser.countryCode,
         phone: frontendUser.phone,
-        date_of_birth: dateOfBirth || null,
         gender: frontendUser.gender,
         
         // Settings
@@ -106,6 +113,16 @@ const transformUserToBackend = (frontendUser) => {
         analytics_enabled: frontendUser.analyticsEnabled,
         personalized_ads: frontendUser.personalizedAds
     };
+
+    // Include date only when provided so we don't clear it on unrelated updates
+    if (hasDateOfBirth) {
+        backendData.date_of_birth = formattedDateOfBirth;
+    }
+
+    // Drop undefined keys so partial updates don't overwrite existing values
+    return Object.fromEntries(
+        Object.entries(backendData).filter(([, value]) => value !== undefined)
+    );
 };
 
 class AuthService {

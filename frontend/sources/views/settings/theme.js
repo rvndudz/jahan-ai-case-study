@@ -36,7 +36,10 @@ export default class ThemeSettingsView extends JetView{
 									webix.message(`Theme set to ${active}`);
 									try {
 										const result = await authService.updateProfile({ themeMode: value });
-										if (!result.success) {
+										if (result.success) {
+											// Refresh cache with latest server data
+											await authService.getProfile();
+										} else {
 											webix.message({ type: "error", text: "Failed to save theme preference" });
 										}
 									} catch (err) {
@@ -63,7 +66,10 @@ export default class ThemeSettingsView extends JetView{
 									webix.message(`Accent set to ${active}`);
 									try {
 										const result = await authService.updateProfile({ accentColor: value });
-										if (!result.success) {
+										if (result.success) {
+											// Refresh cache with latest server data
+											await authService.getProfile();
+										} else {
 											webix.message({ type: "error", text: "Failed to save accent color" });
 										}
 									} catch (err) {
@@ -95,7 +101,10 @@ export default class ThemeSettingsView extends JetView{
 									webix.message(`Font family changed`);
 									try {
 										const result = await authService.updateProfile({ fontFamily: value });
-										if (!result.success) {
+									if (result.success) {
+										// Refresh cache with latest server data
+										await authService.getProfile();
+									} else {
 											webix.message({ type: "error", text: "Failed to save font family" });
 										}
 									} catch (err) {
@@ -122,7 +131,10 @@ export default class ThemeSettingsView extends JetView{
 									webix.message(`Font size set to ${value}`);
 									try {
 										const result = await authService.updateProfile({ fontSize: value });
-										if (!result.success) {
+										if (result.success) {
+											// Refresh cache with latest server data
+											await authService.getProfile();
+										} else {
 											webix.message({ type: "error", text: "Failed to save font size" });
 										}
 									} catch (err) {
@@ -147,18 +159,40 @@ export default class ThemeSettingsView extends JetView{
 		};
 	}
 
-	init(view){
-		const user = authService.getCurrentUser();
-		if(user){
-			// Sync local storage and DOM with backend
-			if(user.themeMode && user.themeMode !== getThemePreference()){
-				setThemePreference(user.themeMode);
-			}
-			if(user.accentColor && user.accentColor !== getAccentPreference()){
-				setAccentPreference(user.accentColor);
-			}
+	async init(view){
+		// Flag to prevent saving during initialization
+		let isInitializing = true;
+		
+		// Show loading state while fetching fresh data
+		webix.extend(view, webix.ProgressBar);
+		view.showProgress();
+		
+		try {
+			// Always fetch fresh data from server to ensure consistency
+			const result = await authService.getProfile();
 			
-			view.setValues(user);
+			if (result.success && result.user) {
+				const user = result.user;
+				
+				// Sync local storage and DOM with backend
+				if(user.themeMode && user.themeMode !== getThemePreference()){
+					setThemePreference(user.themeMode);
+				}
+				if(user.accentColor && user.accentColor !== getAccentPreference()){
+					setAccentPreference(user.accentColor);
+				}
+				
+				view.setValues(user);
+			} else {
+				webix.message({ type: "error", text: result.error || "Failed to load settings" });
+			}
+		} catch (err) {
+			console.error("Failed to load theme settings:", err);
+			webix.message({ type: "error", text: "Failed to load settings" });
+		} finally {
+			view.hideProgress();
+			// Initialization complete
+			isInitializing = false;
 		}
 		
 		// Save layout preferences when changed
@@ -167,10 +201,16 @@ export default class ThemeSettingsView extends JetView{
 			const field = view.elements[fieldName];
 			if (field) {
 				field.attachEvent("onChange", async (newValue) => {
+					// Skip auto-save during form initialization
+					if (isInitializing) return;
+					
 					const values = view.getValues();
 					try {
 						const result = await authService.updateProfile(values);
-						if (!result.success) {
+						if (result.success) {
+							// Refresh cache with latest server data after successful save
+							await authService.getProfile();
+						} else {
 							webix.message({ type: "error", text: result.error || "Failed to save settings" });
 						}
 					} catch (err) {

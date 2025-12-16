@@ -7,6 +7,7 @@ export default class AccountSettingsView extends JetView{
 		super(app, config);
 		this._editing = false;
 		this._passwordWin = null;
+		this._saving = false;
 	}
 
 
@@ -132,6 +133,13 @@ export default class AccountSettingsView extends JetView{
 	init(){
 		this._setEditing(false);
 		this._loadProfile();
+
+		// Auto-save when navigating away from the account section
+		this.on(this.app, "settings:beforeSectionChange", (from, to) => {
+			if (from === "account"){
+				this._autoSaveIfDirty();
+			}
+		});
 	}
 
 	async _loadProfile() {
@@ -183,6 +191,7 @@ export default class AccountSettingsView extends JetView{
 	async _saveProfile() {
 		const form = this.$$("account:form");
 		if (!form) return;
+		if (this._saving) return;
 
 		if (!form.validate()) {
 			webix.message({ type: 'error', text: 'Please fix validation errors' });
@@ -195,6 +204,7 @@ export default class AccountSettingsView extends JetView{
 		webix.extend(form, webix.ProgressBar);
 		form.showProgress();
 
+		this._saving = true;
 		try {
 			const result = await authService.updateProfile({
 				firstName: values.firstName || '',
@@ -208,7 +218,12 @@ export default class AccountSettingsView extends JetView{
 			});
 
 			if (result.success) {
+				// Refresh cache with latest server data after successful save
+				await authService.getProfile();
 				webix.message({ type: 'success', text: result.message || 'Profile updated successfully' });
+				if (form.markAsClean){
+					form.markAsClean();
+				}
 			} else {
 				webix.message({ type: 'error', text: result.error || 'Failed to update profile' });
 				if (result.details) {
@@ -220,6 +235,7 @@ export default class AccountSettingsView extends JetView{
 			webix.message({ type: 'error', text: 'Failed to save profile' });
 		} finally {
 			form.hideProgress();
+			this._saving = false;
 		}
 	}
 
@@ -358,5 +374,22 @@ export default class AccountSettingsView extends JetView{
 		} finally {
 			pwdForm.hideProgress();
 		}
+	}
+
+	async _autoSaveIfDirty(){
+		const form = this.$$("account:form");
+		if (!form || this._saving){
+			return;
+		}
+
+		const dirty = typeof form.isDirty === "function"
+			? form.isDirty()
+			: (typeof form.getDirtyValues === "function" && Object.keys(form.getDirtyValues()).length > 0);
+
+		if (!dirty){
+			return;
+		}
+
+		await this._saveProfile();
 	}
 }
