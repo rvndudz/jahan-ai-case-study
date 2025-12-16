@@ -10,6 +10,7 @@ This application demonstrates a complete modern web architecture with secure aut
 
 ### Backend
 - **Django 6.0** - Python web framework
+- **django.contrib.auth** - Django's built-in authentication system
 - **Django REST Framework** - RESTful API toolkit
 - **djangorestframework-simplejwt** - JWT authentication
 - **django-cors-headers** - CORS handling
@@ -201,6 +202,18 @@ The application uses JWT (JSON Web Tokens) for authentication:
 - **Token Rotation**: Enabled for enhanced security
 - **Automatic Refresh**: Frontend automatically refreshes expired tokens
 
+### Custom User Model
+
+The application implements a custom user model extending Django's `AbstractUser` from `django.contrib.auth.models`:
+
+- **Base Class**: `AbstractUser` - Inherits Django's built-in authentication features
+- **Primary Authentication Field**: Email (instead of username)
+- **USERNAME_FIELD**: Set to `'email'` for email-based login
+- **Auto-generated Username**: Username is automatically generated from email
+- **Extended Fields**: Includes profile fields (country, phone, date_of_birth, gender) and settings fields (theme, notifications, privacy)
+
+This approach leverages Django's robust authentication system while customizing it for email-based authentication and extended user profiles.
+
 ### Token Storage
 Tokens are stored in localStorage:
 - `access_token` - Short-lived access token
@@ -334,20 +347,32 @@ Frontend tests cover 21+ test cases including:
 ## 📝 Database Schema
 
 ### User Model
+
+The User model extends Django's `AbstractUser` from `django.contrib.auth.models`, inheriting standard Django authentication fields and adding custom profile and settings fields.
+
+**Inherited from AbstractUser:**
 - `id` - Primary key
-- `email` - Unique email (login field)
-- `username` - Username (required by Django)
 - `password` - Hashed password
+- `is_active` - Account status
+- `is_staff` - Staff status
+- `is_superuser` - Superuser status
+- `date_joined` - Registration date
+- `last_login` - Last login timestamp
+
+**Custom Fields:**
+- `email` - Unique email (PRIMARY authentication field, replaces username)
+- `username` - Auto-generated from email (kept for Django compatibility)
 - `full_name` - User's full name
 - `country` - Country of residence
 - `country_code` - Phone country code (+1, +44, etc.)
 - `phone` - Phone number
 - `date_of_birth` - Date of birth
 - `gender` - Gender (male, female, other, prefer_not_to_say)
-- `is_active` - Account status
-- `is_staff` - Staff status
-- `date_joined` - Registration date
-- `last_login` - Last login timestamp
+
+**Settings Fields:**
+- Theme preferences (theme_mode, accent_color, font_size, etc.)
+- Notification preferences (email, push, SMS, digest frequency, etc.)
+- Privacy settings (profile_visibility, show_email, search_engines, etc.)
 
 ## 🔒 Security Features
 
