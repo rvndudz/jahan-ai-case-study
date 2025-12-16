@@ -104,6 +104,13 @@ function notify(activeTheme){
 	});
 }
 
+function reflowLayoutForTypography(){
+	const resize = window.webix?.ui?.resize;
+	if (typeof resize === "function"){
+		requestAnimationFrame(() => resize());
+	}
+}
+
 function applyTheme(pref = currentPreference){
 	const activeTheme = resolveTheme(pref);
 	document.body.classList.toggle("theme-dark", activeTheme === "dark");
@@ -153,6 +160,11 @@ function applyFont(name = currentFont){
 			font-family: ${fontFamily} !important;
 		}
 	`;
+
+	if (initialized){
+		// Recalculate view heights so typography changes don't clip text
+		reflowLayoutForTypography();
+	}
 }
 
 function applyFontSize(sizeName = currentFontSize){
@@ -178,6 +190,11 @@ function applyFontSize(sizeName = currentFontSize){
 			font-size: inherit;
 		}
 	`;
+
+	if (initialized){
+		// Reflow the layout after the base font size shifts to avoid clipped captions
+		reflowLayoutForTypography();
+	}
 }
 
 function handleSystemChange(){
