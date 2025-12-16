@@ -121,10 +121,14 @@ export const apiRequest = async (endpoint, options = {}) => {
         const data = await response.json();
         
         if (!response.ok) {
+            // For validation errors (400), DRF returns field errors directly in the response
+            // For other errors, check for error/message fields
+            const errorMessage = data.error || data.message || data.detail || 'Request failed';
+            
             throw {
                 status: response.status,
-                message: data.error || data.message || 'Request failed',
-                details: data.details || data
+                message: errorMessage,
+                details: data
             };
         }
         

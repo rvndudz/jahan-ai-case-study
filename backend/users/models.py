@@ -114,10 +114,6 @@ class User(AbstractUser):
     analytics_enabled = models.BooleanField(default=True)
     personalized_ads = models.BooleanField(default=False)
     
-    # Use email instead of username for authentication
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']  # username is still required by Django but not used for login
-    
     class Meta:
         verbose_name = 'User'
         verbose_name_plural = 'Users'

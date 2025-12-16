@@ -68,7 +68,7 @@ export default class RegisterView extends JetView {
                                     id: "registerError",
                                     template: "",
                                     borderless: true,
-                                    height: 40,
+                                    autoheight: true,
                                     css: "error-message"
                                 }
                             ],
