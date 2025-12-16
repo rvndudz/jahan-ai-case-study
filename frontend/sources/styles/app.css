@@ -567,20 +567,21 @@ body.theme-dark .settings-logo__mark{
 }
 
 .settings-section-header__title{
+	margin-left: -20px;
 	font-size: 15px;
 	font-weight: 700;
 	color: var(--settings-text);
 	line-height: 1.6;
 	opacity: 1;
-	padding: 4px 0;
 }
 
 .settings-section-header__caption{
 	font-style: italic;
+	margin-left: -20px;
 	color: var(--settings-muted);
 	line-height: 1.6;
 	opacity: 0.80;
-	padding: 6px 0 8px 0;
+	padding: 0 0 8px 0;
 }
 
 .settings-panel .webix_section{
