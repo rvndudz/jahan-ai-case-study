@@ -5,6 +5,8 @@ import ThemeSettingsView from "./settings/theme";
 import PrivacySettingsView from "./settings/privacy";
 import authService from "../services/authService";
 
+const SIDEBAR_STATE_KEY = "settings:sidebarCollapsed";
+
 export const sectionHeader = (title, caption = "") => ({
 	view:"template",
 	borderless:true,
@@ -28,7 +30,29 @@ export default class SettingsView extends JetView{
 		super(app, config);
 		this._mode = "desktop";
 		this._fullNavWidth = 150;
-		this._iconOnly = false;
+		this._iconOnly = this._loadSidebarState();
+	}
+
+	_loadSidebarState(){
+		const saved = localStorage.getItem(SIDEBAR_STATE_KEY);
+		return saved === "true";
+	}
+
+	_saveSidebarState(collapsed){
+		localStorage.setItem(SIDEBAR_STATE_KEY, collapsed.toString());
+	}
+
+	_restoreSavedState(){
+		if (this._mode === "desktop" && this._iconOnly){
+			const navWrap = this.$$("settings:navwrap");
+			const nav = this.$$("settings:nav");
+			if (navWrap && nav){
+				navWrap.define("width", navWrap.config.minWidth || 110);
+				navWrap.resize();
+				this._setIconOnly(nav, true);
+				this._updateToggleState();
+			}
+		}
 	}
 
 	config(){
@@ -178,7 +202,8 @@ export default class SettingsView extends JetView{
 			this._updateUrl(currentSection);
 		}
 		this._applyResponsive();
-		this._applyNavClamp();
+		// Don't call _applyNavClamp() here, let _applyResponsive handle the initial state
+		this._restoreSavedState();
 
 		this.on(this.$$("settings:nav"), "onAfterSelect", id => this._updateUrl(id));
 		this.on(this.$$("settings:tabs"), "onChange", id => this._updateUrl(id));
@@ -322,7 +347,11 @@ export default class SettingsView extends JetView{
 				nav.collapse();
 			}
 			else {
-				nav.expand();
+				// Don't call nav.expand() as it would override the saved collapsed state
+				// The saved state will be applied in init() instead
+				if (!this._iconOnly){
+					nav.expand();
+				}
 				this._applyNavClamp();
 			}
 		}
@@ -357,7 +386,16 @@ export default class SettingsView extends JetView{
 			currentWidth = maxWidth;
 		}
 
-		const iconOnly = currentWidth <= iconThreshold;
+		// Only auto-collapse if the saved state doesn't exist or if window is too narrow
+		const autoIconOnly = currentWidth <= iconThreshold;
+		
+		// Check if we have a saved preference
+		const savedState = localStorage.getItem(SIDEBAR_STATE_KEY);
+		const hasSavedState = savedState !== null;
+		
+		// Use saved state if available, otherwise use auto-calculated state
+		const iconOnly = hasSavedState ? this._iconOnly : autoIconOnly;
+		
 		if (iconOnly){
 			navWrap.define("width", Math.max(minWidth, currentWidth));
 			navWrap.resize();
@@ -423,6 +461,7 @@ export default class SettingsView extends JetView{
 		navWrap.resize();
 		this._setIconOnly(nav, target);
 		this._updateToggleState();
+		this._saveSidebarState(target);
 	}
 
 	_updateToggleState(){
