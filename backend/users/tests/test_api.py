@@ -20,7 +20,6 @@ class TestUserRegistration:
         assert 'access' in response.data
         assert 'refresh' in response.data
         assert response.data['user']['email'] == test_user_data['email']
-        assert response.data['user']['username'] == test_user_data['username']
         
         # Verify user was created in database
         assert User.objects.filter(email=test_user_data['email']).exists()

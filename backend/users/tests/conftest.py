@@ -17,7 +17,6 @@ def test_user_data():
     """Fixture to provide test user data"""
     return {
         'email': 'test@example.com',
-        'username': 'testuser',
         'password': 'TestPass123!',
         'password2': 'TestPass123!'
     }
@@ -29,13 +28,15 @@ def create_user(db):
     def make_user(**kwargs):
         user_data = {
             'email': 'user@example.com',
-            'username': 'testuser',
             'password': 'TestPass123!',
             'first_name': 'Test',
             'last_name': 'User'
         }
         user_data.update(kwargs)
         password = user_data.pop('password')
+        # Auto-generate username from email
+        if 'username' not in user_data:
+            user_data['username'] = user_data['email'].split('@')[0]
         user = User.objects.create_user(**user_data)
         user.set_password(password)
         user.save()

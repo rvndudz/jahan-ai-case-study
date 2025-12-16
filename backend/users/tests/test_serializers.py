@@ -43,7 +43,6 @@ class TestUserRegistrationSerializer:
         """Test registration serializer with valid data"""
         data = {
             'email': 'newuser@example.com',
-            'username': 'newuser',
             'password': 'TestPass123!',
             'password2': 'TestPass123!'
         }
@@ -53,14 +52,12 @@ class TestUserRegistrationSerializer:
         
         user = serializer.save()
         assert user.email == 'newuser@example.com'
-        assert user.username == 'newuser'
         assert user.check_password('TestPass123!')
     
     def test_registration_serializer_password_mismatch(self):
         """Test registration serializer with password mismatch"""
         data = {
             'email': 'newuser@example.com',
-            'username': 'newuser',
             'password': 'TestPass123!',
             'password2': 'DifferentPass123!'
         }

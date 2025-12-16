@@ -11,7 +11,7 @@ class TestUserModel:
     def test_create_user(self):
         """Test creating a regular user"""
         user = User.objects.create_user(
-            username='testuser',
+            username='testuser',  # Auto-generated internally
             email='test@example.com',
             password='TestPass123!',
             first_name='Test',

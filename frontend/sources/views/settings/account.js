@@ -24,7 +24,7 @@ export default class AccountSettingsView extends JetView{
 				sectionHeader("Basic Information", "Your core profile details."),
 				{ view: "text", label: "First Name", name: "firstName" },
 				{ view: "text", label: "Surname", name: "surname" },
-				{ view: "text", label: "Username", name: "username" },
+
 				{ 
 					view: "combo", 
 					label: "Country", 
@@ -111,7 +111,6 @@ export default class AccountSettingsView extends JetView{
 			rules: {
 				firstName: webix.rules.isNotEmpty,
 				surname: webix.rules.isNotEmpty,
-				username: webix.rules.isNotEmpty,
 				email: (value) => {
 					if (!value) return false;
 					// Proper email validation with @ and domain
@@ -152,7 +151,6 @@ export default class AccountSettingsView extends JetView{
 				form.setValues({
 					firstName: user.firstName || '',
 					surname: user.lastName || '',
-					username: user.username || user.email.split('@')[0], // Use username from backend or generate from email
 					country: user.country || '',
 					email: user.email,
 					countryCode: user.countryCode || '',
@@ -199,7 +197,6 @@ export default class AccountSettingsView extends JetView{
 
 		try {
 			const result = await authService.updateProfile({
-				username: values.username,
 				firstName: values.firstName || '',
 				lastName: values.surname || '',
 				email: values.email,

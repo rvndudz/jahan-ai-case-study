@@ -5,6 +5,7 @@ class User(AbstractUser):
     """
     Custom User model extending Django's AbstractUser.
     This model stores user authentication and profile information.
+    Uses email as the primary authentication field instead of username.
     """
     
     # Use first_name and last_name from AbstractUser but make them non-blank
@@ -13,6 +14,13 @@ class User(AbstractUser):
     
     # Email as the primary login field
     email = models.EmailField(unique=True)
+    
+    # Make username non-unique and optional, auto-generate from email
+    username = models.CharField(max_length=150, blank=True, null=True)
+    
+    # Use email as the username field for authentication
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []  # Remove username from required fields
     
     # Contact information
     country = models.CharField(max_length=100, blank=True)

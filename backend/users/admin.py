@@ -8,14 +8,14 @@ class UserAdmin(BaseUserAdmin):
     """Custom User admin configuration"""
     
     # Fields to display in the user list
-    list_display = ['email', 'first_name', 'last_name', 'username', 'is_staff', 'is_active', 'date_joined']
+    list_display = ['email', 'first_name', 'last_name', 'is_staff', 'is_active', 'date_joined']
     list_filter = ['is_staff', 'is_active', 'gender', 'date_joined']
-    search_fields = ['email', 'first_name', 'last_name', 'username', 'phone']
+    search_fields = ['email', 'first_name', 'last_name', 'phone']
     ordering = ['-date_joined']
     
     # Fields to show when editing a user
     fieldsets = (
-        (None, {'fields': ('email', 'username', 'password')}),
+        (None, {'fields': ('email', 'password')}),
         ('Personal Info', {'fields': ('first_name', 'last_name', 'phone', 'country', 'country_code', 'date_of_birth', 'gender')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
@@ -25,6 +25,6 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'username', 'password1', 'password2', 'first_name', 'last_name', 'is_staff', 'is_active')}
+            'fields': ('email', 'password1', 'password2', 'first_name', 'last_name', 'is_staff', 'is_active')}
         ),
     )

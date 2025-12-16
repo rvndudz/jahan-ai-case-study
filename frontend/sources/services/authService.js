@@ -6,7 +6,6 @@ const transformUserFromBackend = (backendUser) => {
     
     return {
         id: backendUser.id,
-        username: backendUser.username,
         firstName: backendUser.first_name,
         lastName: backendUser.last_name,
         email: backendUser.email,
@@ -71,7 +70,6 @@ const transformUserToBackend = (frontendUser) => {
     }
     
     return {
-        username: frontendUser.username,
         first_name: frontendUser.firstName,
         last_name: frontendUser.lastName,
         email: frontendUser.email,
@@ -154,7 +152,6 @@ class AuthService {
                 method: 'POST',
                 body: JSON.stringify({
                     email: userData.email,
-                    username: userData.username,
                     password: userData.password,
                     password2: userData.password2
                 })

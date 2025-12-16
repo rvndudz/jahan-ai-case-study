@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'id', 'email', 'first_name', 'last_name', 'username', 'country', 'country_code', 
+            'id', 'email', 'first_name', 'last_name', 'country', 'country_code', 
             'phone', 'date_of_birth', 'gender', 'date_joined',
             # Settings
             'theme_mode', 'accent_color', 'font_family', 'font_size', 'compact_mode', 'show_tooltips', 'animations',
@@ -32,10 +32,9 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ['email', 'username', 'password', 'password2', 'first_name', 'last_name']
+        fields = ['email', 'password', 'password2', 'first_name', 'last_name']
         extra_kwargs = {
             'email': {'required': True},
-            'username': {'required': True},
             'first_name': {'required': False},
             'last_name': {'required': False},
         }
@@ -49,9 +48,21 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         """Create and return a new user"""
         validated_data.pop('password2')  # Remove password2 as it's not needed
+        
+        # Auto-generate unique username from email (required by Django internally)
+        email = validated_data['email']
+        base_username = email.split('@')[0]
+        username = base_username
+        
+        # Handle duplicate usernames by appending a number
+        counter = 1
+        while User.objects.filter(username=username).exists():
+            username = f"{base_username}{counter}"
+            counter += 1
+        
         user = User.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data['email'],
+            username=username,
+            email=email,
             password=validated_data['password'],
             first_name=validated_data.get('first_name', ''),
             last_name=validated_data.get('last_name', '')
@@ -65,7 +76,7 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'username', 'first_name', 'last_name', 'country', 'country_code', 'phone', 'date_of_birth', 'gender',
+            'first_name', 'last_name', 'country', 'country_code', 'phone', 'date_of_birth', 'gender',
             # Settings
             'theme_mode', 'accent_color', 'font_family', 'font_size', 'compact_mode', 'show_tooltips', 'animations',
             'email_alerts', 'push_notifications', 'sms_alerts', 'digest_frequency',

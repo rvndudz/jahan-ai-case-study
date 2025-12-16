@@ -24,14 +24,6 @@ export default class RegisterView extends JetView {
                                 },
                                 {
                                     view: "text",
-                                    name: "username",
-                                    label: "Username",
-                                    labelPosition: "top",
-                                    placeholder: "johndoe",
-                                    height: 70
-                                },
-                                {
-                                    view: "text",
                                     name: "email",
                                     label: "Email",
                                     labelPosition: "top",
@@ -81,7 +73,6 @@ export default class RegisterView extends JetView {
                                 }
                             ],
                             rules: {
-                                username: webix.rules.isNotEmpty,
                                 email: webix.rules.isEmail,
                                 password: webix.rules.isNotEmpty,
                                 password2: webix.rules.isNotEmpty
