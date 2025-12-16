@@ -632,14 +632,16 @@ body.theme-dark .settings-logo__mark{
 .settings-form .webix_input_text,
 .settings-form .webix_el_richselect .webix_el_box input,
 .settings-form .webix_el_combo .webix_el_box input,
+.settings-form .webix_el_datepicker .webix_el_box input,
 .settings-account-form .webix_input_text,
 .settings-account-form .webix_el_richselect .webix_el_box input,
-.settings-account-form .webix_el_combo .webix_el_box input{
+.settings-account-form .webix_el_combo .webix_el_box input,
+.settings-account-form .webix_el_datepicker .webix_el_box input{
 	border-radius: 8px;
 	border-color: var(--settings-input-border);
 	background: var(--settings-surface);
 	color: var(--settings-text);
-	height: 36px;
+	height: 35px;
 }
 
 /* Accent theming for controls inside settings forms */

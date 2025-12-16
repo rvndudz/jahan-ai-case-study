@@ -14,7 +14,6 @@ export default class LoginView extends JetView {
                             view: "form",
                             id: "loginForm",
                             width: 450,
-                            css: "auth-form",
                             elements: [
                                 {
                                     view: "template",
@@ -50,7 +49,6 @@ export default class LoginView extends JetView {
                                 {
                                     view: "button",
                                     value: "Login",
-                                    css: "webix_primary",
                                     height: 45,
                                     click: () => this.doLogin()
                                 },

@@ -14,7 +14,6 @@ export default class RegisterView extends JetView {
                             view: "form",
                             id: "registerForm",
                             width: 450,
-                            css: "auth-form",
                             elements: [
                                 {
                                     view: "template",
