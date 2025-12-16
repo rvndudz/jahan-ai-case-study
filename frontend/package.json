@@ -4,7 +4,9 @@
   "description": "Webix Jet App",
   "main": "sources/myapp.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "lint": "eslint sources/",
     "build": "vite build",
     "start": "vite"
@@ -15,8 +17,13 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "vite": "^4.3.8",
-    "eslint": "^8.41.0"
+    "@babel/core": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
+    "babel-jest": "^30.2.0",
+    "eslint": "^8.41.0",
+    "jest": "^30.2.0",
+    "jest-environment-jsdom": "^30.2.0",
+    "vite": "^4.3.8"
   },
   "dependencies": {
     "webix-jet": "^3.0.1"
