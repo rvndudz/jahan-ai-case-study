@@ -223,24 +223,93 @@ Comprehensive error handling with user-friendly messages.
 
 ## 🧪 Testing
 
-### Backend Tests
+### Backend Testing
+
+The backend includes comprehensive test coverage using Django's testing framework and pytest.
+
+#### Run All Backend Tests
 ```bash
 cd backend
 python manage.py test
 ```
 
-### API Testing with pytest
+#### Run Tests with pytest
 ```bash
 cd backend
 pytest
 ```
 
+#### Run Tests with Coverage
+```bash
+cd backend
+pytest --cov=users --cov-report=html
+```
+
+#### Test Coverage
 All API endpoints are covered with 29+ tests including:
 - User registration and validation
 - Login/logout flows
 - Profile CRUD operations
 - Password changes
 - Token refresh mechanisms
+- Email uniqueness validation
+- Password strength requirements
+- Field validations (phone, date of birth, etc.)
+
+**Test Files:**
+- `backend/users/tests/test_api.py` - API endpoint tests
+- `backend/users/tests/test_models.py` - Model tests
+- `backend/users/tests/test_serializers.py` - Serializer tests
+- `backend/test_error_messages.py` - Error message validation
+
+For detailed testing information, see [`backend/TESTING.md`](backend/TESTING.md)
+
+### Frontend Testing
+
+The frontend uses Jest for unit and integration testing of Webix-jet components.
+
+#### Setup Jest (First Time)
+```bash
+cd frontend
+npm install --save-dev jest @babel/core @babel/preset-env babel-jest jest-environment-jsdom
+```
+
+#### Run Frontend Tests
+```bash
+cd frontend
+npm test
+```
+
+#### Run Tests in Watch Mode
+```bash
+cd frontend
+npm run test:watch
+```
+
+#### Run Tests with Coverage
+```bash
+cd frontend
+npm run test:coverage
+```
+
+#### Test Coverage
+Frontend tests cover 21+ test cases including:
+- User authentication flows
+- Profile management (AccountSettingsView)
+- Form validation and error handling
+- API service integration
+- Auto-save functionality
+- Password change dialogs
+- Settings persistence
+- Email and date validation
+- Edit mode toggle behavior
+
+**Test Files:**
+- `frontend/sources/views/settings/__tests__/account.test.js` - Account settings tests
+
+**Test Configuration:**
+- `frontend/jest.config.js` - Jest configuration
+- `frontend/.babelrc` - Babel transpilation setup
 
 ## 🚀 Development Workflow
 
