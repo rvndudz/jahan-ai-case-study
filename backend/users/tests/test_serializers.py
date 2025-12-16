@@ -65,6 +65,24 @@ class TestUserRegistrationSerializer:
         serializer = UserRegistrationSerializer(data=data)
         assert not serializer.is_valid()
         assert 'password' in serializer.errors
+    
+    def test_registration_serializer_duplicate_email(self, create_user):
+        """Test registration serializer with duplicate email"""
+        # Create an existing user
+        create_user(email='existing@example.com')
+        
+        # Try to register with the same email
+        data = {
+            'email': 'existing@example.com',
+            'password': 'TestPass123!',
+            'password2': 'TestPass123!'
+        }
+        
+        serializer = UserRegistrationSerializer(data=data)
+        assert not serializer.is_valid()
+        assert 'email' in serializer.errors
+        error_message = str(serializer.errors['email'][0]).lower()
+        assert 'already registered' in error_message or 'already taken' in error_message
 
 
 @pytest.mark.django_db
@@ -89,6 +107,43 @@ class TestUserProfileUpdateSerializer:
         assert updated_user.first_name == 'Updated'
         assert updated_user.last_name == 'Name'
         assert updated_user.country == 'Canada'
+    
+    def test_profile_update_same_email(self, create_user):
+        """Test profile update with same email (should be valid)"""
+        user = create_user(email='user@example.com')
+        
+        data = {'email': 'user@example.com'}
+        serializer = UserProfileUpdateSerializer(user, data=data, partial=True)
+        
+        assert serializer.is_valid()
+        updated_user = serializer.save()
+        assert updated_user.email == 'user@example.com'
+    
+    def test_profile_update_duplicate_email(self, create_user):
+        """Test profile update with email that belongs to another user"""
+        user1 = create_user(email='user1@example.com')
+        user2 = create_user(email='user2@example.com')
+        
+        # Try to update user1's email to user2's email
+        data = {'email': 'user2@example.com'}
+        serializer = UserProfileUpdateSerializer(user1, data=data, partial=True)
+        
+        assert not serializer.is_valid()
+        assert 'email' in serializer.errors
+        error_message = str(serializer.errors['email'][0]).lower()
+        # Check for any of the possible error messages
+        assert any(phrase in error_message for phrase in ['already taken', 'another user', 'already registered'])
+    
+    def test_profile_update_new_unique_email(self, create_user):
+        """Test profile update with new unique email (should be valid)"""
+        user = create_user(email='old@example.com')
+        
+        data = {'email': 'new@example.com'}
+        serializer = UserProfileUpdateSerializer(user, data=data, partial=True)
+        
+        assert serializer.is_valid()
+        updated_user = serializer.save()
+        assert updated_user.email == 'new@example.com'
 
 
 @pytest.mark.django_db

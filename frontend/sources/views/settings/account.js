@@ -194,7 +194,54 @@ export default class AccountSettingsView extends JetView{
 		if (this._saving) return;
 
 		if (!form.validate()) {
-			webix.message({ type: 'error', text: 'Please fix validation errors' });
+			// Get specific validation error messages
+			const values = form.getValues();
+			const errors = [];
+			
+			// Check each field with validation rules
+			if (!values.firstName || values.firstName.trim() === '') {
+				errors.push('First Name is required');
+			}
+			if (!values.surname || values.surname.trim() === '') {
+				errors.push('Surname is required');
+			}
+			if (!values.email || values.email.trim() === '') {
+				errors.push('Email is required');
+			} else {
+				const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+				if (!emailRegex.test(values.email)) {
+					errors.push('Email must be a valid email address (e.g., user@example.com)');
+				}
+			}
+			if (values.dateOfBirth) {
+				const selectedDate = new Date(values.dateOfBirth);
+				const today = new Date();
+				today.setHours(0, 0, 0, 0);
+				if (selectedDate >= today) {
+					errors.push('Date of Birth must be in the past');
+				}
+			}
+			
+			// Show specific error messages
+			const errorMessage = errors.length > 0 
+				? errors.join('<br>• ') 
+				: 'Please check all required fields';
+			
+			webix.message({ 
+				type: 'error', 
+				text: errors.length > 0 ? errors[0] : 'Please fix validation errors',
+				expire: 5000 
+			});
+			
+			// Also show in a modal with all errors if multiple
+			if (errors.length > 1) {
+				webix.alert({
+					title: "Validation Errors",
+					text: "Please fix the following errors:<br><br>• " + errorMessage,
+					type: "alert-error"
+				});
+			}
+			
 			return;
 		}
 
@@ -225,9 +272,48 @@ export default class AccountSettingsView extends JetView{
 					form.markAsClean();
 				}
 			} else {
-				webix.message({ type: 'error', text: result.error || 'Failed to update profile' });
+				// Handle field-specific errors
 				if (result.details) {
+					// Check for email error
+					if (result.details.email) {
+						const emailError = Array.isArray(result.details.email) 
+							? result.details.email[0] 
+							: result.details.email;
+						
+						webix.message({ 
+							type: 'error', 
+							text: `Email Error: ${emailError}`,
+							expire: 5000
+						});
+						
+						// Reload the profile to reset the email field to original value
+						await this._loadProfile();
+					} 
+					// Check for phone error
+					else if (result.details.phone) {
+						const phoneError = Array.isArray(result.details.phone) 
+							? result.details.phone[0] 
+							: result.details.phone;
+						
+						webix.message({ 
+							type: 'error', 
+							text: `Phone Error: ${phoneError}`,
+							expire: 5000
+						});
+					}
+					// Handle other field errors
+					else {
+						const errorText = Object.entries(result.details)
+							.map(([field, value]) => {
+								const errorMsg = Array.isArray(value) ? value.join(', ') : value;
+								return `${field.charAt(0).toUpperCase() + field.slice(1)}: ${errorMsg}`;
+							})
+							.join('; ');
+						webix.message({ type: 'error', text: errorText });
+					}
 					console.error('Validation errors:', result.details);
+				} else {
+					webix.message({ type: 'error', text: result.error || 'Failed to update profile' });
 				}
 			}
 		} catch (error) {

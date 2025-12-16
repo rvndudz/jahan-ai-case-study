@@ -13,7 +13,12 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=150, blank=True)
     
     # Email as the primary login field
-    email = models.EmailField(unique=True)
+    email = models.EmailField(
+        unique=True,
+        error_messages={
+            'unique': 'This email address is already registered. Please use a different email address or try logging in if you already have an account.'
+        }
+    )
     
     # Make username non-unique and optional, auto-generate from email
     username = models.CharField(max_length=150, blank=True, null=True)

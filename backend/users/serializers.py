@@ -39,10 +39,20 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             'last_name': {'required': False},
         }
     
+    def validate_email(self, value):
+        """Validate that email is unique in the database"""
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError(
+                "This email address is already registered. Please use a different email address or try logging in if you already have an account."
+            )
+        return value
+    
     def validate(self, attrs):
         """Validate that passwords match"""
         if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError({"password": "Password fields didn't match."})
+            raise serializers.ValidationError({
+                "password": "The passwords you entered do not match. Please make sure both password fields are identical."
+            })
         return attrs
     
     def create(self, validated_data):
@@ -76,7 +86,7 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'first_name', 'last_name', 'country', 'country_code', 'phone', 'date_of_birth', 'gender',
+            'email', 'first_name', 'last_name', 'country', 'country_code', 'phone', 'date_of_birth', 'gender',
             # Settings
             'theme_mode', 'accent_color', 'font_family', 'font_size', 'compact_mode', 'show_tooltips', 'animations',
             'email_alerts', 'push_notifications', 'sms_alerts', 'digest_frequency',
@@ -87,10 +97,21 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
             'analytics_enabled', 'personalized_ads'
         ]
     
+    def validate_email(self, value):
+        """Validate that email is unique (excluding current user)"""
+        user = self.instance
+        if User.objects.filter(email=value).exclude(pk=user.pk).exists():
+            raise serializers.ValidationError(
+                "This email address is already taken by another user. Please choose a different email address."
+            )
+        return value
+    
     def validate_phone(self, value):
         """Validate phone number format"""
         if value and not value.replace('+', '').replace('-', '').replace(' ', '').isdigit():
-            raise serializers.ValidationError("Phone number must contain only digits, +, -, and spaces.")
+            raise serializers.ValidationError(
+                "Invalid phone number format. Please enter a valid phone number using only digits, spaces, hyphens, and plus sign. Example: +1-555-123-4567"
+            )
         return value
 
 
@@ -103,14 +124,18 @@ class ChangePasswordSerializer(serializers.Serializer):
     def validate(self, attrs):
         """Validate that new passwords match"""
         if attrs['new_password'] != attrs['new_password2']:
-            raise serializers.ValidationError({"new_password": "New password fields didn't match."})
+            raise serializers.ValidationError({
+                "new_password": "Your new passwords do not match. Please ensure both new password fields contain the exact same password."
+            })
         return attrs
     
     def validate_old_password(self, value):
         """Validate that old password is correct"""
         user = self.context['request'].user
         if not user.check_password(value):
-            raise serializers.ValidationError("Old password is incorrect.")
+            raise serializers.ValidationError(
+                "The current password you entered is incorrect. Please enter your correct current password to continue."
+            )
         return value
     
     def save(self, **kwargs):
