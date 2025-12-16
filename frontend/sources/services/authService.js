@@ -7,7 +7,8 @@ const transformUserFromBackend = (backendUser) => {
     return {
         id: backendUser.id,
         username: backendUser.username,
-        fullName: backendUser.full_name,
+        firstName: backendUser.first_name,
+        lastName: backendUser.last_name,
         email: backendUser.email,
         country: backendUser.country,
         countryCode: backendUser.country_code,
@@ -71,7 +72,8 @@ const transformUserToBackend = (frontendUser) => {
     
     return {
         username: frontendUser.username,
-        full_name: frontendUser.fullName,
+        first_name: frontendUser.firstName,
+        last_name: frontendUser.lastName,
         email: frontendUser.email,
         country: frontendUser.country,
         country_code: frontendUser.countryCode,
@@ -152,10 +154,9 @@ class AuthService {
                 method: 'POST',
                 body: JSON.stringify({
                     email: userData.email,
-                    username: userData.username || userData.email.split('@')[0],
+                    username: userData.username,
                     password: userData.password,
-                    password2: userData.password2,
-                    full_name: userData.fullName
+                    password2: userData.password2
                 })
             });
             

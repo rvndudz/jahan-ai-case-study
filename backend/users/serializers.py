@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'id', 'email', 'full_name', 'country', 'country_code', 
+            'id', 'email', 'first_name', 'last_name', 'username', 'country', 'country_code', 
             'phone', 'date_of_birth', 'gender', 'date_joined',
             # Settings
             'theme_mode', 'accent_color', 'font_family', 'font_size', 'compact_mode', 'show_tooltips', 'animations',
@@ -32,10 +32,12 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ['email', 'username', 'password', 'password2', 'full_name']
+        fields = ['email', 'username', 'password', 'password2', 'first_name', 'last_name']
         extra_kwargs = {
             'email': {'required': True},
             'username': {'required': True},
+            'first_name': {'required': False},
+            'last_name': {'required': False},
         }
     
     def validate(self, attrs):
@@ -51,7 +53,8 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             username=validated_data['username'],
             email=validated_data['email'],
             password=validated_data['password'],
-            full_name=validated_data.get('full_name', '')
+            first_name=validated_data.get('first_name', ''),
+            last_name=validated_data.get('last_name', '')
         )
         return user
 
@@ -62,7 +65,7 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'username', 'full_name', 'country', 'country_code', 'phone', 'date_of_birth', 'gender',
+            'username', 'first_name', 'last_name', 'country', 'country_code', 'phone', 'date_of_birth', 'gender',
             # Settings
             'theme_mode', 'accent_color', 'font_family', 'font_size', 'compact_mode', 'show_tooltips', 'animations',
             'email_alerts', 'push_notifications', 'sms_alerts', 'digest_frequency',

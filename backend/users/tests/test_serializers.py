@@ -18,7 +18,8 @@ class TestUserSerializer:
         """Test user serialization"""
         user = create_user(
             email='test@example.com',
-            full_name='Test User',
+            first_name='Test',
+            last_name='User',
             country='USA',
             phone='+1234567890'
         )
@@ -27,7 +28,8 @@ class TestUserSerializer:
         data = serializer.data
         
         assert data['email'] == 'test@example.com'
-        assert data['full_name'] == 'Test User'
+        assert data['first_name'] == 'Test'
+        assert data['last_name'] == 'User'
         assert data['country'] == 'USA'
         assert data['phone'] == '+1234567890'
         assert 'password' not in data  # Password should not be serialized
@@ -43,8 +45,7 @@ class TestUserRegistrationSerializer:
             'email': 'newuser@example.com',
             'username': 'newuser',
             'password': 'TestPass123!',
-            'password2': 'TestPass123!',
-            'full_name': 'New User'
+            'password2': 'TestPass123!'
         }
         
         serializer = UserRegistrationSerializer(data=data)
@@ -52,7 +53,7 @@ class TestUserRegistrationSerializer:
         
         user = serializer.save()
         assert user.email == 'newuser@example.com'
-        assert user.full_name == 'New User'
+        assert user.username == 'newuser'
         assert user.check_password('TestPass123!')
     
     def test_registration_serializer_password_mismatch(self):
@@ -61,8 +62,7 @@ class TestUserRegistrationSerializer:
             'email': 'newuser@example.com',
             'username': 'newuser',
             'password': 'TestPass123!',
-            'password2': 'DifferentPass123!',
-            'full_name': 'New User'
+            'password2': 'DifferentPass123!'
         }
         
         serializer = UserRegistrationSerializer(data=data)
@@ -79,7 +79,8 @@ class TestUserProfileUpdateSerializer:
         user = create_user()
         
         data = {
-            'full_name': 'Updated Name',
+            'first_name': 'Updated',
+            'last_name': 'Name',
             'country': 'Canada',
             'phone': '+1987654321'
         }
@@ -88,7 +89,8 @@ class TestUserProfileUpdateSerializer:
         assert serializer.is_valid()
         
         updated_user = serializer.save()
-        assert updated_user.full_name == 'Updated Name'
+        assert updated_user.first_name == 'Updated'
+        assert updated_user.last_name == 'Name'
         assert updated_user.country == 'Canada'
 
 

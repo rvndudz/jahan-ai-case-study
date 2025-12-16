@@ -19,8 +19,7 @@ def test_user_data():
         'email': 'test@example.com',
         'username': 'testuser',
         'password': 'TestPass123!',
-        'password2': 'TestPass123!',
-        'full_name': 'Test User'
+        'password2': 'TestPass123!'
     }
 
 
@@ -32,7 +31,8 @@ def create_user(db):
             'email': 'user@example.com',
             'username': 'testuser',
             'password': 'TestPass123!',
-            'full_name': 'Test User'
+            'first_name': 'Test',
+            'last_name': 'User'
         }
         user_data.update(kwargs)
         password = user_data.pop('password')

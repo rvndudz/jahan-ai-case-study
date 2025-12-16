@@ -15,8 +15,7 @@ Content-Type: application/json
     "email": "user@example.com",
     "username": "username",
     "password": "StrongPassword123!",
-    "password2": "StrongPassword123!",
-    "full_name": "John Doe"
+    "password2": "StrongPassword123!"
 }
 ```
 
@@ -26,7 +25,9 @@ Content-Type: application/json
     "user": {
         "id": 1,
         "email": "user@example.com",
-        "full_name": "John Doe",
+        "username": "username",
+        "first_name": "",
+        "last_name": "",
         "country": "",
         "country_code": "",
         "phone": "",

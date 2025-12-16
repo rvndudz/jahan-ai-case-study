@@ -14,11 +14,13 @@ class TestUserModel:
             username='testuser',
             email='test@example.com',
             password='TestPass123!',
-            full_name='Test User'
+            first_name='Test',
+            last_name='User'
         )
         
         assert user.email == 'test@example.com'
-        assert user.full_name == 'Test User'
+        assert user.first_name == 'Test'
+        assert user.last_name == 'User'
         assert user.is_active
         assert not user.is_staff
         assert not user.is_superuser

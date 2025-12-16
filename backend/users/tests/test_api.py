@@ -20,7 +20,7 @@ class TestUserRegistration:
         assert 'access' in response.data
         assert 'refresh' in response.data
         assert response.data['user']['email'] == test_user_data['email']
-        assert response.data['user']['full_name'] == test_user_data['full_name']
+        assert response.data['user']['username'] == test_user_data['username']
         
         # Verify user was created in database
         assert User.objects.filter(email=test_user_data['email']).exists()
@@ -124,7 +124,8 @@ class TestUserProfile:
         assert response.status_code == status.HTTP_200_OK
         assert 'user' in response.data
         assert response.data['user']['email'] == user.email
-        assert response.data['user']['full_name'] == user.full_name
+        assert response.data['user']['first_name'] == user.first_name
+        assert response.data['user']['last_name'] == user.last_name
     
     def test_get_profile_unauthenticated(self, api_client):
         """Test getting profile fails when not authenticated"""
@@ -139,19 +140,22 @@ class TestUserProfile:
         
         url = reverse('profile')
         updated_data = {
-            'full_name': 'Updated Name',
+            'first_name': 'Updated',
+            'last_name': 'Name',
             'country': 'USA',
             'phone': '+1234567890'
         }
         response = client.put(url, updated_data, format='json')
         
         assert response.status_code == status.HTTP_200_OK
-        assert response.data['user']['full_name'] == 'Updated Name'
+        assert response.data['user']['first_name'] == 'Updated'
+        assert response.data['user']['last_name'] == 'Name'
         assert response.data['user']['country'] == 'USA'
         
         # Verify database was updated
         user.refresh_from_db()
-        assert user.full_name == 'Updated Name'
+        assert user.first_name == 'Updated'
+        assert user.last_name == 'Name'
         assert user.country == 'USA'
     
     def test_update_profile_partial(self, authenticated_client):
@@ -159,10 +163,11 @@ class TestUserProfile:
         client, user = authenticated_client
         
         url = reverse('profile')
-        response = client.put(url, {'full_name': 'New Name'}, format='json')
+        response = client.put(url, {'first_name': 'NewFirst', 'last_name': 'NewLast'}, format='json')
         
         assert response.status_code == status.HTTP_200_OK
-        assert response.data['user']['full_name'] == 'New Name'
+        assert response.data['user']['first_name'] == 'NewFirst'
+        assert response.data['user']['last_name'] == 'NewLast'
 
 
 @pytest.mark.django_db

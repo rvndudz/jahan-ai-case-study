@@ -149,14 +149,9 @@ export default class AccountSettingsView extends JetView{
 			if (result.success && result.user) {
 				const user = result.user;
 				
-				// Split fullName into firstName and surname if possible
-				const names = (user.fullName || '').split(' ');
-				const firstName = names[0] || '';
-				const surname = names.slice(1).join(' ') || '';
-				
 				form.setValues({
-					firstName: firstName,
-					surname: surname,
+					firstName: user.firstName || '',
+					surname: user.lastName || '',
 					username: user.username || user.email.split('@')[0], // Use username from backend or generate from email
 					country: user.country || '',
 					email: user.email,
@@ -197,9 +192,6 @@ export default class AccountSettingsView extends JetView{
 		}
 
 		const values = form.getValues();
-		
-		// Combine firstName and surname into fullName
-		const fullName = `${values.firstName || ''} ${values.surname || ''}`.trim();
 
 		// Show loading state
 		webix.extend(form, webix.ProgressBar);
@@ -208,7 +200,8 @@ export default class AccountSettingsView extends JetView{
 		try {
 			const result = await authService.updateProfile({
 				username: values.username,
-				fullName: fullName,
+				firstName: values.firstName || '',
+				lastName: values.surname || '',
 				email: values.email,
 				country: values.country,
 				countryCode: values.countryCode,

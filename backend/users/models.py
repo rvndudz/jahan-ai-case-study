@@ -7,12 +7,9 @@ class User(AbstractUser):
     This model stores user authentication and profile information.
     """
     
-    # Remove first_name and last_name from AbstractUser
-    first_name = None
-    last_name = None
-    
-    # Custom fields matching your frontend expectations
-    full_name = models.CharField(max_length=255, blank=True)
+    # Use first_name and last_name from AbstractUser but make them non-blank
+    first_name = models.CharField(max_length=150, blank=True)
+    last_name = models.CharField(max_length=150, blank=True)
     
     # Email as the primary login field
     email = models.EmailField(unique=True)
