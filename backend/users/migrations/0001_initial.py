@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
                 ('first_name', models.CharField(blank=True, max_length=150)),
                 ('last_name', models.CharField(blank=True, max_length=150)),
                 # Email as primary login field
-                ('email', models.EmailField(error_messages={'unique': 'This email address is already registered. Please use a different email address or try logging in if you already have an account.'}, max_length=254, unique=True)),
+                ('email', models.EmailField(error_messages={'unique': 'This email address is already registered. Please use a different email address.'}, max_length=254, unique=True)),
                 # Username is optional and nullable
                 ('username', models.CharField(blank=True, max_length=150, null=True)),
                 # Contact information

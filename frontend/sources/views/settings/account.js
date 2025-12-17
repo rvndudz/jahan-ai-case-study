@@ -273,7 +273,7 @@ export default class AccountSettingsView extends JetView{
 				}
 			} else {
 				// Handle field-specific errors
-				if (result.details) {
+				if (result.details && typeof result.details === 'object') {
 					// Check for email error
 					if (result.details.email) {
 						const emailError = Array.isArray(result.details.email) 
@@ -282,8 +282,8 @@ export default class AccountSettingsView extends JetView{
 						
 						webix.message({ 
 							type: 'error', 
-							text: `Email Error: ${emailError}`,
-							expire: 5000
+							text: emailError,
+							expire: 6000
 						});
 						
 						// Reload the profile to reset the email field to original value
@@ -297,19 +297,43 @@ export default class AccountSettingsView extends JetView{
 						
 						webix.message({ 
 							type: 'error', 
-							text: `Phone Error: ${phoneError}`,
-							expire: 5000
+							text: phoneError,
+							expire: 6000
 						});
+						
+						// Reload the profile to reset the field to original value
+						await this._loadProfile();
 					}
 					// Handle other field errors
 					else {
-						const errorText = Object.entries(result.details)
+						// Check if details has any field-level errors
+						const fieldErrors = Object.entries(result.details)
+							.filter(([key, value]) => typeof value === 'string' || Array.isArray(value))
 							.map(([field, value]) => {
 								const errorMsg = Array.isArray(value) ? value.join(', ') : value;
-								return `${field.charAt(0).toUpperCase() + field.slice(1)}: ${errorMsg}`;
-							})
-							.join('; ');
-						webix.message({ type: 'error', text: errorText });
+								// Format field name nicely
+								const fieldName = field
+									.replace(/_/g, ' ')
+									.replace(/\b\w/g, char => char.toUpperCase());
+								return `${fieldName}: ${errorMsg}`;
+							});
+						
+						if (fieldErrors.length > 0) {
+							webix.message({ 
+								type: 'error', 
+								text: fieldErrors.join('<br>'),
+								expire: 6000
+							});
+							// Reload to reset invalid fields
+							await this._loadProfile();
+						} else {
+							// No parseable field errors, show generic message
+							webix.message({ 
+								type: 'error', 
+								text: result.error || 'Failed to update profile. Please check your input and try again.',
+								expire: 5000
+							});
+						}
 					}
 					console.error('Validation errors:', result.details);
 				} else {

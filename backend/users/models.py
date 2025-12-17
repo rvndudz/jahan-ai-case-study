@@ -16,7 +16,7 @@ class User(AbstractUser):
     email = models.EmailField(
         unique=True,
         error_messages={
-            'unique': 'This email address is already registered. Please use a different email address or try logging in if you already have an account.'
+            'unique': 'This email address is already registered. Please use a different email address.'
         }
     )
     

@@ -43,7 +43,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         """Validate that email is unique in the database"""
         if User.objects.filter(email=value).exists():
             raise serializers.ValidationError(
-                "This email address is already registered. Please use a different email address or try logging in if you already have an account."
+                "This email address is already registered. Please use a different email address."
             )
         return value
     
@@ -102,7 +102,7 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
         user = self.instance
         if User.objects.filter(email=value).exclude(pk=user.pk).exists():
             raise serializers.ValidationError(
-                "This email address is already taken by another user. Please choose a different email address."
+                "This email address is already taken by another profile. Please choose a different email address."
             )
         return value
     

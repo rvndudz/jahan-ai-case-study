@@ -128,7 +128,7 @@ export const apiRequest = async (endpoint, options = {}) => {
             throw {
                 status: response.status,
                 message: errorMessage,
-                details: data
+                details: data.details || data  // Use data.details if it exists, otherwise use entire data object
             };
         }
         
